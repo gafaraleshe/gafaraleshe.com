@@ -7,7 +7,7 @@ export default function Home() {
       </h1>
 
       <p className="mt-4 text-xl text-gray-500">
-        Software Engineer • Creative Developer • Founder
+        Software Engineer • Creative Developer • Founder• Creative Director
       </p>
 
     </main>
