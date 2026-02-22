@@ -16,7 +16,7 @@ git checkout hostinger-out
 
 echo "Deploying..."
 cd ../hostinger-out
-cp -r ../hostinger-out/* gafaraleshe-porttfolio/
+cp -r ../hostinger-out/* gafaraleshe-portfolio/
 git add .
 git commit -m "Deploy $(date '+%Y-%m-%d %H:%M:%S')"
 git push origin hostinger-out
