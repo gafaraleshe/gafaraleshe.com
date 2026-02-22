@@ -19,7 +19,13 @@ cd ../hostinger-out
 cp -r ../hostinger-out/* gafaraleshe-portfolio/
 git add .
 git commit -m "Deploy $(date '+%Y-%m-%d %H:%M:%S')"
-git push origin hostinger-out
+git push -u origin hostinger-out
 
 cd -
 echo "Deployment complete."
+
+git checkout main
+
+#git stash push -u
+#git checkout main
+#git stash pop
