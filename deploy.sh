@@ -5,10 +5,10 @@ echo "Building project..."
 npm run build
 
 echo "Clearing hostinger-out..."
-rm -rf ../hostinger-out/*
+rm -rf ./hostinger-out/*
 
 echo "Copying build files..."
-cp -r out/* ../hostinger-out/
+cp -r out/* ./hostinger-out/
 
 # Commit main if needed
 git add .
@@ -23,8 +23,7 @@ else
 fi
 
 echo "Deploying to hostinger-out..."
-cd ../hostinger-out
-cp -r * ../gafaraleshe-portfolio/
+cd ./hostinger-out
 
 git add .
 git commit -m "Deploy $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes"
