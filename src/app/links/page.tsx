@@ -1,0 +1,155 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import "./links.css";
+
+const socials = [
+  { label: "Instagram", handle: "@gafaraleshe", href: "https://instagram.com/gafaraleshe", emoji: "📸", color: "#E1306C" },
+  { label: "X / Twitter", handle: "@GafarAleshe", href: "https://x.com/GafarAleshe", emoji: "𝕏", color: "#ffffff" },
+  { label: "TikTok", handle: "@gafaraleshe", href: "https://tiktok.com/@gafaraleshe", emoji: "🎵", color: "#69C9D0" },
+  { label: "YouTube", handle: "@gafaraleshe", href: "https://www.youtube.com/@gafaraleshe", emoji: "▶", color: "#FF0000" },
+  { label: "Twitch", handle: "@gafitenison", href: "https://twitch.tv/gafitenison", emoji: "🟣", color: "#9146FF" },
+  { label: "Snapchat", handle: "@gafaraleshe", href: "https://www.snapchat.com/add/gafaraleshe", emoji: "👻", color: "#FFFC00" },
+  { label: "Discord", handle: "Join server", href: "https://discord.gg/UeuVcW6J5G", emoji: "💬", color: "#5865F2" },
+  { label: "Facebook", handle: "Gafar Aleshe", href: "https://www.facebook.com/profile.php?id=61577047186240", emoji: "👤", color: "#1877F2" },
+];
+
+const features = [
+  {
+    label: "Subscribe on YouTube",
+    description: "Tech tips, reviews, unboxing, tutorials & lifestyle vlogs",
+    href: "http://youtube.com/@gafaraleshe?sub_confirmation=1",
+    emoji: "🔔",
+    accent: "#FF0000",
+    featured: true,
+  },
+  {
+    label: "SHOTBYGAFAR",
+    description: "Photography portfolio",
+    href: "http://shotbygafar.com",
+    emoji: "📷",
+    accent: "#e8e8e8",
+    featured: false,
+  },
+  {
+    label: "Amazon Prime Student — 6 Month Trial",
+    description: "Get the student deal via my link",
+    href: "http://www.amazon.co.uk/joinstudent?tag=gafaraleshe08-21",
+    emoji: "🎓",
+    accent: "#FF9900",
+    featured: false,
+  },
+  {
+    label: "My PC Build Parts",
+    description: "Full parts list on kit.co",
+    href: "https://kit.co/gafaraleshe/pc-build",
+    emoji: "🖥️",
+    accent: "#00d4ff",
+    featured: false,
+  },
+  {
+    label: "Dehancer — Use code GAFAR10",
+    description: "10% off film-like color grading tools",
+    href: "https://www.dehancer.com/shop",
+    emoji: "🎞️",
+    accent: "#c8a96e",
+    featured: false,
+  },
+  {
+    label: "Hostinger UK — Discount Link",
+    description: "Web hosting deal via my referral",
+    href: "https://hostinger.co.uk?referralcode=wjkgafararb2",
+    emoji: "🌐",
+    accent: "#673DE6",
+    featured: false,
+  },
+  {
+    label: "Email Me",
+    description: "info@gafaraleshe.com",
+    href: "mailto:info@gafaraleshe.com",
+    emoji: "✉️",
+    accent: "#e8e8e8",
+    featured: false,
+  },
+];
+
+export default function LinksPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <div className="links-page">
+      {/* Ambient background orbs */}
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
+
+      <div className="links-container">
+        {/* Back link */}
+        <Link href="/" className="back-link">
+          ← gafaraleshe.dev
+        </Link>
+
+        {/* Avatar & header */}
+        <header className={`links-header ${mounted ? "visible" : ""}`}>
+          <div className="links-avatar">GA</div>
+          <h1 className="links-name">Gafar Aleshe</h1>
+          <p className="links-bio">
+            Code, content &amp; curated moments —<br />building apps, crafting stories.
+          </p>
+
+          {/* Social icon row */}
+          <div className="social-row">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                className="social-dot"
+                title={s.label}
+                style={{ "--dot-color": s.color } as React.CSSProperties}
+              >
+                <span>{s.emoji}</span>
+              </a>
+            ))}
+          </div>
+        </header>
+
+        {/* Feature links */}
+        <div className="feature-links">
+          {features.map((f, i) => (
+            <a
+              key={f.label}
+              href={f.href}
+              target={f.href.startsWith("mailto") ? "_self" : "_blank"}
+              rel="noreferrer"
+              className={`feature-card ${f.featured ? "featured-card" : ""} ${mounted ? "visible" : ""}`}
+              style={{
+                animationDelay: `${i * 60}ms`,
+                "--accent": f.accent,
+              } as React.CSSProperties}
+            >
+              <span className="feature-emoji">{f.emoji}</span>
+              <div className="feature-text">
+                <span className="feature-label">{f.label}</span>
+                {f.description && (
+                  <span className="feature-desc">{f.description}</span>
+                )}
+              </div>
+              <span className="feature-arrow">↗</span>
+            </a>
+          ))}
+        </div>
+
+        <footer className="links-footer">
+          © {new Date().getFullYear()} Gafar Aleshe
+        </footer>
+      </div>
+    </div>
+  );
+}
