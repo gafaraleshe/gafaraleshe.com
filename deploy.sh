@@ -1,34 +1,25 @@
 #!/bin/bash
 
-git checkout main
 echo "Building project..."
 npm run build
 
-# Create hostinger-out branch if it doesn't exist
-if ! git show-ref --quiet refs/heads/hostinger-out; then
-    git branch hostinger-out
-fi
-
-# Use worktree to check out hostinger-out branch into the folder
-if [ ! -d "./hostinger-out" ]; then
-    git worktree add ./hostinger-out hostinger-out
-fi
-
-echo "Copying build files..."
-rm -rf ./hostinger-out/*
-cp -r out/* ./hostinger-out/
-
-# Commit and push main
+echo "Pushing main..."
 git add .
 git commit -m "Deploy $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes"
 git push origin main
 
-# Commit and push hostinger-out
-cd ./hostinger-out
-git add .
-git commit -m "Deploy $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes"
-git push origin hostinger-out
+echo "Deploying to hostinger-out branch..."
+# Create a temp directory with just the out/ contents
+cd out
 
-cd -
-git checkout main
-echo "Deployment complete."
+# Force push just the out/ contents as the hostinger-out branch
+git init
+git add .
+git commit -m "Deploy $(date '+%Y-%m-%d %H:%M:%S')"
+git remote add origin git@github.com:gafitenison/gafaraleshe-portfolio.git
+git push origin HEAD:hostinger-out --force
+
+cd ..
+rm -rf out/.git
+
+echo "Done! hostinger-out branch has clean build files only."
