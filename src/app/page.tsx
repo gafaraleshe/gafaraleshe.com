@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import AnimatedBackground from "./components/AnimatedBackground";
 
 const projects = [
   {
@@ -87,6 +88,7 @@ export default function Home() {
 
   return (
     <main className="main">
+      <AnimatedBackground />
       <nav className="nav">
         <Link href="/" className="nav-brand">
           Gafar Aleshe
@@ -223,6 +225,9 @@ export default function Home() {
             <a href="https://linkedin.com/in/gafaraleshe/" target="_blank" rel="noreferrer" className="connect-item">
               <InlineIcon emoji="💼" /> LinkedIn <span className="arrow">↗</span>
             </a>
+          </div>
+          <div style={{ marginTop: "16px" }}>
+          
           </div>
         </section>
 
