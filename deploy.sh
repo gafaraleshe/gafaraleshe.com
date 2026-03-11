@@ -16,7 +16,7 @@ cd out
 git init
 git add .
 git commit -m "Deploy $(date '+%Y-%m-%d %H:%M:%S')"
-git remote add origin git@github.com:gafitenison/gafaraleshe-portfolio.git
+git remote add origin git@github.com:gafitenison/gafaraleshe-portfolio
 git push origin HEAD:hostinger-out --force
 
 cd ..
