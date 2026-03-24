@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import AnimatedBackground from "./components/AnimatedBackground";
 
 const projects = [
   {
@@ -65,6 +64,7 @@ export default function Home() {
   const [titleIndex, setTitleIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
+  // Rotating nav subtitle
   useEffect(() => {
     const interval = setInterval(() => {
       setFade(false);
@@ -76,6 +76,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  // Theme persistence
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved) setDark(saved === "dark");
@@ -88,11 +89,11 @@ export default function Home() {
 
   return (
     <main className="main">
-      <AnimatedBackground />
+      {/* Nav */}
       <nav className="nav">
         <Link href="/" className="nav-brand">
           Gafar Aleshe
-          <span className="nav-title nav-carousel" style={{ opacity: fade ? 1 : 0 }}>
+          <span className="nav-title" style={{ opacity: fade ? 1 : 0 }}>
             {titles[titleIndex]}
           </span>
         </Link>
@@ -115,44 +116,59 @@ export default function Home() {
       </nav>
 
       <div className="content">
-        {/* Hero */}
+
+        {/* ── Hero ── */}
         <section className="hero" id="about">
-          <div className="avatar-wrap">
-            <div className="avatar-initials">GA</div>
+
+          <div className="availability anim" style={{ animationDelay: "0.05s" }}>
+            <span className="availability-dot" />
+            <span>Available for internships &amp; junior roles</span>
           </div>
 
-          <p className="hero-intro">
-            Hi, I&apos;m <span className="hero-name">Gafar Aleshe</span>
-          </p>
+          <h1 className="hero-name anim" style={{ animationDelay: "0.12s" }}>
+            Hi, I&apos;m <em>Gafar Aleshe</em> —<br />
+            Software Engineer &amp;<br />
+            Creative Developer
+          </h1>
 
-          <p className="hero-roles">
+          <div className="hero-roles anim" style={{ animationDelay: "0.20s" }}>
             <span className="role-pill">Software Engineer</span>
             <span className="role-dot">•</span>
             <span className="role-pill">Creative Developer</span>
             <span className="role-dot">•</span>
             <span className="role-pill">Founder</span>
-          </p>
-
-          <div className="section">
-            <p className="body-text">
-              I build full-stack web applications using{" "}
-              <InlineIcon emoji="⚛️" /> React,{" "}
-              <InlineIcon emoji="▲" /> Next.js, and{" "}
-              <InlineIcon emoji="🟢" /> Node.js — and I&apos;ve shipped{" "}
-              <strong>25+ live websites</strong> for real clients.
-              Currently studying Computer Science at{" "}
-              <InlineIcon emoji="🎓" /> University of Essex and looking
-              for internship or junior developer roles.
-            </p>
           </div>
+
+          <p className="body-text anim" style={{ animationDelay: "0.28s" }}>
+            I build full-stack web applications using{" "}
+            <InlineIcon emoji="⚛️" /> React,{" "}
+            <InlineIcon emoji="▲" /> Next.js, and{" "}
+            <InlineIcon emoji="🟢" /> Node.js — and I&apos;ve shipped{" "}
+            <strong>25+ live websites</strong> for real clients.
+            Currently studying Computer Science at{" "}
+            <InlineIcon emoji="🎓" /> University of Essex and looking
+            for internship or junior developer roles.
+          </p>
         </section>
 
-        {/* Projects */}
+        {/* Divider */}
+        <div className="section-divider anim-fade" style={{ animationDelay: "0.36s" }} />
+
+        {/* ── Projects ── */}
         <section className="section" id="projects">
-          <h2 className="section-label">Projects</h2>
+          <h2 className="section-label anim" style={{ animationDelay: "0.42s" }}>
+            Projects
+          </h2>
           <div className="project-list">
-            {projects.map((p) => (
-              <a key={p.title} href={p.href} className="project-card" target="_blank" rel="noreferrer">
+            {projects.map((p, i) => (
+              <a
+                key={p.title}
+                href={p.href}
+                className="project-card anim"
+                target="_blank"
+                rel="noreferrer"
+                style={{ animationDelay: `${0.48 + i * 0.08}s` }}
+              >
                 <div className="project-header">
                   <span className="project-title">
                     <span className="project-icon">{p.icon}</span>
@@ -171,12 +187,18 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Stack */}
+        {/* ── Stack ── */}
         <section className="section" id="stack">
-          <h2 className="section-label">Stack</h2>
+          <h2 className="section-label anim" style={{ animationDelay: "0.82s" }}>
+            Stack
+          </h2>
           <div className="stack-grid">
-            {stack.map((s) => (
-              <div key={s.category} className="stack-group">
+            {stack.map((s, i) => (
+              <div
+                key={s.category}
+                className="stack-group anim"
+                style={{ animationDelay: `${0.88 + i * 0.06}s` }}
+              >
                 <h3 className="stack-category">{s.category}</h3>
                 <ul className="stack-items">
                   {s.items.map((item) => (
@@ -188,11 +210,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Experience */}
+        {/* ── Experience ── */}
         <section className="section" id="experience">
-          <h2 className="section-label">Experience</h2>
-          <div className="exp-list">
-            <div className="exp-item">
+          <h2 className="section-label anim" style={{ animationDelay: "1.26s" }}>
+            Experience
+          </h2>
+          <div className="exp-block anim" style={{ animationDelay: "1.32s" }}>
+            <div className="exp-header">
               <div className="exp-left">
                 <span className="exp-company">
                   <InlineIcon emoji="💻" /> Fronttoback Development
@@ -201,7 +225,7 @@ export default function Home() {
               </div>
               <span className="exp-date">Dec 2022 – Present</span>
             </div>
-            <p className="body-text exp-desc">
+            <p className="body-text">
               Built and deployed 25+ responsive websites using JavaScript, HTML, CSS, and WordPress.
               Implemented e-commerce and SEO features. Managed hosting environments and collaborated
               with teams via Slack and Trello.
@@ -209,31 +233,47 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Connect */}
+        {/* ── Connect ── */}
         <section className="section" id="connect">
-          <h2 className="section-label">Connect</h2>
-          <p className="body-text">
-            Reach me at{" "}
-            <a href="mailto:gafaraleshe2411@gmail.com" className="link">
-              gafaraleshe2411@gmail.com
-            </a>
-          </p>
-          <div className="connect-links">
-            <a href="https://github.com/gafitenison" target="_blank" rel="noreferrer" className="connect-item">
-              <InlineIcon emoji="🐙" /> GitHub <span className="arrow">↗</span>
-            </a>
-            <a href="https://linkedin.com/in/gafaraleshe/" target="_blank" rel="noreferrer" className="connect-item">
-              <InlineIcon emoji="💼" /> LinkedIn <span className="arrow">↗</span>
-            </a>
-          </div>
-          <div style={{ marginTop: "16px" }}>
-          
+          <h2 className="section-label anim" style={{ animationDelay: "1.40s" }}>
+            Connect
+          </h2>
+          <div className="connect-block anim" style={{ animationDelay: "1.46s" }}>
+            <div>
+              <h3>Let&apos;s build something.</h3>
+              <p>
+                <a href="mailto:gafaraleshe2411@gmail.com" className="link">
+                  gafaraleshe2411@gmail.com
+                </a>
+              </p>
+            </div>
+            <div className="connect-links">
+              <a
+                href="https://github.com/gafitenison"
+                target="_blank"
+                rel="noreferrer"
+                className="connect-item"
+              >
+                GitHub
+              </a>
+              <a
+                href="https://linkedin.com/in/gafaraleshe/"
+                target="_blank"
+                rel="noreferrer"
+                className="connect-item"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
         </section>
 
-        <footer className="footer">
-          <p>© {new Date().getFullYear()} Gafar Aleshe</p>
+        {/* Footer */}
+        <footer className="footer anim-fade" style={{ animationDelay: "1.52s" }}>
+          <span className="footer-copy">© {new Date().getFullYear()} Gafar Aleshe</span>
+          <Link href="/links" className="footer-link">Links →</Link>
         </footer>
+
       </div>
     </main>
   );
