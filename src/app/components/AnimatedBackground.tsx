@@ -21,7 +21,7 @@ export default function AnimatedBackground() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d")!;
     if (!ctx) return;
 
     const NUM_LINES = 6;
@@ -30,12 +30,12 @@ export default function AnimatedBackground() {
     let width = 0;
     let height = 0;
 
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      initLines();
-    }
-
+function resize() {
+  if (!canvas) return;
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  initLines();
+}
     function initLines() {
       lines = [];
       for (let l = 0; l < NUM_LINES; l++) {
