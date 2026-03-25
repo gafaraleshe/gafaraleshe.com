@@ -97,7 +97,7 @@ export default function Home() {
             {titles[titleIndex]}
           </span>
         </Link>
-        <div className="nav-right">
+        <nav className="nav-center">
           <ul className="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Projects</a></li>
@@ -105,12 +105,22 @@ export default function Home() {
             <li><a href="#connect">Connect</a></li>
             <li><Link href="/links">Links</Link></li>
           </ul>
+        </nav>
+        <div className="nav-right">
           <button
             className="theme-toggle"
             onClick={() => setDark(!dark)}
             aria-label="Toggle theme"
           >
-            {dark ? "☀️" : "🌙"}
+            {dark ? (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              </svg>
+            )}
           </button>
         </div>
       </nav>
@@ -122,7 +132,7 @@ export default function Home() {
 
           <div className="availability anim" style={{ animationDelay: "0.05s" }}>
             <span className="availability-dot" />
-            <span>Available for internships &amp; junior roles</span>
+            <span>Open to work</span>
           </div>
 
           <h1 className="hero-name anim" style={{ animationDelay: "0.12s" }}>
@@ -233,18 +243,56 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── Businesses ── */}
+        <section className="section" id="businesses">
+          <h2 className="section-label anim" style={{ animationDelay: "1.38s" }}>
+            Businesses
+          </h2>
+          <div className="businesses-grid">
+            <a
+              href="https://gaffystudios.com"
+              target="_blank"
+              rel="noreferrer"
+              className="biz-card anim"
+              style={{ "--accent": "#c0ff72", animationDelay: "1.44s" } as React.CSSProperties}
+            >
+              <div className="biz-card-top">
+                <span className="biz-card-title">Gaffy Studios</span>
+                <span className="biz-card-arrow">↗</span>
+              </div>
+              <p className="biz-card-desc">Branding, products &amp; cinematic studio work</p>
+            </a>
+            <a
+              href="https://shotbygafar.com"
+              target="_blank"
+              rel="noreferrer"
+              className="biz-card anim"
+              style={{ "--accent": "#72c8ff", animationDelay: "1.52s" } as React.CSSProperties}
+            >
+              <div className="biz-card-top">
+                <span className="biz-card-title">ShotByGafar</span>
+                <span className="biz-card-arrow">↗</span>
+              </div>
+              <p className="biz-card-desc">Commercial photography &amp; videography for brands</p>
+            </a>
+          </div>
+        </section>
+
         {/* ── Connect ── */}
         <section className="section" id="connect">
-          <h2 className="section-label anim" style={{ animationDelay: "1.40s" }}>
+          <h2 className="section-label anim" style={{ animationDelay: "1.60s" }}>
             Connect
           </h2>
-          <div className="connect-block anim" style={{ animationDelay: "1.46s" }}>
+          <div className="connect-block anim" style={{ animationDelay: "1.66s" }}>
             <div>
               <h3>Let&apos;s build something.</h3>
               <p>
-                <a href="mailto:gafaraleshe2411@gmail.com" className="link">
-                  gafaraleshe2411@gmail.com
+                <a href="mailto:info@gafaraleshe.com" className="link">
+                  info@gafaraleshe.com
                 </a>
+              </p>
+              <p style={{ marginTop: "6px" }}>
+                <span className="body-text">London, UK · Available for freelance &amp; full-time roles</span>
               </p>
             </div>
             <div className="connect-links">
@@ -269,7 +317,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="footer anim-fade" style={{ animationDelay: "1.52s" }}>
+        <footer className="footer anim-fade" style={{ animationDelay: "1.74s" }}>
           <span className="footer-copy">© {new Date().getFullYear()} Gafar Aleshe</span>
           <Link href="/links" className="footer-link">Links →</Link>
         </footer>
