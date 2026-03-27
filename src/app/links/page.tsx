@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import "./links.css";
+import DotGrid from "../components/DotGrid";
 
 const socials = [
   { label: "Instagram", handle: "@gafaraleshe", href: "https://instagram.com/gafaraleshe", emoji: "📸", color: "#E1306C" },
@@ -78,6 +79,11 @@ export default function LinksPage() {
   const [mounted, setMounted] = useState(false);
   const [dark, setDark] = useState(true);
 
+  // Dot grid colors based on theme
+  const dotGridColors = dark
+    ? { baseColor: '#ffffff', activeColor: '#1a6fff' }
+    : { baseColor: '#000000', activeColor: '#1a6fff' };
+
   useEffect(() => {
     setMounted(true);
     const saved = localStorage.getItem("theme");
@@ -91,6 +97,21 @@ export default function LinksPage() {
 
   return (
     <div className="links-page">
+      {/* Interactive dot grid */}
+      <DotGrid
+        dotSize={8}
+        gap={40}
+        baseColor={dotGridColors.baseColor}
+        activeColor={dotGridColors.activeColor}
+        proximity={120}
+        speedTrigger={80}
+        shockRadius={200}
+        shockStrength={4}
+        maxSpeed={3000}
+        resistance={600}
+        returnDuration={1.2}
+      />
+
       {/* Ambient background orbs */}
       <div className="orb orb-1" />
       <div className="orb orb-2" />
@@ -100,7 +121,7 @@ export default function LinksPage() {
         {/* Top row: back link + theme toggle */}
         <div className="links-topbar">
           <Link href="/" className="back-link">
-            ← gafaraleshe.dev
+            ← gafaraleshe.com
           </Link>
           <button
             className="links-theme-toggle"
@@ -121,7 +142,7 @@ export default function LinksPage() {
 
         {/* Avatar & header */}
         <header className={`links-header ${mounted ? "visible" : ""}`}>
-          <div className="links-avatar">GA</div>
+          <div className="links-avatar"><img src="/gafar_face.jpg" alt="Gafar Aleshe" className="avatar-img" /></div>
           <h1 className="links-name">Gafar Aleshe</h1>
           <p className="links-bio">
             Code, content &amp; curated moments —<br />building apps, crafting stories.

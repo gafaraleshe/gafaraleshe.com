@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Gafar Aleshe — Full-Stack Developer",
     description:
       "Full-Stack JavaScript Developer building web applications with React, Next.js, Node.js, and PostgreSQL.",
-    url: "https://gafaraleshe.dev",
+    url: "https://gafaraleshe.com",
     siteName: "Gafar Aleshe",
     locale: "en_GB",
     type: "website",

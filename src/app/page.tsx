@@ -1,25 +1,15 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import DotGrid from "./components/DotGrid";
+import ScrollableNav from "./components/ScrollableNav";
+import Magnet from "./components/Magnet";
+import BlurText from "./components/BlurText";
 
 const projects = [
-  {
-    title: "Internal Workflow & Task Management System",
-    description:
-      "Full-stack task management app with JWT auth, REST APIs, and PostgreSQL. Built with React, Next.js, Node.js, and deployed via Docker.",
-    tags: ["React", "Next.js", "Node.js", "PostgreSQL", "Docker"],
-    href: "https://github.com/gafitenison",
-    icon: "🗂️",
-  },
-  {
-    title: "TaskFlow – Full-Stack Task Management",
-    description:
-      "React frontend with ASP.NET Core backend. JWT authentication, Entity Framework Core, and SQL Server.",
-    tags: ["React", "ASP.NET Core", "SQL Server", "JWT"],
-    href: "https://github.com/gafitenison",
-    icon: "✅",
-  },
   {
     title: "Inventory & Order Management API",
     description:
@@ -35,6 +25,14 @@ const projects = [
     tags: ["Python", "SQLite"],
     href: "https://github.com/gafitenison",
     icon: "📊",
+  },
+  {
+    title: "Real-Time Chat Application",
+    description:
+      "WebSocket-based chat app with real-time messaging, user authentication, and persistent message history using MongoDB.",
+    tags: ["Node.js", "Socket.io", "React", "MongoDB", "Express"],
+    href: "https://github.com/gafitenison",
+    icon: "💬",
   },
 ];
 
@@ -55,14 +53,15 @@ const stack = [
   { category: "Design", items: ["Photoshop", "Illustrator", "Premiere Pro", "Canva"] },
 ];
 
-function InlineIcon({ emoji }: { emoji: string }) {
-  return <span className="inline-icon-emoji">{emoji}</span>;
-}
-
 export default function Home() {
   const [dark, setDark] = useState(true);
   const [titleIndex, setTitleIndex] = useState(0);
   const [fade, setFade] = useState(true);
+
+  // Dot grid colors based on theme
+  const dotGridColors = dark
+    ? { baseColor: '#ffffff', activeColor: '#1a6fff' }
+    : { baseColor: '#000000', activeColor: '#1a6fff' };
 
   // Rotating nav subtitle
   useEffect(() => {
@@ -89,125 +88,128 @@ export default function Home() {
 
   return (
     <main className="main">
-      {/* Nav */}
-      <nav className="nav">
-        <Link href="/" className="nav-brand">
-          Gafar Aleshe
-          <span className="nav-title" style={{ opacity: fade ? 1 : 0 }}>
-            {titles[titleIndex]}
-          </span>
-        </Link>
-        <nav className="nav-center">
-          <ul className="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#stack">Stack</a></li>
-            <li><a href="#connect">Connect</a></li>
-            <li><Link href="/links">Links</Link></li>
-          </ul>
-        </nav>
-        <div className="nav-right">
-          <button
-            className="theme-toggle"
-            onClick={() => setDark(!dark)}
-            aria-label="Toggle theme"
-          >
-            {dark ? (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-              </svg>
-            )}
-          </button>
-        </div>
-      </nav>
+      {/* Interactive dot grid */}
+      <DotGrid
+        dotSize={8}
+        gap={40}
+        baseColor={dotGridColors.baseColor}
+        activeColor={dotGridColors.activeColor}
+        proximity={120}
+        speedTrigger={80}
+        shockRadius={200}
+        shockStrength={4}
+        maxSpeed={3000}
+        resistance={600}
+        returnDuration={1.2}
+      />
 
+      {/* Ambient background orbs */}
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+
+      {/* Navigation */}
+      <ScrollableNav
+        dark={dark}
+        onThemeToggle={() => setDark(!dark)}
+        titleIndex={titleIndex}
+        fade={fade}
+      />
+
+      {/* Content */}
       <div className="content">
+        {/* Hero Section */}
+        <section className="hero-section">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="hero-content"
+          >
+            <div className="hero-image">
+              <Image
+                src="/gafar_face.jpg"
+                alt="Gafar Aleshe"
+                width={120}
+                height={120}
+                className="profile-img"
+                priority
+              />
+            </div>
 
-        {/* ── Hero ── */}
-        <section className="hero" id="about">
+            <BlurText
+              text="Creative developer & designer"
+              className="hero-title"
+              animateBy="words"
+              delay={0.3}
+            />
 
-          <div className="availability anim" style={{ animationDelay: "0.05s" }}>
-            <span className="availability-dot" />
-            <span>Open to work</span>
-          </div>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="hero-subtitle"
+            >
+              I build full-stack web applications using React, Next.js, and Node.js — and I have shipped 25+ live websites for real clients.
+            </motion.p>
 
-          <h1 className="hero-name anim" style={{ animationDelay: "0.12s" }}>
-            Hi, I&apos;m <em>Gafar Aleshe</em> —<br />
-            Software Engineer &amp;<br />
-            Creative Developer
-          </h1>
-
-          <div className="hero-roles anim" style={{ animationDelay: "0.20s" }}>
-            <span className="role-pill">Software Engineer</span>
-            <span className="role-dot">•</span>
-            <span className="role-pill">Creative Developer</span>
-            <span className="role-dot">•</span>
-            <span className="role-pill">Founder</span>
-          </div>
-
-          <p className="body-text anim" style={{ animationDelay: "0.28s" }}>
-            I build full-stack web applications using{" "}
-            <InlineIcon emoji="⚛️" /> React,{" "}
-            <InlineIcon emoji="▲" /> Next.js, and{" "}
-            <InlineIcon emoji="🟢" /> Node.js — and I&apos;ve shipped{" "}
-            <strong>25+ live websites</strong> for real clients.
-            Currently studying Computer Science at{" "}
-            <InlineIcon emoji="🎓" /> University of Essex and looking
-            for internship or junior developer roles.
-          </p>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="hero-cta"
+            >
+              <Magnet padding={60} magnetStrength={3}>
+                <a href="#projects" className="cta-button">
+                  View My Work
+                </a>
+              </Magnet>
+            </motion.div>
+          </motion.div>
         </section>
 
-        {/* Divider */}
-        <div className="section-divider anim-fade" style={{ animationDelay: "0.36s" }} />
+        {/* Projects Section */}
+        <section className="projects-section" id="projects">
+          <BlurText text="Featured Projects" animateBy="words" className="section-title" />
 
-        {/* ── Projects ── */}
-        <section className="section" id="projects">
-          <h2 className="section-label anim" style={{ animationDelay: "0.42s" }}>
-            Projects
-          </h2>
-          <div className="project-list">
-            {projects.map((p, i) => (
-              <a
-                key={p.title}
-                href={p.href}
-                className="project-card anim"
+          <div className="projects-grid">
+            {projects.map((project, i) => (
+              <motion.a
+                key={project.title}
+                href={project.href}
                 target="_blank"
                 rel="noreferrer"
-                style={{ animationDelay: `${0.48 + i * 0.08}s` }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="project-card"
               >
-                <div className="project-header">
-                  <span className="project-title">
-                    <span className="project-icon">{p.icon}</span>
-                    {p.title}
-                  </span>
-                  <span className="project-arrow">↗</span>
-                </div>
-                <p className="project-desc">{p.description}</p>
-                <div className="tag-row">
-                  {p.tags.map((t) => (
-                    <span key={t} className="tag">{t}</span>
+                <div className="project-icon">{project.icon}</div>
+                <h3 className="project-title">{project.title}</h3>
+                <p className="project-description">{project.description}</p>
+                <div className="project-tags">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="tag">{tag}</span>
                   ))}
                 </div>
-              </a>
+              </motion.a>
             ))}
           </div>
         </section>
 
-        {/* ── Stack ── */}
-        <section className="section" id="stack">
-          <h2 className="section-label anim" style={{ animationDelay: "0.82s" }}>
-            Stack
-          </h2>
+        {/* Stack Section */}
+        <section className="stack-section" id="stack">
+          <BlurText text="Tech Stack" animateBy="words" className="section-title" />
+
           <div className="stack-grid">
             {stack.map((s, i) => (
-              <div
+              <motion.div
                 key={s.category}
-                className="stack-group anim"
-                style={{ animationDelay: `${0.88 + i * 0.06}s` }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.08 }}
+                viewport={{ once: true }}
+                className="stack-group"
               >
                 <h3 className="stack-category">{s.category}</h3>
                 <ul className="stack-items">
@@ -215,113 +217,47 @@ export default function Home() {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        {/* ── Experience ── */}
-        <section className="section" id="experience">
-          <h2 className="section-label anim" style={{ animationDelay: "1.26s" }}>
-            Experience
-          </h2>
-          <div className="exp-block anim" style={{ animationDelay: "1.32s" }}>
-            <div className="exp-header">
-              <div className="exp-left">
-                <span className="exp-company">
-                  <InlineIcon emoji="💻" /> Fronttoback Development
-                </span>
-                <span className="exp-role">Web Developer</span>
-              </div>
-              <span className="exp-date">Dec 2022 – Present</span>
-            </div>
-            <p className="body-text">
-              Built and deployed 25+ responsive websites using JavaScript, HTML, CSS, and WordPress.
-              Implemented e-commerce and SEO features. Managed hosting environments and collaborated
-              with teams via Slack and Trello.
+        {/* CTA Section */}
+        <section className="cta-section">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="cta-content"
+          >
+            <h2 className="cta-title">
+              <BlurText text="Let's build something amazing together." animateBy="words" />
+            </h2>
+            <p className="cta-description">
+              I am always open to new opportunities and collaborations. Feel free to reach out!
             </p>
-          </div>
-        </section>
-
-        {/* ── Businesses ── */}
-        <section className="section" id="businesses">
-          <h2 className="section-label anim" style={{ animationDelay: "1.38s" }}>
-            Businesses
-          </h2>
-          <div className="businesses-grid">
-            <a
-              href="https://gaffystudios.com"
-              target="_blank"
-              rel="noreferrer"
-              className="biz-card anim"
-              style={{ "--accent": "#c0ff72", animationDelay: "1.44s" } as React.CSSProperties}
-            >
-              <div className="biz-card-top">
-                <span className="biz-card-title">Gaffy Studios</span>
-                <span className="biz-card-arrow">↗</span>
-              </div>
-              <p className="biz-card-desc">Branding, products &amp; cinematic studio work</p>
-            </a>
-            <a
-              href="https://shotbygafar.com"
-              target="_blank"
-              rel="noreferrer"
-              className="biz-card anim"
-              style={{ "--accent": "#72c8ff", animationDelay: "1.52s" } as React.CSSProperties}
-            >
-              <div className="biz-card-top">
-                <span className="biz-card-title">ShotByGafar</span>
-                <span className="biz-card-arrow">↗</span>
-              </div>
-              <p className="biz-card-desc">Commercial photography &amp; videography for brands</p>
-            </a>
-          </div>
-        </section>
-
-        {/* ── Connect ── */}
-        <section className="section" id="connect">
-          <h2 className="section-label anim" style={{ animationDelay: "1.60s" }}>
-            Connect
-          </h2>
-          <div className="connect-block anim" style={{ animationDelay: "1.66s" }}>
-            <div>
-              <h3>Let&apos;s build something.</h3>
-              <p>
-                <a href="mailto:info@gafaraleshe.com" className="link">
-                  info@gafaraleshe.com
-                </a>
-              </p>
-              <p style={{ marginTop: "6px" }}>
-                <span className="body-text">London, UK · Available for freelance &amp; full-time roles</span>
-              </p>
-            </div>
-            <div className="connect-links">
-              <a
-                href="https://github.com/gafitenison"
-                target="_blank"
-                rel="noreferrer"
-                className="connect-item"
-              >
-                GitHub
+            <Magnet padding={60} magnetStrength={3}>
+              <a href="mailto:info@gafaraleshe.com" className="cta-button primary">
+                Get in Touch
               </a>
-              <a
-                href="https://linkedin.com/in/gafaraleshe/"
-                target="_blank"
-                rel="noreferrer"
-                className="connect-item"
-              >
-                LinkedIn
-              </a>
-            </div>
-          </div>
+            </Magnet>
+          </motion.div>
         </section>
 
         {/* Footer */}
-        <footer className="footer anim-fade" style={{ animationDelay: "1.74s" }}>
-          <span className="footer-copy">© {new Date().getFullYear()} Gafar Aleshe</span>
-          <Link href="/links" className="footer-link">Links →</Link>
+        <footer className="footer">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="footer-content"
+          >
+            <p>© {new Date().getFullYear()} Gafar Aleshe. All rights reserved.</p>
+            <Link href="/links" className="footer-link">View All Links →</Link>
+          </motion.div>
         </footer>
-
       </div>
     </main>
   );
