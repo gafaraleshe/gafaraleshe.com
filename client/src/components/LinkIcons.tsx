@@ -1,7 +1,6 @@
 /*
  * SVG Icons for Links page
  * Clean, minimal design matching the Ethereal Open Canvas aesthetic
- * Using official brand logos where applicable
  */
 
 export const InstagramIcon = () => (
@@ -14,13 +13,13 @@ export const InstagramIcon = () => (
 
 export const TwitterIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.07-6.614L2.896 21.75H-1.264l7.73-8.835L-1.264 2.25h6.837l4.87 6.441 5.971-6.441zM17.15 19.163h1.83L5.066 4.097H3.15L17.15 19.163z" />
+    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7a10.6 10.6 0 01-9.5 5" />
   </svg>
 );
 
 export const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-    <path d="M19.498 3.75V8.5c1.105 0 2.1-.25 3-1v5.5c0 4.418-3.582 8-8 8-4.418 0-8-3.582-8-8V7.5a4 4 0 0 0 4-4h3.5v10.5a2.5 2.5 0 0 0 5 0V3.75h-3.5z" />
+    <path d="M19 3a7 7 0 01-7 7v4a4 4 0 01-4-4V7a2.25 2.25 0 012.25 2.25v.5A5.5 5.5 0 0119 3z" />
   </svg>
 );
 
@@ -33,13 +32,13 @@ export const YouTubeIcon = () => (
 
 export const TwitchIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-    <path d="M11 2H2v17h6v3l4-3h5l7-7V2h-13zm12 10l-5 5h-5l-4 4v-4H3V3h20v9z" />
+    <path d="M4 4l-2 4v12h4v2h2l2-2h3l4-4V4H4zm12 10l-2 2h-3l-2 2v-2H6V6h10v8z" />
   </svg>
 );
 
 export const SnapchatIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-    <path d="M12.06.5c-6.63 0-12.06 5.4-12.06 12 0 3.54 1.23 6.78 3.28 9.36-.06.42-.04.84.08 1.27.35 1.15 1.27 1.87 2.65 1.87.42 0 .86-.08 1.3-.24.88-.33 1.72-.33 2.5 0 1.44.54 2.96.54 4.44 0 .78-.33 1.62-.33 2.5 0 .44.16.88.24 1.3.24 1.38 0 2.3-.72 2.65-1.87.12-.43.14-.85.08-1.27 2.05-2.58 3.28-5.82 3.28-9.36 0-6.6-5.43-12-12.06-12zm-4.5 9.75c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11z" />
   </svg>
 );
 
