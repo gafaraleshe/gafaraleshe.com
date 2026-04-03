@@ -1,17 +1,13 @@
 /*
  * Design: Ethereal Open Canvas — Links page
- * Modern clean design with SVG icons, all original links restored
+ * Modern clean design with official brand logos
  */
 
 import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink as ExternalLinkIcon } from "lucide-react";
 import {
   InstagramIcon,
-  TwitterIcon,
-  TikTokIcon,
   YouTubeIcon,
-  TwitchIcon,
-  SnapchatIcon,
   DiscordIcon,
   FacebookIcon,
   LinkedInIcon,
@@ -31,13 +27,34 @@ import {
 const PROFILE_IMG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/gafar_face_8473d35c.jpg";
 
+// Official brand logos
+const X_LOGO = "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/m4wCG59Ygaqy_ee939cd1.jpg";
+const TIKTOK_LOGO = "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/UN9z0jxJI2Rl_9f80f17f.png";
+const TWITCH_LOGO = "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/HEIiM1n3zvJp_0d73c4f2.jpg";
+
+// Placeholder Snapchat icon since we need it
+const SnapchatIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+    <path d="M12.06.5c-6.63 0-12.06 5.4-12.06 12 0 3.54 1.23 6.78 3.28 9.36-.06.42-.04.84.08 1.27.35 1.15 1.27 1.87 2.65 1.87.42 0 .86-.08 1.3-.24.88-.33 1.72-.33 2.5 0 1.44.54 2.96.54 4.44 0 .78-.33 1.62-.33 2.5 0 .44.16.88.24 1.3.24 1.38 0 2.3-.72 2.65-1.87.12-.43.14-.85.08-1.27 2.05-2.58 3.28-5.82 3.28-9.36 0-6.6-5.43-12-12.06-12zm-4.5 9.75c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+  </svg>
+);
+
 // ── All socials from the original site ──
-const socials = [
+interface Social {
+  label: string;
+  handle: string;
+  href: string;
+  Icon?: React.FC;
+  logo?: string;
+  isLogo?: boolean;
+}
+
+const socials: Social[] = [
   { label: "Instagram", handle: "@gafaraleshe", href: "https://instagram.com/gafaraleshe", Icon: InstagramIcon },
-  { label: "X / Twitter", handle: "@GafarAleshe", href: "https://x.com/GafarAleshe", Icon: TwitterIcon },
-  { label: "TikTok", handle: "@gafaraleshe", href: "https://tiktok.com/@gafaraleshe", Icon: TikTokIcon },
+  { label: "X", handle: "@GafarAleshe", href: "https://x.com/GafarAleshe", logo: X_LOGO, isLogo: true },
+  { label: "TikTok", handle: "@gafaraleshe", href: "https://tiktok.com/@gafaraleshe", logo: TIKTOK_LOGO, isLogo: true },
   { label: "YouTube", handle: "@gafaraleshe", href: "https://www.youtube.com/@gafaraleshe", Icon: YouTubeIcon },
-  { label: "Twitch", handle: "@gafitenison", href: "https://twitch.tv/gafitenison", Icon: TwitchIcon },
+  { label: "Twitch", handle: "@gafitenison", href: "https://twitch.tv/gafitenison", logo: TWITCH_LOGO, isLogo: true },
   { label: "Snapchat", handle: "@gafaraleshe", href: "https://www.snapchat.com/add/gafaraleshe", Icon: SnapchatIcon },
   { label: "Discord", handle: "Join server", href: "https://discord.gg/UeuVcW6J5G", Icon: DiscordIcon },
   { label: "Facebook", handle: "Gafar Aleshe", href: "https://www.facebook.com/profile.php?id=61577047186240", Icon: FacebookIcon },
@@ -46,7 +63,15 @@ const socials = [
 ];
 
 // ── All feature links from the original site ──
-const features = [
+interface Feature {
+  label: string;
+  description: string;
+  href: string;
+  Icon: React.FC;
+  featured: boolean;
+}
+
+const features: Feature[] = [
   {
     label: "Subscribe on YouTube",
     description: "Tech tips, reviews, unboxing, tutorials & lifestyle vlogs",
@@ -181,22 +206,23 @@ export default function Links() {
         animate="show"
         className="flex items-center justify-center gap-3 flex-wrap mb-12 max-w-2xl"
       >
-        {socials.map((s) => {
-          const Icon = s.Icon;
-          return (
-            <motion.a
-              key={s.label}
-              variants={item}
-              href={s.href}
-              target="_blank"
-              rel="noreferrer"
-              className="w-10 h-10 rounded-lg border border-black/[0.08] flex items-center justify-center text-foreground hover:border-black/[0.2] hover:bg-black/[0.04] hover:scale-110 transition-all duration-200"
-              title={`${s.label} — ${s.handle}`}
-            >
-              <Icon />
-            </motion.a>
-          );
-        })}
+        {socials.map((s) => (
+          <motion.a
+            key={s.label}
+            variants={item}
+            href={s.href}
+            target="_blank"
+            rel="noreferrer"
+            className="w-10 h-10 rounded-lg border border-black/[0.08] flex items-center justify-center text-foreground hover:border-black/[0.2] hover:bg-black/[0.04] hover:scale-110 transition-all duration-200 overflow-hidden"
+            title={`${s.label} — ${s.handle}`}
+          >
+            {s.isLogo && s.logo ? (
+              <img src={s.logo} alt={s.label} className="w-full h-full object-cover" />
+            ) : s.Icon ? (
+              <s.Icon />
+            ) : null}
+          </motion.a>
+        ))}
       </motion.div>
 
       {/* Feature cards */}
@@ -207,7 +233,6 @@ export default function Links() {
         className="w-full max-w-2xl space-y-2"
       >
         {features.map((f) => {
-          const Icon = f.Icon;
           const isExternal =
             f.href.startsWith("http") || f.href.startsWith("mailto");
           return (
@@ -223,8 +248,12 @@ export default function Links() {
                   : "bg-white border-black/[0.06] hover:border-black/[0.15] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
               }`}
             >
-              <div className={`flex-shrink-0 w-5 h-5 ${f.featured ? "text-white" : "text-muted-foreground"}`}>
-                <Icon />
+              <div
+                className={`flex-shrink-0 w-5 h-5 ${
+                  f.featured ? "text-white" : "text-muted-foreground"
+                }`}
+              >
+                <f.Icon />
               </div>
               <div className="min-w-0 flex-1">
                 <p
@@ -237,20 +266,18 @@ export default function Links() {
                 {f.description && (
                   <p
                     className={`text-xs truncate mt-0.5 ${
-                      f.featured
-                        ? "text-white/70"
-                        : "text-muted-foreground"
+                      f.featured ? "text-white/70" : "text-muted-foreground"
                     }`}
                   >
                     {f.description}
                   </p>
                 )}
               </div>
-              <div className={`flex-shrink-0 w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-                f.featured
-                  ? "text-white/60"
-                  : "text-muted-foreground/40"
-              }`}>
+              <div
+                className={`flex-shrink-0 w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
+                  f.featured ? "text-white/60" : "text-muted-foreground/40"
+                }`}
+              >
                 <ExternalLinkIcon />
               </div>
             </motion.a>
