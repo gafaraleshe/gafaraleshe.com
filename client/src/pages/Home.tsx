@@ -16,6 +16,7 @@ import {
   ExternalLink,
   ArrowRight,
   ChevronDown,
+  Download,
 } from "lucide-react";
 
 const PROFILE_IMG =
@@ -24,6 +25,8 @@ const HERO_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/hero-abstract-1-WyfZx9gXJmrdeprigfXARR.webp";
 const SECTION_ACCENT =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/section-accent-82gNVwozKeVqUxCNQTmjU3.webp";
+const RESUME_PDF =
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/Gafar_Aleshe_Resume_e5be0975.pdf";
 
 // ── Typewriter ──
 function TypewriterText({
@@ -400,6 +403,16 @@ export default function Home() {
                 className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
               >
                 Get in Touch
+              </a>
+            </Magnet>
+            <Magnet>
+              <a
+                href={RESUME_PDF}
+                download="Gafar_Aleshe_Resume.pdf"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
+              >
+                <Download className="w-4 h-4" />
+                Resume
               </a>
             </Magnet>
           </motion.div>
