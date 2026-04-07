@@ -28,8 +28,7 @@ import {
   MailIcon,
 } from "@/components/LinkIcons";
 
-const PROFILE_IMG =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663479557356/Wfm9Zj6GfSKo3RJW9fde2i/gafar_face_8473d35c.jpg";
+const PROFILE_IMG = "/assets/gafar-profile.jpg";
 
 // ── All socials from the original site ──
 const socials = [
@@ -50,14 +49,14 @@ const features = [
   {
     label: "Subscribe on YouTube",
     description: "Tech tips, reviews, unboxing, tutorials & lifestyle vlogs",
-    href: "http://youtube.com/@gafaraleshe?sub_confirmation=1",
+    href: "https://youtube.com/@gafaraleshe?sub_confirmation=1",
     Icon: YouTubeSubscribeIcon,
     featured: true,
   },
   {
     label: "SHOTBYGAFAR",
     description: "Professional photography & videography",
-    href: "http://shotbygafar.com",
+    href: "https://shotbygafar.com",
     Icon: CameraIcon,
     featured: false,
   },
@@ -71,7 +70,7 @@ const features = [
   {
     label: "Amazon Prime Student — 6 Month Trial",
     description: "Get the student deal via my link",
-    href: "http://www.amazon.co.uk/joinstudent?tag=gafaraleshe08-21",
+    href: "https://www.amazon.co.uk/joinstudent?tag=gafaraleshe08-21",
     Icon: AcademicIcon,
     featured: false,
   },
@@ -112,8 +111,8 @@ const features = [
   },
   {
     label: "Email Me",
-    description: "info@gafaraleshe.com",
-    href: "mailto:info@gafaraleshe.com",
+    description: "contact@gafaraleshe.com",
+    href: "mailto:contact@gafaraleshe.com",
     Icon: MailIcon,
     featured: false,
   },
