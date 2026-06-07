@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Links from "./pages/Links";
+import { Analytics } from "@vercel/analytics/next"
 
 function Router() {
   return (
