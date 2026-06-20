@@ -51,7 +51,7 @@ function TypewriterText({
         setText(current.slice(0, text.length - 1));
       } else {
         setIsDeleting(false);
-        setWordIndex((p) => (p + 1) % words.length);
+        setWordIndex(p => (p + 1) % words.length);
       }
     }
   }, [text, isDeleting, wordIndex, words]);
@@ -59,7 +59,9 @@ function TypewriterText({
   useEffect(() => {
     const speed = isDeleting ? 40 : 70;
     timerRef.current = window.setTimeout(tick, speed);
-    return () => { if (timerRef.current) window.clearTimeout(timerRef.current); };
+    return () => {
+      if (timerRef.current) window.clearTimeout(timerRef.current);
+    };
   }, [tick, isDeleting]);
 
   return (
@@ -116,7 +118,7 @@ function Magnet({
     <div
       ref={ref}
       className={`inline-block ${className}`}
-      onMouseMove={(e) => {
+      onMouseMove={e => {
         if (!ref.current) return;
         const r = ref.current.getBoundingClientRect();
         setTx((e.clientX - r.left - r.width / 2) * 0.15);
@@ -284,7 +286,7 @@ function Nav() {
         <a
           href="#"
           className="font-serif text-base tracking-tight text-foreground whitespace-nowrap"
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
@@ -292,7 +294,7 @@ function Nav() {
           Gafar Aleshe
         </a>
         <div className="hidden md:flex items-center gap-1">
-          {links.map((l) => (
+          {links.map(l => (
             <a
               key={l.href}
               href={l.href}
@@ -347,7 +349,11 @@ export default function Home() {
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.8,
+              delay: 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="font-serif text-5xl sm:text-6xl md:text-7xl tracking-tight text-foreground leading-[1.1] mb-6"
           >
             Gafar Aleshe
@@ -533,7 +539,7 @@ export default function Home() {
                     {proj.description}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
-                    {proj.tags.map((tag) => (
+                    {proj.tags.map(tag => (
                       <span
                         key={tag}
                         className="font-mono text-[10px] px-2.5 py-1 rounded-full bg-black/[0.03] text-muted-foreground"
@@ -647,7 +653,7 @@ export default function Home() {
                     {category}
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {items.map((item) => (
+                    {items.map(item => (
                       <span
                         key={item}
                         className="px-3.5 py-2 text-sm bg-white border border-black/[0.06] rounded-lg text-foreground hover:border-black/[0.12] hover:shadow-sm transition-all duration-200"

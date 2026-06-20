@@ -4,7 +4,13 @@
  */
 
 export const InstagramIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
     <path d="M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" />
     <circle cx="17.5" cy="6.5" r="1.5" />
@@ -74,34 +80,64 @@ export const YouTubeSubscribeIcon = () => (
 );
 
 export const CameraIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
     <circle cx="12" cy="13" r="4" />
   </svg>
 );
 
 export const GlobeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <circle cx="12" cy="12" r="10" />
     <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
   </svg>
 );
 
 export const AcademicIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <path d="M22 10v6m0 0v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4m20 0l-8.97-4.97a1.5 1.5 0 0 0-1.06 0L2 16m20 0H2" />
   </svg>
 );
 
 export const ComputerIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
     <path d="M8 21h8M12 17v4" />
   </svg>
 );
 
 export const FilmIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <rect x="2" y="7" width="20" height="15" rx="2.18" ry="2.18" />
     <line x1="16" y1="3" x2="16" y2="7" />
     <line x1="8" y1="3" x2="8" y2="7" />
@@ -110,7 +146,13 @@ export const FilmIcon = () => (
 );
 
 export const ServerIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <rect x="2" y="2" width="20" height="8" rx="1" ry="1" />
     <rect x="2" y="14" width="20" height="8" rx="1" ry="1" />
     <line x1="6" y1="6" x2="6" y2="6.01" />
@@ -119,28 +161,52 @@ export const ServerIcon = () => (
 );
 
 export const CodeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <polyline points="16 18 22 12 16 6" />
     <polyline points="8 6 2 12 8 18" />
   </svg>
 );
 
 export const PaletteIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <circle cx="13" cy="13" r="8" />
     <path d="M5.64 5.64a8 8 0 0 0 0 11.31M18.36 5.64a8 8 0 0 1 0 11.31M9 12a3 3 0 1 0 6 0 3 3 0 0 0-6 0" />
   </svg>
 );
 
 export const MailIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-5 h-5"
+  >
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
   </svg>
 );
 
 export const ExternalLinkIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="w-4 h-4"
+  >
     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6m4-3h6v6m-11-6 7 7" />
   </svg>
 );

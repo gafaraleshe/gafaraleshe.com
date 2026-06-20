@@ -32,16 +32,66 @@ const PROFILE_IMG = "/assets/gafar-profile.jpg";
 
 // ── All socials from the original site ──
 const socials = [
-  { label: "Instagram", handle: "@gafaraleshe", href: "https://instagram.com/gafaraleshe", Icon: InstagramIcon },
-  { label: "X / Twitter", handle: "@GafarAleshe", href: "https://x.com/GafarAleshe", Icon: TwitterIcon },
-  { label: "TikTok", handle: "@gafaraleshe", href: "https://tiktok.com/@gafaraleshe", Icon: TikTokIcon },
-  { label: "YouTube", handle: "@gafaraleshe", href: "https://www.youtube.com/@gafaraleshe", Icon: YouTubeIcon },
-  { label: "Twitch", handle: "@gafitenison", href: "https://twitch.tv/gafitenison", Icon: TwitchIcon },
-  { label: "Snapchat", handle: "@gafaraleshe", href: "https://www.snapchat.com/add/gafaraleshe", Icon: SnapchatIcon },
-  { label: "Discord", handle: "Join server", href: "https://discord.gg/UeuVcW6J5G", Icon: DiscordIcon },
-  { label: "Facebook", handle: "Gafar Aleshe", href: "https://www.facebook.com/profile.php?id=61577047186240", Icon: FacebookIcon },
-  { label: "LinkedIn", handle: "gafaraleshe", href: "https://linkedin.com/in/gafaraleshe/", Icon: LinkedInIcon },
-  { label: "GitHub", handle: "gafaraleshe", href: "https://github.com/gafaraleshe", Icon: GitHubIcon },
+  {
+    label: "Instagram",
+    handle: "@gafaraleshe",
+    href: "https://instagram.com/gafaraleshe",
+    Icon: InstagramIcon,
+  },
+  {
+    label: "X / Twitter",
+    handle: "@GafarAleshe",
+    href: "https://x.com/GafarAleshe",
+    Icon: TwitterIcon,
+  },
+  {
+    label: "TikTok",
+    handle: "@gafaraleshe",
+    href: "https://tiktok.com/@gafaraleshe",
+    Icon: TikTokIcon,
+  },
+  {
+    label: "YouTube",
+    handle: "@gafaraleshe",
+    href: "https://www.youtube.com/@gafaraleshe",
+    Icon: YouTubeIcon,
+  },
+  {
+    label: "Twitch",
+    handle: "@gafitenison",
+    href: "https://twitch.tv/gafitenison",
+    Icon: TwitchIcon,
+  },
+  {
+    label: "Snapchat",
+    handle: "@gafaraleshe",
+    href: "https://www.snapchat.com/add/gafaraleshe",
+    Icon: SnapchatIcon,
+  },
+  {
+    label: "Discord",
+    handle: "Join server",
+    href: "https://discord.gg/UeuVcW6J5G",
+    Icon: DiscordIcon,
+  },
+  {
+    label: "Facebook",
+    handle: "Gafar Aleshe",
+    href: "https://www.facebook.com/profile.php?id=61577047186240",
+    Icon: FacebookIcon,
+  },
+  {
+    label: "LinkedIn",
+    handle: "gafaraleshe",
+    href: "https://linkedin.com/in/gafaraleshe/",
+    Icon: LinkedInIcon,
+  },
+  {
+    label: "GitHub",
+    handle: "gafaraleshe",
+    href: "https://github.com/gafaraleshe",
+    Icon: GitHubIcon,
+  },
 ];
 
 // ── All feature links from the original site ──
@@ -180,7 +230,7 @@ export default function Links() {
         animate="show"
         className="flex items-center justify-center gap-3 flex-wrap mb-12 max-w-2xl"
       >
-        {socials.map((s) => {
+        {socials.map(s => {
           const Icon = s.Icon;
           return (
             <motion.a
@@ -205,7 +255,7 @@ export default function Links() {
         animate="show"
         className="w-full max-w-2xl space-y-2"
       >
-        {features.map((f) => {
+        {features.map(f => {
           const Icon = f.Icon;
           const isExternal =
             f.href.startsWith("http") || f.href.startsWith("mailto");
@@ -222,7 +272,9 @@ export default function Links() {
                   : "bg-white border-black/[0.06] hover:border-black/[0.15] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
               }`}
             >
-              <div className={`flex-shrink-0 w-5 h-5 ${f.featured ? "text-white" : "text-muted-foreground"}`}>
+              <div
+                className={`flex-shrink-0 w-5 h-5 ${f.featured ? "text-white" : "text-muted-foreground"}`}
+              >
                 <Icon />
               </div>
               <div className="min-w-0 flex-1">
@@ -236,20 +288,18 @@ export default function Links() {
                 {f.description && (
                   <p
                     className={`text-xs truncate mt-0.5 ${
-                      f.featured
-                        ? "text-white/70"
-                        : "text-muted-foreground"
+                      f.featured ? "text-white/70" : "text-muted-foreground"
                     }`}
                   >
                     {f.description}
                   </p>
                 )}
               </div>
-              <div className={`flex-shrink-0 w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-                f.featured
-                  ? "text-white/60"
-                  : "text-muted-foreground/40"
-              }`}>
+              <div
+                className={`flex-shrink-0 w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
+                  f.featured ? "text-white/60" : "text-muted-foreground/40"
+                }`}
+              >
                 <ExternalLinkIcon />
               </div>
             </motion.a>
