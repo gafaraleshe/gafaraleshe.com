@@ -140,7 +140,7 @@ const item = {
 
 export default function Links() {
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center px-6 py-10">
+    <div className="min-h-screen flex flex-col items-center px-6 py-10">
       {/* Back link */}
       <motion.a
         href="/"
