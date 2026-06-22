@@ -320,429 +320,434 @@ function Nav() {
 // ── Main Page ──
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen px-3 py-6 sm:px-6 sm:py-10">
       <Nav />
 
-      {/* ═══ HERO ═══ */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Subtle background accent */}
-        <img
-          src={HERO_BG}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.035] pointer-events-none select-none"
-        />
+      <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-black/[0.06] bg-background shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:rounded-[2rem]">
+        {/* ═══ HERO ═══ */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          {/* Subtle background accent */}
+          <img
+            src={HERO_BG}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.035] pointer-events-none select-none"
+          />
 
-        <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
-          {/* Profile image */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-8"
-          >
-            <img
-              src={PROFILE_IMG}
-              alt="Gafar Aleshe"
-              className="w-24 h-24 rounded-full object-cover mx-auto border-2 border-white shadow-lg"
-            />
-          </motion.div>
+          <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
+            {/* Profile image */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-8"
+            >
+              <img
+                src={PROFILE_IMG}
+                alt="Gafar Aleshe"
+                className="w-24 h-24 rounded-full object-cover mx-auto border-2 border-white shadow-lg"
+              />
+            </motion.div>
 
-          {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              delay: 0.15,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="font-serif text-5xl sm:text-6xl md:text-7xl tracking-tight text-foreground leading-[1.1] mb-6"
-          >
-            Gafar Aleshe
-          </motion.h1>
+            {/* Name */}
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.15,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="font-serif text-5xl sm:text-6xl md:text-7xl tracking-tight text-foreground leading-[1.1] mb-6"
+            >
+              Gafar Aleshe
+            </motion.h1>
 
-          {/* Typewriter subtitle */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
-            className="mb-8"
-          >
-            <TypewriterText
-              words={roles}
-              className="text-lg sm:text-xl text-muted-foreground font-light"
-            />
-          </motion.div>
+            {/* Typewriter subtitle */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="mb-8"
+            >
+              <TypewriterText
+                words={roles}
+                className="text-lg sm:text-xl text-muted-foreground font-light"
+              />
+            </motion.div>
 
-          {/* Tagline */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-base text-muted-foreground leading-relaxed max-w-xl mx-auto mb-10"
-          >
-            I build full-stack web applications using React, Next.js, and
-            Node.js — and I have shipped 25+ live websites for real clients.
-          </motion.p>
+            {/* Tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="text-base text-muted-foreground leading-relaxed max-w-xl mx-auto mb-10"
+            >
+              I build full-stack web applications using React, Next.js, and
+              Node.js — and I have shipped 25+ live websites for real clients.
+            </motion.p>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.65 }}
-            className="flex items-center justify-center gap-4 flex-wrap"
-          >
-            <Magnet>
-              <a
-                href="#experience"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-white rounded-full text-sm font-medium hover:bg-foreground/90 transition-colors"
-              >
-                View My Work
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </Magnet>
-            <Magnet>
-              <a
-                href="mailto:contact@gafaraleshe.com"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
-              >
-                Get in Touch
-              </a>
-            </Magnet>
-            <Magnet>
-              <a
-                href={RESUME_PDF}
-                download="Gafar_Aleshe_Resume.pdf"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
-              >
-                <Download className="w-4 h-4" />
-                Resume
-              </a>
-            </Magnet>
-          </motion.div>
-
-          {/* Location badge */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.85 }}
-            className="mt-10 flex items-center justify-center gap-1.5 text-xs text-muted-foreground"
-          >
-            <MapPin className="w-3 h-3" />
-            <span>Portsmouth, UK</span>
-            <span className="mx-2 text-border">·</span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              Available for opportunities
-            </span>
-          </motion.div>
-        </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <ChevronDown className="w-5 h-5 text-muted-foreground/50" />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ═══ EXPERIENCE ═══ */}
-      <section id="experience" className="py-28 sm:py-36">
-        <div className="max-w-2xl mx-auto px-6">
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
-              Professional Experience
-            </p>
-            <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
-              Where I've worked
-            </h2>
-          </Reveal>
-
-          <div className="space-y-14">
-            {experience.map((exp, i) => (
-              <Reveal key={exp.company} delay={i * 0.08}>
-                <div className="group">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-3">
-                    <div>
-                      <h3 className="text-base font-semibold text-foreground">
-                        {exp.role}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {exp.company} — {exp.location}
-                      </p>
-                    </div>
-                    <span className="font-mono text-xs text-muted-foreground whitespace-nowrap mt-1 sm:mt-0.5">
-                      {exp.period}
-                    </span>
-                  </div>
-                  {exp.bullets.length > 0 && (
-                    <ul className="space-y-2 mt-3">
-                      {exp.bullets.map((b, j) => (
-                        <li
-                          key={j}
-                          className="text-sm text-muted-foreground leading-relaxed pl-4 relative before:content-['→'] before:absolute before:left-0 before:text-border"
-                        >
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {i < experience.length - 1 && (
-                    <div className="mt-10 h-px bg-border" />
-                  )}
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ PROJECTS ═══ */}
-      <section id="projects" className="py-28 sm:py-36 bg-[#fafaf8]">
-        <div className="max-w-2xl mx-auto px-6">
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
-              Featured Projects
-            </p>
-            <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
-              Things I've built
-            </h2>
-          </Reveal>
-
-          <div className="space-y-10">
-            {projects.map((proj, i) => (
-              <Reveal key={proj.title} delay={i * 0.1}>
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.65 }}
+              className="flex items-center justify-center gap-4 flex-wrap"
+            >
+              <Magnet>
                 <a
-                  href={proj.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block group p-6 sm:p-8 bg-white rounded-xl border border-black/[0.06] hover:border-black/[0.12] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300"
+                  href="#experience"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-white rounded-full text-sm font-medium hover:bg-foreground/90 transition-colors"
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                        {proj.title}
-                      </h3>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        {proj.subtitle}
-                      </p>
-                    </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground/40 group-hover:text-primary transition-colors mt-1 flex-shrink-0" />
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                    {proj.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {proj.tags.map(tag => (
-                      <span
-                        key={tag}
-                        className="font-mono text-[10px] px-2.5 py-1 rounded-full bg-black/[0.03] text-muted-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  View My Work
+                  <ArrowRight className="w-4 h-4" />
                 </a>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* CodeSignal */}
-          <Reveal delay={0.2}>
-            <div className="mt-12 p-5 rounded-xl border border-black/[0.06] bg-white">
-              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground mb-2">
-                Technical Assessment
-              </p>
-              <p className="text-sm text-foreground">
-                CodeSignal coding assessment score:{" "}
-                <span className="font-semibold">500 / 600</span> — strong
-                problem-solving and data structures knowledge.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ═══ EDUCATION ═══ */}
-      <section id="education" className="py-28 sm:py-36">
-        <div className="max-w-2xl mx-auto px-6">
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
-              Education
-            </p>
-            <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
-              Academic background
-            </h2>
-          </Reveal>
-
-          <div className="space-y-12">
-            {education.map((edu, i) => (
-              <Reveal key={edu.school} delay={i * 0.1}>
-                <div>
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
-                    <div>
-                      <h3 className="text-base font-semibold text-foreground">
-                        {edu.school}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {edu.degree}
-                      </p>
-                    </div>
-                    <span className="font-mono text-xs text-muted-foreground whitespace-nowrap">
-                      {edu.period}
-                    </span>
-                  </div>
-                  <p className="text-sm text-foreground/80 mt-1">
-                    {edu.detail}
-                  </p>
-                  {edu.modules && (
-                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                      <span className="font-medium">Modules:</span>{" "}
-                      {edu.modules}
-                    </p>
-                  )}
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Certifications */}
-          <Reveal delay={0.15}>
-            <div className="mt-16">
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-6">
-                Certifications
-              </h3>
-              <ul className="space-y-3">
-                {certifications.map((cert, i) => (
-                  <li
-                    key={i}
-                    className="text-sm text-muted-foreground pl-4 relative before:content-['·'] before:absolute before:left-0 before:text-primary before:font-bold"
-                  >
-                    {cert}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ═══ SKILLS ═══ */}
-      <section id="skills" className="py-28 sm:py-36 bg-[#fafaf8]">
-        <div className="max-w-2xl mx-auto px-6">
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
-              Technical Skills
-            </p>
-            <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
-              What I work with
-            </h2>
-          </Reveal>
-
-          <div className="space-y-10">
-            {Object.entries(skills).map(([category, items], i) => (
-              <Reveal key={category} delay={i * 0.1}>
-                <div>
-                  <h3 className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground mb-4">
-                    {category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {items.map(item => (
-                      <span
-                        key={item}
-                        className="px-3.5 py-2 text-sm bg-white border border-black/[0.06] rounded-lg text-foreground hover:border-black/[0.12] hover:shadow-sm transition-all duration-200"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ CONTACT ═══ */}
-      <section id="contact" className="py-28 sm:py-36 relative overflow-hidden">
-        {/* Subtle accent image */}
-        <img
-          src={SECTION_ACCENT}
-          alt=""
-          className="absolute bottom-0 right-0 w-72 opacity-[0.06] pointer-events-none select-none"
-        />
-
-        <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
-          <Reveal>
-            <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-6">
-              Let's build something together.
-            </h2>
-            <p className="text-base text-muted-foreground leading-relaxed max-w-md mx-auto mb-10">
-              I'm always open to new opportunities and collaborations. Feel free
-              to reach out.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.15}>
-            <div className="flex items-center justify-center gap-4 flex-wrap mb-12">
+              </Magnet>
               <Magnet>
                 <a
                   href="mailto:contact@gafaraleshe.com"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-white rounded-full text-sm font-medium hover:bg-foreground/90 transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
                 >
-                  <Mail className="w-4 h-4" />
-                  Email Me
+                  Get in Touch
                 </a>
               </Magnet>
               <Magnet>
                 <a
-                  href="https://github.com/gafaraleshe"
-                  target="_blank"
-                  rel="noreferrer"
+                  href={RESUME_PDF}
+                  download="Gafar_Aleshe_Resume.pdf"
                   className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
                 >
-                  <Github className="w-4 h-4" />
-                  GitHub
+                  <Download className="w-4 h-4" />
+                  Resume
                 </a>
               </Magnet>
-              <Magnet>
-                <a
-                  href="https://linkedin.com/in/gafaraleshe/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
-                >
-                  <Linkedin className="w-4 h-4" />
-                  LinkedIn
-                </a>
-              </Magnet>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+            </motion.div>
 
-      {/* ═══ FOOTER ═══ */}
-      <footer className="py-8 border-t border-border">
-        <div className="max-w-2xl mx-auto px-6 flex items-center justify-between flex-wrap gap-4">
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Gafar Aleshe
-          </p>
-          <a
-            href="/links"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            {/* Location badge */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.85 }}
+              className="mt-10 flex items-center justify-center gap-1.5 text-xs text-muted-foreground"
+            >
+              <MapPin className="w-3 h-3" />
+              <span>Portsmouth, UK</span>
+              <span className="mx-2 text-border">·</span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                Available for opportunities
+              </span>
+            </motion.div>
+          </div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2"
           >
-            All Links →
-          </a>
-        </div>
-      </footer>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <ChevronDown className="w-5 h-5 text-muted-foreground/50" />
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* ═══ EXPERIENCE ═══ */}
+        <section id="experience" className="py-28 sm:py-36">
+          <div className="max-w-2xl mx-auto px-6">
+            <Reveal>
+              <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
+                Professional Experience
+              </p>
+              <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
+                Where I've worked
+              </h2>
+            </Reveal>
+
+            <div className="space-y-14">
+              {experience.map((exp, i) => (
+                <Reveal key={exp.company} delay={i * 0.08}>
+                  <div className="group">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-3">
+                      <div>
+                        <h3 className="text-base font-semibold text-foreground">
+                          {exp.role}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {exp.company} — {exp.location}
+                        </p>
+                      </div>
+                      <span className="font-mono text-xs text-muted-foreground whitespace-nowrap mt-1 sm:mt-0.5">
+                        {exp.period}
+                      </span>
+                    </div>
+                    {exp.bullets.length > 0 && (
+                      <ul className="space-y-2 mt-3">
+                        {exp.bullets.map((b, j) => (
+                          <li
+                            key={j}
+                            className="text-sm text-muted-foreground leading-relaxed pl-4 relative before:content-['→'] before:absolute before:left-0 before:text-border"
+                          >
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {i < experience.length - 1 && (
+                      <div className="mt-10 h-px bg-border" />
+                    )}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ PROJECTS ═══ */}
+        <section id="projects" className="py-28 sm:py-36 bg-[#fafaf8]">
+          <div className="max-w-2xl mx-auto px-6">
+            <Reveal>
+              <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
+                Featured Projects
+              </p>
+              <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
+                Things I've built
+              </h2>
+            </Reveal>
+
+            <div className="space-y-10">
+              {projects.map((proj, i) => (
+                <Reveal key={proj.title} delay={i * 0.1}>
+                  <a
+                    href={proj.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block group p-6 sm:p-8 bg-white rounded-xl border border-black/[0.06] hover:border-black/[0.12] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                          {proj.title}
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {proj.subtitle}
+                        </p>
+                      </div>
+                      <ExternalLink className="w-4 h-4 text-muted-foreground/40 group-hover:text-primary transition-colors mt-1 flex-shrink-0" />
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                      {proj.description}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {proj.tags.map(tag => (
+                        <span
+                          key={tag}
+                          className="font-mono text-[10px] px-2.5 py-1 rounded-full bg-black/[0.03] text-muted-foreground"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+
+            {/* CodeSignal */}
+            <Reveal delay={0.2}>
+              <div className="mt-12 p-5 rounded-xl border border-black/[0.06] bg-white">
+                <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground mb-2">
+                  Technical Assessment
+                </p>
+                <p className="text-sm text-foreground">
+                  CodeSignal coding assessment score:{" "}
+                  <span className="font-semibold">500 / 600</span> — strong
+                  problem-solving and data structures knowledge.
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ═══ EDUCATION ═══ */}
+        <section id="education" className="py-28 sm:py-36">
+          <div className="max-w-2xl mx-auto px-6">
+            <Reveal>
+              <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
+                Education
+              </p>
+              <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
+                Academic background
+              </h2>
+            </Reveal>
+
+            <div className="space-y-12">
+              {education.map((edu, i) => (
+                <Reveal key={edu.school} delay={i * 0.1}>
+                  <div>
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+                      <div>
+                        <h3 className="text-base font-semibold text-foreground">
+                          {edu.school}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {edu.degree}
+                        </p>
+                      </div>
+                      <span className="font-mono text-xs text-muted-foreground whitespace-nowrap">
+                        {edu.period}
+                      </span>
+                    </div>
+                    <p className="text-sm text-foreground/80 mt-1">
+                      {edu.detail}
+                    </p>
+                    {edu.modules && (
+                      <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                        <span className="font-medium">Modules:</span>{" "}
+                        {edu.modules}
+                      </p>
+                    )}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+            {/* Certifications */}
+            <Reveal delay={0.15}>
+              <div className="mt-16">
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-6">
+                  Certifications
+                </h3>
+                <ul className="space-y-3">
+                  {certifications.map((cert, i) => (
+                    <li
+                      key={i}
+                      className="text-sm text-muted-foreground pl-4 relative before:content-['·'] before:absolute before:left-0 before:text-primary before:font-bold"
+                    >
+                      {cert}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ═══ SKILLS ═══ */}
+        <section id="skills" className="py-28 sm:py-36 bg-[#fafaf8]">
+          <div className="max-w-2xl mx-auto px-6">
+            <Reveal>
+              <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-3">
+                Technical Skills
+              </p>
+              <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-16">
+                What I work with
+              </h2>
+            </Reveal>
+
+            <div className="space-y-10">
+              {Object.entries(skills).map(([category, items], i) => (
+                <Reveal key={category} delay={i * 0.1}>
+                  <div>
+                    <h3 className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground mb-4">
+                      {category}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {items.map(item => (
+                        <span
+                          key={item}
+                          className="px-3.5 py-2 text-sm bg-white border border-black/[0.06] rounded-lg text-foreground hover:border-black/[0.12] hover:shadow-sm transition-all duration-200"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ CONTACT ═══ */}
+        <section
+          id="contact"
+          className="py-28 sm:py-36 relative overflow-hidden"
+        >
+          {/* Subtle accent image */}
+          <img
+            src={SECTION_ACCENT}
+            alt=""
+            className="absolute bottom-0 right-0 w-72 opacity-[0.06] pointer-events-none select-none"
+          />
+
+          <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
+            <Reveal>
+              <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-foreground mb-6">
+                Let's build something together.
+              </h2>
+              <p className="text-base text-muted-foreground leading-relaxed max-w-md mx-auto mb-10">
+                I'm always open to new opportunities and collaborations. Feel
+                free to reach out.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.15}>
+              <div className="flex items-center justify-center gap-4 flex-wrap mb-12">
+                <Magnet>
+                  <a
+                    href="mailto:contact@gafaraleshe.com"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-white rounded-full text-sm font-medium hover:bg-foreground/90 transition-colors"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Email Me
+                  </a>
+                </Magnet>
+                <Magnet>
+                  <a
+                    href="https://github.com/gafaraleshe"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
+                  >
+                    <Github className="w-4 h-4" />
+                    GitHub
+                  </a>
+                </Magnet>
+                <Magnet>
+                  <a
+                    href="https://linkedin.com/in/gafaraleshe/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 border border-black/[0.12] rounded-full text-sm font-medium hover:border-black/[0.25] hover:bg-black/[0.02] transition-all"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                    LinkedIn
+                  </a>
+                </Magnet>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ═══ FOOTER ═══ */}
+        <footer className="py-8 border-t border-border">
+          <div className="max-w-2xl mx-auto px-6 flex items-center justify-between flex-wrap gap-4">
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} Gafar Aleshe
+            </p>
+            <a
+              href="/links"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              All Links →
+            </a>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
