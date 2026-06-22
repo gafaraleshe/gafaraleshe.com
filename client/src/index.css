@@ -50,7 +50,7 @@
 
 :root {
   --radius: 0.5rem;
-  --background: oklch(1 0 0);
+  --background: #f5f5f2;
   --foreground: oklch(0.2 0.01 65);
   --card: oklch(0.99 0.002 100);
   --card-foreground: oklch(0.2 0.01 65);
@@ -94,6 +94,12 @@ html {
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* luvswallet.info background: cream base (#f5f5f2) + tiled grain texture */
+    background-color: #f5f5f2;
+    background-image: url("/assets/grain-texture.jpg");
+    background-repeat: repeat;
+    background-position: left top;
+    background-size: 7.5px auto;
     font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
