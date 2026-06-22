@@ -1,12 +1,13 @@
 "use client";
 
 /*
- * Design: Ethereal Open Canvas — Links page
- * Modern clean design with SVG icons, all original links restored
+ * Links — index-card / filing aesthetic on the green graph-paper canvas.
+ * Dotted paper, taped corners, NAME label, photo + paperclip, monospace bio,
+ * a squared social bar, and "LINK:" cards with circular arrow buttons.
  */
 
 import { motion } from "framer-motion";
-import { ArrowLeft, ExternalLink as ExternalLinkIcon } from "lucide-react";
+import { ArrowUpRight, Paperclip } from "lucide-react";
 import {
   InstagramIcon,
   TwitterIcon,
@@ -32,7 +33,6 @@ import {
 
 const PROFILE_IMG = "/assets/gafar-profile.jpg";
 
-// ── All socials from the original site ──
 const socials = [
   {
     label: "Instagram",
@@ -96,230 +96,236 @@ const socials = [
   },
 ];
 
-// ── All feature links from the original site ──
 const features = [
   {
     label: "Subscribe on YouTube",
     description: "Tech tips, reviews, unboxing, tutorials & lifestyle vlogs",
     href: "https://youtube.com/@gafaraleshe?sub_confirmation=1",
     Icon: YouTubeSubscribeIcon,
-    featured: true,
   },
   {
     label: "SHOTBYGAFAR",
     description: "Professional photography & videography",
     href: "https://shotbygafar.com",
     Icon: CameraIcon,
-    featured: false,
   },
   {
     label: "Portfolio Website",
     description: "View my full CV and project portfolio",
     href: "/",
     Icon: GlobeIcon,
-    featured: false,
   },
   {
-    label: "Amazon Prime Student — 6 Month Trial",
-    description: "Get the student deal via my link",
+    label: "Amazon Prime Student",
+    description: "6-month trial via my student link",
     href: "https://www.amazon.co.uk/joinstudent?tag=gafaraleshe08-21",
     Icon: AcademicIcon,
-    featured: false,
   },
   {
     label: "My PC Build Parts",
     description: "Full parts list on kit.co",
     href: "https://kit.co/gafaraleshe/pc-build",
     Icon: ComputerIcon,
-    featured: false,
   },
   {
-    label: "Dehancer — Use code GAFAR10",
-    description: "10% off film-like color grading tools",
+    label: "Dehancer — Code GAFAR10",
+    description: "10% off film-like colour grading tools",
     href: "https://www.dehancer.com/shop",
     Icon: FilmIcon,
-    featured: false,
   },
   {
-    label: "Hostinger UK — Discount Link",
+    label: "Hostinger UK",
     description: "Web hosting deal via my referral",
     href: "https://hostinger.co.uk?referralcode=wjkgafararb2",
     Icon: ServerIcon,
-    featured: false,
   },
   {
     label: "InvoiceFlow API",
     description: "Freelance billing service — Node.js, PostgreSQL, Docker",
     href: "https://github.com/gafaraleshe/InvoiceFlow",
     Icon: CodeIcon,
-    featured: false,
   },
   {
     label: "Gaffy Studios",
     description: "Creative studio website — React, Next.js 15, TypeScript",
     href: "https://github.com/gafaraleshe/gaffystudios",
     Icon: PaletteIcon,
-    featured: false,
   },
   {
     label: "Email Me",
     description: "contact@gafaraleshe.com",
     href: "mailto:contact@gafaraleshe.com",
     Icon: MailIcon,
-    featured: false,
   },
 ];
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.04, delayChildren: 0.1 },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-    },
-  },
-};
+function CornerMarks() {
+  const base = "pointer-events-none absolute h-4 w-4 border-neutral-900/40";
+  return (
+    <>
+      <span className={`${base} left-3 top-3 border-l border-t`} />
+      <span className={`${base} right-3 top-3 border-r border-t`} />
+      <span className={`${base} bottom-3 left-3 border-b border-l`} />
+      <span className={`${base} bottom-3 right-3 border-b border-r`} />
+    </>
+  );
+}
 
 export default function Links() {
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-10 sm:px-6">
-      {/* Back link */}
-      <motion.a
-        href="/"
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4 }}
-        className="self-start max-w-2xl w-full mx-auto mb-8 flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors group"
-      >
-        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-        gafaraleshe.com
-      </motion.a>
-
-      <div className="w-full max-w-2xl rounded-3xl border border-black/[0.06] bg-background px-5 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-8 sm:py-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
+    <div className="min-h-screen px-4 py-6 sm:px-8 sm:py-8">
+      {/* ── Top bar ── */}
+      <header className="mx-auto mb-8 flex max-w-2xl items-center justify-between sm:mb-10">
+        <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-white">
+          Gafar Aleshe
+        </span>
+        <a
+          href="/"
+          className="rounded-full border border-white/30 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white transition-colors hover:bg-white/10"
         >
-          <img
-            src={PROFILE_IMG}
-            alt="Gafar Aleshe"
-            className="w-20 h-20 rounded-full object-cover mx-auto border-2 border-white shadow-lg mb-4"
-          />
-          <h1 className="font-serif text-2xl tracking-tight text-foreground">
-            Gafar Aleshe
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-            Software Engineer · Creative Director · Portsmouth, UK
+          Portfolio ↗
+        </a>
+      </header>
+
+      <main className="mx-auto max-w-2xl">
+        {/* ── Index card ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+            backgroundSize: "16px 16px",
+          }}
+        >
+          <CornerMarks />
+
+          {/* tape pieces */}
+          <span className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 -rotate-3 bg-stone-300/50 shadow-sm" />
+          <span className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 -rotate-12 bg-emerald-300/30 shadow-sm" />
+          <span className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 rotate-6 bg-amber-200/40 shadow-sm" />
+
+          {/* name + photo */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="pt-1">
+              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+                Name:
+              </p>
+              <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-neutral-900 sm:text-6xl">
+                Gafar
+                <br />
+                Aleshe
+              </h1>
+            </div>
+
+            {/* photo card */}
+            <div className="relative w-28 shrink-0 sm:w-36">
+              <Paperclip
+                className="absolute -top-3 right-4 z-10 h-7 w-7 -rotate-[20deg] text-neutral-400"
+                strokeWidth={1.5}
+              />
+              <div className="overflow-hidden rounded-sm border border-neutral-900/10 bg-white shadow-sm">
+                <img
+                  src={PROFILE_IMG}
+                  alt="Gafar Aleshe"
+                  className="aspect-square w-full object-cover"
+                />
+                <div className="border-t border-neutral-900/10 px-2 py-1.5">
+                  <p className="font-mono text-[9px] font-semibold uppercase leading-tight tracking-wide text-neutral-900">
+                    Gafar Aleshe
+                  </p>
+                  <div className="mt-0.5 flex items-center justify-between gap-1">
+                    <p className="font-mono text-[7.5px] uppercase leading-tight tracking-wide text-neutral-500">
+                      Software Engineer
+                    </p>
+                    <p className="font-mono text-[9px] text-neutral-400">
+                      2026
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* bio */}
+          <p className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700">
+            Full-Stack Developer &amp; Creative Director. I build robust,
+            scalable, user-centric web apps — from REST APIs to e-commerce — and
+            direct creative media that grows audiences.
           </p>
+
+          {/* footer */}
+          <div className="mt-8 flex items-center justify-end border-t border-dashed border-neutral-900/15 pt-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500">
+              Made with <span className="text-red-500">♥</span> in Portsmouth
+            </p>
+          </div>
         </motion.div>
 
-        {/* Social icons row */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="flex items-center justify-center gap-3 flex-wrap mb-12 max-w-2xl"
-        >
+        {/* ── Social bar ── */}
+        <div className="mt-4 grid grid-cols-5 overflow-hidden rounded-md border-l border-t border-neutral-900/10 bg-[#f4f3ec]">
           {socials.map(s => {
             const Icon = s.Icon;
             return (
-              <motion.a
+              <a
                 key={s.label}
-                variants={item}
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
-                className="w-10 h-10 rounded-lg border border-black/[0.08] flex items-center justify-center text-foreground hover:border-black/[0.2] hover:bg-black/[0.04] hover:scale-110 transition-all duration-200"
                 title={`${s.label} — ${s.handle}`}
+                className="flex aspect-square items-center justify-center border-b border-r border-neutral-900/10 text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
               >
                 <Icon />
-              </motion.a>
+              </a>
             );
           })}
-        </motion.div>
+        </div>
 
-        {/* Feature cards */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="w-full max-w-2xl space-y-2"
-        >
-          {features.map(f => {
+        {/* ── Link cards ── */}
+        <div className="mt-4 space-y-3 pb-14">
+          {features.map((f, i) => {
             const Icon = f.Icon;
             const isExternal =
               f.href.startsWith("http") || f.href.startsWith("mailto");
             return (
               <motion.a
                 key={f.label}
-                variants={item}
                 href={f.href}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noreferrer" : undefined}
-                className={`flex items-center gap-4 px-5 py-4 rounded-xl border transition-all duration-200 group ${
-                  f.featured
-                    ? "bg-foreground text-white border-foreground hover:bg-foreground/90 shadow-sm"
-                    : "bg-white border-black/[0.06] hover:border-black/[0.15] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
-                }`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.04 * i }}
+                className="group flex items-stretch overflow-hidden rounded-md border border-neutral-900/10 bg-[#f4f3ec] shadow-sm transition-shadow hover:shadow-md"
               >
-                <div
-                  className={`flex-shrink-0 w-5 h-5 ${f.featured ? "text-white" : "text-muted-foreground"}`}
-                >
+                <div className="flex w-20 shrink-0 items-center justify-center bg-neutral-900 text-white sm:w-24">
                   <Icon />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p
-                    className={`text-sm font-medium truncate ${
-                      f.featured ? "text-white" : "text-foreground"
-                    }`}
-                  >
-                    {f.label}
-                  </p>
-                  {f.description && (
-                    <p
-                      className={`text-xs truncate mt-0.5 ${
-                        f.featured ? "text-white/70" : "text-muted-foreground"
-                      }`}
-                    >
-                      {f.description}
+                <div className="flex min-w-0 flex-1 items-center justify-between gap-3 px-4 py-3">
+                  <div className="min-w-0">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                      Link:
                     </p>
-                  )}
-                </div>
-                <div
-                  className={`flex-shrink-0 w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-                    f.featured ? "text-white/60" : "text-muted-foreground/40"
-                  }`}
-                >
-                  <ExternalLinkIcon />
+                    <p className="truncate font-display text-base font-bold uppercase tracking-tight text-neutral-900">
+                      {f.label}
+                    </p>
+                    {f.description && (
+                      <p className="truncate font-mono text-[11px] text-neutral-500">
+                        {f.description}
+                      </p>
+                    )}
+                  </div>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-neutral-900/20 text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white">
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
                 </div>
               </motion.a>
             );
           })}
-        </motion.div>
-
-        {/* Footer */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="mt-12 text-xs text-muted-foreground"
-        >
-          © {new Date().getFullYear()} Gafar Aleshe
-        </motion.p>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

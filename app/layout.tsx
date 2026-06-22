@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, Geist_Mono, Inter } from "next/font/google";
+import { Archivo, DM_Serif_Display, Geist_Mono, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import "./globals.css";
@@ -7,6 +7,13 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+  variable: "--font-archivo",
   display: "swap",
 });
 
@@ -50,7 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${dmSerif.variable} ${geistMono.variable}`}
+        className={`${inter.variable} ${archivo.variable} ${dmSerif.variable} ${geistMono.variable}`}
       >
         <Providers>{children}</Providers>
         <Analytics />
