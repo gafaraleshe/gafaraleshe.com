@@ -4,7 +4,10 @@
     {
       "name": "Vite Dev Server",
       "runtimeExecutable": "/bin/zsh",
-      "runtimeArgs": ["-c", "export NVM_DIR=\"$HOME/.nvm\" && . \"$NVM_DIR/nvm.sh\" && pnpm dev"],
+      "runtimeArgs": [
+        "-c",
+        "export NVM_DIR=\"$HOME/.nvm\" && . \"$NVM_DIR/nvm.sh\" && pnpm dev"
+      ],
       "port": 3000
     }
   ]

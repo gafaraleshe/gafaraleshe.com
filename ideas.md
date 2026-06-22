@@ -8,6 +8,7 @@
 **Design Movement**: International Typographic Style (Swiss Design) meets modern web
 
 **Core Principles**:
+
 1. Typography as the primary visual element — large, bold type creates hierarchy without decoration
 2. Extreme whitespace — content breathes in an ocean of white, creating a gallery-like atmosphere
 3. Grid precision — invisible but strict underlying grid governs all placement
@@ -18,6 +19,7 @@
 **Layout Paradigm**: Asymmetric editorial layout. Hero text flush-left with massive scale. Sections use alternating alignment — some left-anchored, some right-anchored, creating a rhythmic reading experience as you scroll. No centered blocks.
 
 **Signature Elements**:
+
 1. Oversized monospace counters/numbers marking each section
 2. Thin horizontal rules that animate in from left on scroll
 3. A subtle dot-grid pattern that appears faintly in the background of certain sections
@@ -40,6 +42,7 @@
 **Design Movement**: Neo-Brutalism with a clean white canvas — raw energy meets open space
 
 **Core Principles**:
+
 1. Bold structural honesty — visible borders, sharp edges, no rounded corners
 2. Kinetic typography — text that moves, rotates, and demands attention
 3. Contrast through scale — extreme size differences between elements
@@ -50,6 +53,7 @@
 **Layout Paradigm**: Broken grid with overlapping elements. Hero section uses the full viewport with text that breaks conventional alignment. Experience cards stack vertically with alternating indentation. The page feels like a deconstructed poster.
 
 **Signature Elements**:
+
 1. Rotating text elements (role titles that spin on scroll)
 2. Thick black borders (3-4px) on cards and sections
 3. Text that extends beyond its container, creating intentional overflow
@@ -72,6 +76,7 @@
 **Design Movement**: Digital Zen — inspired by Japanese Ma (negative space) philosophy and antigravity.google's airy openness
 
 **Core Principles**:
+
 1. Ma (間) — the space between elements is as important as the elements themselves
 2. Effortless elegance — nothing feels forced or cluttered
 3. Progressive disclosure — information reveals itself gently as you explore
@@ -82,6 +87,7 @@
 **Layout Paradigm**: Centered but spacious. Hero takes the full viewport with a single name and a typing/morphing subtitle. Below, sections are separated by vast whitespace (200-300px gaps). Content blocks are narrow (max 680px) creating a reading-column feel. Cards use subtle borders that appear on hover.
 
 **Signature Elements**:
+
 1. A gentle cursor-following gradient orb (very subtle, almost invisible) that adds life to the white space
 2. Text that fades and blurs in from below as you scroll (BlurText effect from React Bits)
 3. Thin animated underlines on links that draw themselves
