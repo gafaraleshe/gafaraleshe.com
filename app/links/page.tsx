@@ -179,12 +179,20 @@ export default function Links() {
         <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-white">
           Gafar Aleshe
         </span>
-        <a
-          href="/"
-          className="rounded-full border border-white/30 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white transition-colors hover:bg-white/10"
-        >
-          Portfolio ↗
-        </a>
+        <div className="flex items-center gap-1">
+          <a
+            href="/auth/login"
+            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
+          >
+            Sign in
+          </a>
+          <a
+            href="/"
+            className="rounded-full border border-white/30 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white transition-colors hover:bg-white/10"
+          >
+            Portfolio ↗
+          </a>
+        </div>
       </header>
 
       <main className="mx-auto max-w-2xl">
