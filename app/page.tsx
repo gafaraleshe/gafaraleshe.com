@@ -64,7 +64,7 @@ const projects = [
     description:
       "RESTful API with 15+ endpoints for invoice generation, client management, PDF export, and automated VAT calculation. OAuth 2.0 auth, Zod validation, rate limiting, CI/CD with GitHub Actions, Dockerised.",
     tags: ["Node.js", "Express", "PostgreSQL", "Drizzle ORM", "Docker"],
-    href: "https://github.com/gafaraleshe/InvoiceFlow",
+    href: "https://invoice-flow-teal.vercel.app/",
   },
   {
     title: "Gaffy Studios",

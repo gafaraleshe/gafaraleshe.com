@@ -142,7 +142,7 @@ const features = [
   {
     label: "InvoiceFlow API",
     description: "Freelance billing service — Node.js, PostgreSQL, Docker",
-    href: "https://github.com/gafaraleshe/InvoiceFlow",
+    href: "https://invoice-flow-teal.vercel.app/",
     Icon: CodeIcon,
   },
   {
