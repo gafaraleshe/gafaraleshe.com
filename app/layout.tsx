@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, DM_Serif_Display, Geist_Mono, Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import "./globals.css";
+
+// Clerk activates only once its publishable key is set.
+const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,13 +58,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const tree = (
+    <>
+      <Providers>{children}</Providers>
+      <Analytics />
+    </>
+  );
+
   return (
     <html lang="en">
       <body
         className={`${inter.variable} ${archivo.variable} ${dmSerif.variable} ${geistMono.variable}`}
       >
-        <Providers>{children}</Providers>
-        <Analytics />
+        {clerkEnabled ? <ClerkProvider>{tree}</ClerkProvider> : tree}
       </body>
     </html>
   );
