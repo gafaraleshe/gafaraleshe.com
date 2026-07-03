@@ -181,10 +181,10 @@ export default function Links() {
         </span>
         <div className="flex items-center gap-1">
           <a
-            href="/auth/login"
+            href="/shop"
             className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
           >
-            Sign in
+            Shop
           </a>
           <a
             href="/"
