@@ -30,6 +30,7 @@ import {
   PaletteIcon,
   MailIcon,
 } from "@/components/LinkIcons";
+import NewsletterForm from "../newsletter-form";
 
 const PROFILE_IMG = "/assets/gafar-profile.jpg";
 
@@ -333,6 +334,8 @@ export default function Links() {
             );
           })}
         </div>
+
+        <NewsletterForm />
       </main>
     </div>
   );
