@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.5.12",
+    "@polar-sh/checkout": "^0.4.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@vercel/analytics": "^2.0.1",

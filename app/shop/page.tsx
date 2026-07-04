@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
+import PolarEmbed from "./polar-embed";
 
 export const metadata: Metadata = {
   title: "Shop — Gafar Aleshe",
@@ -79,6 +80,7 @@ export default function ShopPage() {
       </header>
 
       <main className="mx-auto max-w-3xl pb-14">
+        <PolarEmbed />
         {/* Intro card */}
         <section
           className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
@@ -130,6 +132,12 @@ export default function ShopPage() {
                     target={isLive ? "_blank" : undefined}
                     rel={isLive ? "noreferrer" : undefined}
                     aria-disabled={!isLive}
+                    {...(isLive
+                      ? {
+                          "data-polar-checkout": "",
+                          "data-polar-checkout-theme": "light",
+                        }
+                      : {})}
                     className={`mt-4 flex items-center justify-center gap-2 rounded-md px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide transition-opacity ${
                       isLive
                         ? "bg-neutral-900 text-white hover:opacity-90"
