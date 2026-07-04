@@ -41,11 +41,7 @@ export async function POST(request: Request) {
   if (error) {
     console.error("Resend contacts.create error:", error);
     return NextResponse.json(
-      {
-        error: "Couldn't subscribe right now — please try again.",
-        detail: error.message,
-        name: error.name,
-      },
+      { error: "Couldn't subscribe right now — please try again." },
       { status: 502 }
     );
   }
