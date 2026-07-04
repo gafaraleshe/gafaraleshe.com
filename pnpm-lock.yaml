@@ -46,6 +46,9 @@ importers:
       react-dom:
         specifier: ^19.2.1
         version: 19.2.1(react@19.2.1)
+      resend:
+        specifier: ^6.17.1
+        version: 6.17.1
       sonner:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -1302,6 +1305,12 @@ packages:
         integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==,
       }
 
+  postal-mime@2.7.4:
+    resolution:
+      {
+        integrity: sha512-0WdnFQYUrPGGTFu1uOqD2s7omwua8xaeYGdO6rb88oD5yJ/4pPHDA4sdWqfD8wQVfCny563n/HQS7zTFft+f/g==,
+      }
+
   postcss@8.4.31:
     resolution:
       {
@@ -1357,6 +1366,18 @@ packages:
         integrity: sha512-DGrYcCWK7tvYMnWh79yrPHt+vdx9tY+1gPZa7nJQtO/p8bLTDaHp4dzwEhQB7pZ4Xe3ok4XKuEPrVuc+wlpkmw==,
       }
     engines: { node: ">=0.10.0" }
+
+  resend@6.17.1:
+    resolution:
+      {
+        integrity: sha512-QhHHIRPPM9Tq2uilWmNF8C8kd6nLkUmiFgDQCt1v4eR4o+6p86qrK+Vn12jnAs0jR8Gf6ABdxI18/90LGQ7GVA==,
+      }
+    engines: { node: ">=20" }
+    peerDependencies:
+      "@react-email/render": "*"
+    peerDependenciesMeta:
+      "@react-email/render":
+        optional: true
 
   scheduler@0.27.0:
     resolution:
@@ -2111,6 +2132,8 @@ snapshots:
 
   picocolors@1.1.1: {}
 
+  postal-mime@2.7.4: {}
+
   postcss@8.4.31:
     dependencies:
       nanoid: 3.3.11
@@ -2145,6 +2168,11 @@ snapshots:
   react-is@16.13.1: {}
 
   react@19.2.1: {}
+
+  resend@6.17.1:
+    dependencies:
+      postal-mime: 2.7.4
+      standardwebhooks: 1.0.0
 
   scheduler@0.27.0: {}
 

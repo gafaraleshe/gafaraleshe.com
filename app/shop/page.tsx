@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import PolarEmbed from "./polar-embed";
+import NewsletterForm from "../newsletter-form";
 
 export const metadata: Metadata = {
   title: "Shop — Gafar Aleshe",
@@ -158,6 +159,8 @@ export default function ShopPage() {
             );
           })}
         </div>
+
+        <NewsletterForm />
 
         {/* Footer */}
         <div className="mx-auto mt-6 flex max-w-3xl items-center justify-between px-1">
