@@ -30,6 +30,7 @@ import {
   Mail,
   Paperclip,
 } from "lucide-react";
+import { InstagramFeed } from "@/components/InstagramFeed";
 
 const PROFILE_IMG = "/assets/gafar-profile.jpg";
 const RESUME_PDF = "/assets/Gafar_Aleshe_Resume.pdf";
@@ -597,6 +598,11 @@ export default function Home() {
             </motion.a>
           </div>
         </SectionCard>
+
+        {/* ── Instagram embed ── */}
+        <Reveal>
+          <InstagramFeed />
+        </Reveal>
 
         {/* ── Footer ── */}
         <div className="mx-auto mt-6 flex max-w-2xl items-center justify-between px-1">
