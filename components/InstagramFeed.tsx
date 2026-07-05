@@ -3,32 +3,34 @@
 /*
  * Instagram section for Gafar Aleshe (@gafaraleshe).
  *
- * Two layers:
- *   1. Official Instagram embeds — paste post / reel permalinks into POSTS
- *      below and they render live via Instagram's embed.js.
- *   2. A branded fallback gallery grid + follow CTA that always shows, so the
- *      section never looks empty while POSTS is being filled in.
- *
- * To add real posts: open a post on instagram.com/gafaraleshe, copy its URL
- * (e.g. https://www.instagram.com/p/XXXXXXXXXXX/) and add it to POSTS.
+ * Pulls the latest posts automatically from `/api/instagram` (backed by the
+ * Instagram Graph API — see lib/instagram.ts). When a token is configured the
+ * grid shows real thumbnails linking to each post; until then, or on any
+ * error, it falls back to a branded gradient grid + follow CTA so the section
+ * never looks empty.
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { InstagramIcon } from "@/components/LinkIcons";
 
 const INSTAGRAM_URL = "https://instagram.com/gafaraleshe";
 const HANDLE = "@gafaraleshe";
 
-// Paste real post / reel permalinks here to render them as live embeds.
-const POSTS: string[] = [];
+type IgPost = {
+  id: string;
+  permalink: string;
+  image: string;
+  caption: string;
+  type: string;
+};
 
 const DOTTED = {
   backgroundImage: "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
   backgroundSize: "16px 16px",
 } as const;
 
-// Branded placeholder tiles for the fallback grid — cinematic gradients that
-// match the graph-paper aesthetic and link straight to the profile.
+// Gradient tiles for the fallback grid — cinematic, on-brand, and shown until
+// the live feed loads (or if no token is configured yet).
 const TILES = [
   "from-neutral-700 to-neutral-900",
   "from-emerald-700 to-neutral-900",
@@ -38,42 +40,29 @@ const TILES = [
   "from-rose-700 to-neutral-900",
 ];
 
-declare global {
-  interface Window {
-    instgrm?: { Embeds: { process: () => void } };
-  }
-}
-
-function InstagramEmbeds() {
-  useEffect(() => {
-    if (POSTS.length === 0) return;
-    const SRC = "https://www.instagram.com/embed.js";
-    const existing = document.querySelector<HTMLScriptElement>(
-      `script[src="${SRC}"]`,
-    );
-    if (existing) {
-      window.instgrm?.Embeds.process();
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = SRC;
-    script.async = true;
-    script.onload = () => window.instgrm?.Embeds.process();
-    document.body.appendChild(script);
-  }, []);
-
-  if (POSTS.length === 0) return null;
-
+function PostGrid({ posts }: { posts: IgPost[] }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      {POSTS.map(url => (
-        <blockquote
-          key={url}
-          className="instagram-media"
-          data-instgrm-permalink={url}
-          data-instgrm-version="14"
-          style={{ margin: 0, width: "100%" }}
-        />
+    <div className="grid grid-cols-3 gap-1 overflow-hidden rounded-md border border-neutral-900/10 bg-neutral-900/10 p-1">
+      {posts.slice(0, 6).map(p => (
+        <a
+          key={p.id}
+          href={p.permalink}
+          target="_blank"
+          rel="noreferrer"
+          className="group relative block aspect-square overflow-hidden bg-neutral-200"
+          title={p.caption?.slice(0, 120) || HANDLE}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={p.image}
+            alt={p.caption?.slice(0, 80) || `Post by ${HANDLE}`}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <span className="absolute inset-0 flex items-center justify-center bg-neutral-900/0 text-white opacity-0 transition-all group-hover:bg-neutral-900/40 group-hover:opacity-100">
+            <InstagramIcon />
+          </span>
+        </a>
       ))}
     </div>
   );
@@ -98,15 +87,6 @@ function FallbackGrid() {
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-between gap-2 bg-white px-4 py-3">
-        <span className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900">
-          <InstagramIcon />
-          {HANDLE}
-        </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500 transition-colors group-hover:text-neutral-900">
-          View feed →
-        </span>
-      </div>
     </a>
   );
 }
@@ -129,7 +109,25 @@ function InstagramIconLarge() {
 }
 
 export function InstagramFeed() {
-  const hasPosts = POSTS.length > 0;
+  const [posts, setPosts] = useState<IgPost[] | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/instagram")
+      .then(r => (r.ok ? r.json() : { posts: [] }))
+      .then((d: { posts?: IgPost[] }) => {
+        if (active) setPosts(d.posts ?? []);
+      })
+      .catch(() => {
+        if (active) setPosts([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const hasPosts = posts !== null && posts.length > 0;
+
   return (
     <section
       id="instagram"
@@ -161,7 +159,22 @@ export function InstagramFeed() {
         Follow {HANDLE} for the latest.
       </p>
 
-      {hasPosts ? <InstagramEmbeds /> : <FallbackGrid />}
+      {hasPosts ? <PostGrid posts={posts!} /> : <FallbackGrid />}
+
+      <div className="mt-1 flex items-center justify-between gap-2 rounded-b-md bg-white px-4 py-3">
+        <span className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900">
+          <InstagramIcon />
+          {HANDLE}
+        </span>
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500 transition-colors hover:text-neutral-900"
+        >
+          View feed →
+        </a>
+      </div>
     </section>
   );
 }
