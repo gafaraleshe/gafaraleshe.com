@@ -64,7 +64,7 @@ const projects = [
     description:
       "After Effects–style animation control for DaVinci Resolve — one-click motion presets, a bezier easing curve editor, and speed-ramp tools — paired with fully on-device auto-subtitling (no cloud processing), a swappable local AI layer for editing assistance, and a paid enterprise API with MCP integration for AI agents. Currently in the planning and early build phase.",
     tags: ["Lua / Fusion", "Python", "Tauri", "Whisper", "Local AI"],
-    href: "https://github.com/gafaraleshe/hermite",
+    href: "https://hermite-pearl.vercel.app",
   },
   {
     title: "InvoiceFlow API",
