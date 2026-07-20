@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/motion";
 import PolarEmbed from "./polar-embed";
 import NewsletterForm from "../newsletter-form";
 
@@ -83,30 +84,32 @@ export default function ShopPage() {
       <main className="mx-auto max-w-3xl pb-14">
         <PolarEmbed />
         {/* Intro card */}
-        <section
-          className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
-          style={DOTTED}
-        >
-          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
-            Shop:
-          </p>
-          <h1 className="mt-1 font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-neutral-900 sm:text-5xl">
-            LUTs &amp; Presets
-          </h1>
-          <p className="mt-4 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700">
-            Colour grades and presets from my work as SHOTBYGAFAR. Instant
-            download after checkout — use them across photo and video.
-          </p>
-        </section>
+        <Reveal y={24}>
+          <section
+            className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
+            style={DOTTED}
+          >
+            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+              Shop:
+            </p>
+            <h1 className="mt-1 font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-neutral-900 sm:text-5xl">
+              LUTs &amp; Presets
+            </h1>
+            <p className="mt-4 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700">
+              Colour grades and presets from my work as SHOTBYGAFAR. Instant
+              download after checkout — use them across photo and video.
+            </p>
+          </section>
+        </Reveal>
 
         {/* Products */}
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {products.map(p => {
+          {products.map((p, i) => {
             const isLive = p.checkoutUrl.startsWith("http");
             return (
+              <Reveal key={p.name} delay={i * 0.08} className="flex">
               <div
-                key={p.name}
-                className="flex flex-col overflow-hidden rounded-md border border-neutral-900/10 bg-[#f4f3ec] shadow-sm"
+                className="flex w-full flex-col overflow-hidden rounded-md border border-neutral-900/10 bg-[#f4f3ec] shadow-sm"
                 style={DOTTED}
               >
                 <div
@@ -156,6 +159,7 @@ export default function ShopPage() {
                   </a>
                 </div>
               </div>
+              </Reveal>
             );
           })}
         </div>
