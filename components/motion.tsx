@@ -109,6 +109,52 @@ export function MotionProvider({ children }: { children: ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }
 
+// Letter-by-letter name reveal with a motion-blur trail, like the big
+// "LOVE VICTOR" type-in on luvswallet.info. Each character slides in from
+// the right, blurred, on a staggered delay.
+export function NameReveal({
+  lines,
+  delay = 0.9,
+  stagger = 0.07,
+  blur = 8,
+}: {
+  lines: string[];
+  delay?: number;
+  stagger?: number;
+  blur?: number;
+}) {
+  let index = 0;
+  return (
+    <>
+      <span className="sr-only">{lines.join(" ")}</span>
+      <span aria-hidden>
+      {lines.map(line => (
+        <span key={line} className="block">
+          {Array.from(line).map((ch, ci) => {
+            const d = delay + index++ * stagger;
+            return (
+              <motion.span
+                key={ci}
+                className="inline-block"
+                initial={{ opacity: 0, x: 14, filter: `blur(${blur}px)` }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  filter: "blur(0px)",
+                  transition: { type: "tween", delay: d, duration: 0.32, ease: EASE },
+                }}
+              >
+                {ch === " " ? " " : ch}
+              </motion.span>
+            );
+          })}
+        </span>
+      ))}
+      </span>
+    </>
+  );
+}
+
 // Scroll-triggered reveal wrapper for whole sections.
 export function Reveal({
   children,
