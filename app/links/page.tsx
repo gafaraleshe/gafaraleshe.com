@@ -8,6 +8,7 @@
 
 import { motion } from "framer-motion";
 import {
+  NameReveal,
   chipPop,
   clipDrop,
   fadeIn,
@@ -192,7 +193,7 @@ export default function Links() {
         className="mx-auto mb-8 flex max-w-2xl items-center justify-between sm:mb-10"
       >
         <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-white">
-          Gafar Aleshe
+          <NameReveal lines={["Gafar Aleshe"]} delay={1.3} stagger={0.04} blur={4} />
         </span>
         <div className="flex items-center gap-1">
           <a
@@ -244,9 +245,7 @@ export default function Links() {
                 Name:
               </p>
               <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-neutral-900 sm:text-6xl">
-                Gafar
-                <br />
-                Aleshe
+                <NameReveal lines={["Gafar", "Aleshe"]} />
               </h1>
             </motion.div>
 
