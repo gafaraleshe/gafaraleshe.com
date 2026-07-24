@@ -6,7 +6,21 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import {
+  NameReveal,
+  Reveal,
+  chipPop,
+  clipDrop,
+  fadeIn,
+  flipIn,
+  heroRise,
+  hoverLift,
+  hoverPop,
+  rise,
+  riseInView,
+  tapePop,
+} from "@/components/motion";
 import {
   ArrowUpRight,
   Download,
@@ -178,28 +192,6 @@ function TypewriterText({ words }: { words: string[] }) {
   );
 }
 
-// ── Scroll reveal ──
-function Reveal({
-  children,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 function CornerMarks() {
   const base = "pointer-events-none absolute h-4 w-4 border-neutral-900/40";
   return (
@@ -247,9 +239,12 @@ export default function Home() {
   return (
     <div className="min-h-screen px-4 py-6 sm:px-8 sm:py-8">
       {/* ── Top bar ── */}
-      <header className="mx-auto mb-8 flex max-w-2xl items-center justify-between sm:mb-10">
+      <motion.header
+        {...fadeIn(0.15)}
+        className="mx-auto mb-8 flex max-w-2xl items-center justify-between sm:mb-10"
+      >
         <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-white">
-          Gafar Aleshe
+          <NameReveal lines={["Gafar Aleshe"]} delay={1.3} stagger={0.04} blur={4} />
         </span>
         <div className="flex items-center gap-1">
           <a
@@ -265,42 +260,52 @@ export default function Home() {
             Links ↗
           </a>
         </div>
-      </header>
+      </motion.header>
 
       <main className="mx-auto max-w-2xl pb-14">
         {/* ── Identity card ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          {...heroRise}
           className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
           style={DOTTED}
         >
           <CornerMarks />
-          <span className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 -rotate-3 bg-stone-300/50 shadow-sm" />
-          <span className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 -rotate-12 bg-emerald-300/30 shadow-sm" />
-          <span className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 rotate-6 bg-amber-200/40 shadow-sm" />
+          <motion.span
+            {...tapePop(-3, 0.9)}
+            className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 bg-stone-300/50 shadow-sm"
+          />
+          <motion.span
+            {...tapePop(-12, 1.05)}
+            className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 bg-emerald-300/30 shadow-sm"
+          />
+          <motion.span
+            {...tapePop(6, 1.2)}
+            className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 bg-amber-200/40 shadow-sm"
+          />
 
           <div className="flex items-start justify-between gap-4">
-            <div className="pt-1">
+            <motion.div {...rise(0.35)} className="pt-1">
               <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
                 Name:
               </p>
               <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-neutral-900 sm:text-6xl">
-                Gafar
-                <br />
-                Aleshe
+                <NameReveal lines={["Gafar", "Aleshe"]} />
               </h1>
               <p className="mt-3 font-mono text-[13px] text-neutral-600">
                 <TypewriterText words={roles} />
               </p>
-            </div>
+            </motion.div>
 
-            <div className="relative w-28 shrink-0 sm:w-36">
-              <Paperclip
-                className="absolute -top-3 right-4 z-10 h-7 w-7 -rotate-[20deg] text-neutral-400"
-                strokeWidth={1.5}
-              />
+            <motion.div {...flipIn(0.7)} className="relative w-28 shrink-0 sm:w-36">
+              <motion.span
+                {...clipDrop(1.35)}
+                className="absolute -top-3 right-4 z-10"
+              >
+                <Paperclip
+                  className="h-7 w-7 -rotate-[20deg] text-neutral-400"
+                  strokeWidth={1.5}
+                />
+              </motion.span>
               <div className="overflow-hidden rounded-sm border border-neutral-900/10 bg-white shadow-sm">
                 <img
                   src={PROFILE_IMG}
@@ -321,39 +326,48 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          <p className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700">
+          <motion.p
+            {...rise(0.5)}
+            className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700"
+          >
             Full-Stack Developer &amp; Creative Director. I build full-stack web
             apps with React, Next.js and Node.js — 25+ live sites shipped — and
             direct creative media that grows audiences.
-          </p>
+          </motion.p>
 
-          <div className="mt-6 flex flex-wrap gap-2">
-            <a
+          <motion.div {...rise(0.65)} className="mt-6 flex flex-wrap gap-2">
+            <motion.a
+              {...hoverPop}
               href="#experience"
               className="rounded-md bg-neutral-900 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
             >
               View Work
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              {...hoverPop}
               href="mailto:contact@gafaraleshe.com"
               className="rounded-md border border-neutral-900/20 bg-white px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
             >
               Email
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              {...hoverPop}
               href={RESUME_PDF}
               download="Gafar_Aleshe_Resume.pdf"
               className="flex items-center gap-1.5 rounded-md border border-neutral-900/20 bg-white px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
             >
               <Download className="h-3.5 w-3.5" />
               Resume
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
 
-          <div className="mt-8 flex items-center justify-between border-t border-dashed border-neutral-900/15 pt-3">
+          <motion.div
+            {...rise(0.8)}
+            className="mt-8 flex items-center justify-between border-t border-dashed border-neutral-900/15 pt-3"
+          >
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500">
               <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Available · Portsmouth, UK
@@ -361,7 +375,7 @@ export default function Home() {
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
               Made with <span className="text-red-500">♥</span>
             </p>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* ── Experience ── */}
@@ -372,7 +386,8 @@ export default function Home() {
         >
           <div className="space-y-6">
             {experience.map((exp, i) => (
-              <div
+              <motion.div
+                {...riseInView(i * 0.12)}
                 key={exp.company}
                 className={
                   i > 0
@@ -405,7 +420,7 @@ export default function Home() {
                     ))}
                   </ul>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
         </SectionCard>
@@ -413,8 +428,10 @@ export default function Home() {
         {/* ── Projects ── */}
         <SectionCard id="projects" label="Projects:" title="Things I've built">
           <div className="space-y-3">
-            {projects.map(p => (
-              <a
+            {projects.map((p, i) => (
+              <motion.a
+                {...riseInView(i * 0.1)}
+                {...hoverLift}
                 key={p.title}
                 href={p.href}
                 target="_blank"
@@ -450,7 +467,7 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
-              </a>
+              </motion.a>
             ))}
           </div>
           <p className="mt-4 font-mono text-[11px] text-neutral-500">
@@ -466,8 +483,8 @@ export default function Home() {
           title="Academic background"
         >
           <div className="space-y-6">
-            {education.map(edu => (
-              <div key={edu.school}>
+            {education.map((edu, i) => (
+              <motion.div {...riseInView(i * 0.12)} key={edu.school}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-display text-lg font-bold uppercase tracking-tight text-neutral-900">
@@ -489,7 +506,7 @@ export default function Home() {
                     Modules: {edu.modules}
                   </p>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -519,13 +536,14 @@ export default function Home() {
                   {category}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {items.map(item => (
-                    <span
+                  {items.map((item, i) => (
+                    <motion.span
+                      {...chipPop(i * 0.04)}
                       key={item}
                       className="rounded-md border border-neutral-900/15 bg-white px-2.5 py-1 font-mono text-[11px] text-neutral-700"
                     >
                       {item}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
@@ -544,14 +562,16 @@ export default function Home() {
             any time.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
-            <a
+            <motion.a
+              {...hoverPop}
               href="mailto:contact@gafaraleshe.com"
               className="flex items-center gap-2 rounded-md bg-neutral-900 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
             >
               <Mail className="h-4 w-4" />
               Email Me
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              {...hoverPop}
               href="https://github.com/gafaraleshe"
               target="_blank"
               rel="noreferrer"
@@ -559,8 +579,9 @@ export default function Home() {
             >
               <Github className="h-4 w-4" />
               GitHub
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              {...hoverPop}
               href="https://linkedin.com/in/gafaraleshe/"
               target="_blank"
               rel="noreferrer"
@@ -568,7 +589,7 @@ export default function Home() {
             >
               <Linkedin className="h-4 w-4" />
               LinkedIn
-            </a>
+            </motion.a>
           </div>
         </SectionCard>
 
