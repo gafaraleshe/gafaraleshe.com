@@ -104,6 +104,15 @@ export const hoverPop: MotionProps = {
   transition: springy(0, 0.55, 0.4),
 };
 
+// Polaroid photo hover, adapted from luvswallet.info's image swap: the card
+// tilts and grows on a spring while the photo blooms from black-and-white
+// into colour (pair with `group` on the card and grayscale classes on the img).
+export const photoHover: MotionProps = {
+  whileHover: { scale: 1.05, rotate: 2 },
+  whileTap: { scale: 0.97 },
+  transition: springy(0, 0.5, 0.5),
+};
+
 // Honour prefers-reduced-motion for every animation below the provider.
 export function MotionProvider({ children }: { children: ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;

@@ -15,6 +15,7 @@ import {
   flipIn,
   heroRise,
   hoverLift,
+  photoHover,
   rise,
   riseInView,
   tapePop,
@@ -250,7 +251,11 @@ export default function Links() {
             </motion.div>
 
             {/* photo card */}
-            <motion.div {...flipIn(0.7)} className="relative w-28 shrink-0 sm:w-36">
+            <motion.div
+              {...flipIn(0.7)}
+              {...photoHover}
+              className="group relative w-28 shrink-0 sm:w-36"
+            >
               <motion.span
                 {...clipDrop(1.35)}
                 className="absolute -top-3 right-4 z-10"
@@ -264,7 +269,7 @@ export default function Links() {
                 <img
                   src={PROFILE_IMG}
                   alt="Gafar Aleshe"
-                  className="aspect-square w-full object-cover"
+                  className="aspect-square w-full object-cover grayscale transition duration-500 group-hover:grayscale-0"
                 />
                 <div className="border-t border-neutral-900/10 px-2 py-1.5">
                   <p className="font-mono text-[9px] font-semibold uppercase leading-tight tracking-wide text-neutral-900">
