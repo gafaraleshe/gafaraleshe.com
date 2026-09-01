@@ -38,12 +38,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Gafar Aleshe — Software Engineer",
   description:
-    "Gafar Aleshe — Full-Stack Developer, Creative Director, and Computer Science student. Building web applications with React, Next.js, and Node.js.",
+    "Gafar Aleshe — Software Engineer working across full-stack and frontend development. TypeScript, React, Next.js, Node.js and accessible interfaces. Portsmouth, United Kingdom.",
   icons: { icon: "/favicon.svg" },
   openGraph: {
     title: "Gafar Aleshe — Software Engineer",
     description:
-      "Full-Stack Developer & Creative Director based in Portsmouth, UK.",
+      "Software Engineer — Full-Stack & Frontend Development. Portsmouth, United Kingdom.",
   },
 };
 

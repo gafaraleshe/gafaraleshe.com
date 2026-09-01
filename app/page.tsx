@@ -15,7 +15,6 @@ import {
   fadeIn,
   flipIn,
   heroRise,
-  hoverLift,
   photoHover,
   hoverPop,
   rise,
@@ -29,11 +28,18 @@ import {
   Linkedin,
   Mail,
   Paperclip,
+  Phone,
 } from "lucide-react";
 import { InstagramFeed } from "@/components/InstagramFeed";
 
 const PROFILE_IMG = "/assets/gafar-profile.jpg";
 const RESUME_PDF = "/assets/Gafar_Aleshe_Resume.pdf";
+
+const EMAIL = "gafaraleshe2411@gmail.com";
+const PHONE = "+44 7882 655541";
+const PHONE_HREF = "tel:+447882655541";
+const GITHUB_URL = "https://www.github.com/gafaraleshe";
+const LINKEDIN_URL = "https://www.linkedin.com/in/gafaraleshe/";
 
 const DOTTED = {
   backgroundImage: "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
@@ -43,76 +49,65 @@ const DOTTED = {
 // ── Data ──
 const roles = [
   "Software Engineer",
-  "Full-Stack Developer",
-  "Creative Director",
-  "UI Enthusiast",
-  "Founder",
+  "Full-Stack Development",
+  "Frontend Development",
 ];
 
 const experience = [
   {
-    role: "Web Developer & Creative Director",
-    company: "Fronttoback Development",
+    role: "Frontend Developer & Creative Director",
+    company: "FrontToBack Development",
+    companyHref: "https://fronttobackdev.com/",
     location: "Portsmouth, UK",
     period: "Dec 2022 – Present",
     bullets: [
-      "Built and deployed 25+ responsive websites using JavaScript, HTML, CSS, WordPress and modern web tools.",
-      "Implemented e-commerce and SEO features (WooCommerce, Yoast) contributing to 3.2× lead growth and 98% client retention.",
-      "Directed social media content strategy, scaling Instagram to 13K+ and TikTok to 70K+ followers with 10M+ views.",
-    ],
-  },
-  {
-    role: "Founder & Creative Director",
-    company: "SHOTBYGAFAR",
-    location: "Portsmouth, UK",
-    period: "Aug 2024 – Present",
-    bullets: [
-      "Professional photography and videography services for brands, events, and businesses — 25+ clients, five-figure revenue.",
-      "Managed end-to-end client workflow from briefs to delivery, handling scheduling, contracts, and revisions.",
+      "Built and deployed 25+ responsive websites and web applications using JavaScript, HTML, CSS, PHP and WordPress, translating client requirements into production-ready user interfaces.",
+      "Developed responsive, mobile-first interfaces with reusable components, semantic HTML, accessible forms and cross-browser compatibility, improving usability across devices.",
+      "Implemented e-commerce functionality and SEO integrations using WooCommerce and Yoast, contributing to 3.2× lead growth while maintaining 98% client retention.",
+      "Collaborated with clients and team members through Slack and Trello, gathering requirements, managing development tasks and delivering projects against deadlines.",
+      "Led digital content and web strategy across client projects, contributing to growth of 13K+ Instagram and 70K+ TikTok followers and generating 10M+ views.",
     ],
   },
 ];
 
 const projects = [
   {
-    title: "Hermite",
-    subtitle: "DaVinci Resolve Plugin · In Progress",
-    description:
-      "After Effects–style animation control for DaVinci Resolve — one-click motion presets, a bezier easing curve editor, and speed-ramp tools — paired with fully on-device auto-subtitling (no cloud processing), a swappable local AI layer for editing assistance, and a paid enterprise API with MCP integration for AI agents. Currently in the planning and early build phase.",
-    tags: ["Lua / Fusion", "Python", "Tauri", "Whisper", "Local AI"],
-    href: "https://hermite-pearl.vercel.app",
-  },
-  {
-    title: "InvoiceFlow API",
-    subtitle: "Freelance Billing Service",
-    description:
-      "RESTful API with 15+ endpoints for invoice generation, client management, PDF export, and automated VAT calculation. OAuth 2.0 auth, Zod validation, rate limiting, CI/CD with GitHub Actions, Dockerised.",
-    tags: ["Node.js", "Express", "PostgreSQL", "Drizzle ORM", "Docker"],
-    href: "https://invoice-flow-teal.vercel.app/",
-  },
-  {
-    title: "Gaffy Studios",
-    subtitle: "Creative Studio Website",
-    description:
-      "Custom portfolio and e-commerce platform with a design system ensuring consistency across 10+ pages. Integrated Lemon Squeezy API for digital product sales. 95+ Lighthouse score.",
-    tags: ["React", "Next.js 15", "TypeScript", "Tailwind CSS v4"],
-    href: "https://github.com/gafaraleshe/gaffystudios",
+    title: "Hermite Labs",
+    subtitle: "Full-Stack SaaS Platform for Creative Businesses",
+    bullets: [
+      "Architected and built a multi-product SaaS platform using TypeScript, React, Next.js and Python, structured as a monorepo spanning web, backend, API and desktop components.",
+      "Developed HermiteFlow, a CRM and invoicing application supporting client management, invoice generation, business workflows and automated UK VAT calculations.",
+      "Built reusable, responsive UI components with semantic HTML, accessible forms, keyboard navigation, visible focus states and WCAG-aligned design patterns.",
+      "Implemented type-safe API workflows, authentication, role-based access control and validated data handling across shared platform services.",
+      "Integrated Jest, Cypress and axe-core for automated testing and accessibility regression detection, complemented by manual keyboard and VoiceOver testing.",
+    ],
+    tags: [
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Python",
+      "Jest",
+      "Cypress",
+      "axe-core",
+    ],
+    links: [
+      { label: "hermitelabs.com", href: "https://hermitelabs.com" },
+      { label: "flow.hermitelabs.com", href: "https://flow.hermitelabs.com" },
+    ],
   },
 ];
 
 const education = [
   {
-    school: "University of Essex",
+    school: "University of Essex Online",
     degree: "BSc Computer Science",
-    detail: "Predicted: First Class Honours (80% average)",
-    period: "Expected 2028",
+    period: "Expected Graduation: 2028",
     modules:
-      "Data Structures & Algorithms, Object-Oriented Programming, Software Engineering, Database Systems, Computer Networks, Computer Security",
+      "Data Structures & Algorithms, Object-Oriented Programming, Web Application Development, Data Modelling",
   },
   {
     school: "Havant and South Downs College",
-    degree: "A Levels",
-    detail: "Computer Science, Mathematics, Further Maths",
+    degree: "A Levels: Computer Science, Mathematics, Further Maths",
     period: "Sept 2023 – Jul 2025",
     modules: "",
   },
@@ -120,33 +115,43 @@ const education = [
 
 const certifications = [
   "CS50x: Introduction to Computer Science — HarvardX (edX)",
+  "Full-Stack Web Development Bootcamp & Python Pro Bootcamp — Dr Angela Yu",
   "AWS Cloud Practitioner Essentials — AWS (edX)",
-  "AWS Educate Introduction to Generative AI",
-  "Python Pro Bootcamp — Dr Angela Yu",
-  "Full-Stack Web Development Bootcamp — Dr Angela Yu",
+  "AWS Educate: Introduction to Generative AI",
 ];
 
 const skills: Record<string, string[]> = {
-  "Languages & Frameworks": [
-    "JavaScript",
-    "TypeScript",
-    "Python",
+  Languages: ["TypeScript", "JavaScript", "Python"],
+  Frontend: [
     "React",
     "Next.js",
-    "Node.js",
-    "Express.js",
+    "Vue",
+    "Redux",
     "Tailwind CSS",
+    "Vite",
+    "HTML5",
+    "CSS3",
+    "TanStack Query",
+    "React Hook Form",
   ],
-  "Tools & Infrastructure": [
-    "PostgreSQL",
-    "Supabase",
-    "Drizzle ORM",
-    "Git",
-    "GitHub",
+  Backend: ["Node.js", "REST APIs", "JWT", "OAuth 2.0", "WebAuthn"],
+  Data: ["PostgreSQL", "MongoDB", "SQL", "Drizzle ORM", "Zod"],
+  "DevOps & Testing": [
+    "AWS",
     "Docker",
-    "REST APIs",
-    "OAuth 2.0",
+    "Git",
+    "GitHub Actions",
     "CI/CD",
+    "Jest",
+    "Cypress",
+    "TDD",
+  ],
+  Accessibility: [
+    "Semantic HTML",
+    "WCAG",
+    "ARIA",
+    "Keyboard Accessibility",
+    "Screen Readers",
   ],
 };
 
@@ -246,7 +251,12 @@ export default function Home() {
         className="mx-auto mb-8 flex max-w-2xl items-center justify-between sm:mb-10"
       >
         <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-white">
-          <NameReveal lines={["Gafar Aleshe"]} delay={1.3} stagger={0.04} blur={4} />
+          <NameReveal
+            lines={["Gafar Aleshe"]}
+            delay={1.3}
+            stagger={0.04}
+            blur={4}
+          />
         </span>
         <div className="flex items-center gap-1">
           <a
@@ -339,9 +349,10 @@ export default function Home() {
             {...rise(0.5)}
             className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700"
           >
-            Full-Stack Developer &amp; Creative Director. I build full-stack web
-            apps with React, Next.js and Node.js — 25+ live sites shipped — and
-            direct creative media that grows audiences.
+            Software engineer working across full-stack and frontend
+            development. I build accessible, type-safe web applications with
+            TypeScript, React, Next.js and Node.js — 25+ responsive sites and
+            apps shipped.
           </motion.p>
 
           <motion.div {...rise(0.65)} className="mt-6 flex flex-wrap gap-2">
@@ -354,7 +365,7 @@ export default function Home() {
             </motion.a>
             <motion.a
               {...hoverPop}
-              href="mailto:contact@gafaraleshe.com"
+              href={`mailto:${EMAIL}`}
               className="rounded-md border border-neutral-900/20 bg-white px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
             >
               Email
@@ -376,7 +387,7 @@ export default function Home() {
           >
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500">
               <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Available · Portsmouth, UK
+              Portsmouth, United Kingdom
             </p>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
               Made with <span className="text-red-500">♥</span>
@@ -407,7 +418,15 @@ export default function Home() {
                       {exp.role}
                     </h3>
                     <p className="font-mono text-[12px] text-neutral-500">
-                      {exp.company} · {exp.location}
+                      <a
+                        href={exp.companyHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline decoration-neutral-900/20 underline-offset-2 transition-colors hover:text-neutral-900"
+                      >
+                        {exp.company}
+                      </a>{" "}
+                      · {exp.location}
                     </p>
                   </div>
                   <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-wide text-neutral-400">
@@ -435,34 +454,30 @@ export default function Home() {
         <SectionCard id="projects" label="Projects:" title="Things I've built">
           <div className="space-y-3">
             {projects.map((p, i) => (
-              <motion.a
+              <motion.div
                 {...riseInView(i * 0.1)}
-                {...hoverLift}
                 key={p.title}
-                href={p.href}
-                target="_blank"
-                rel="noreferrer"
-                className="group block rounded-md border border-neutral-900/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+                className="rounded-md border border-neutral-900/10 bg-white p-5 shadow-sm"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
-                      Project
-                    </p>
-                    <h3 className="font-display text-lg font-bold uppercase tracking-tight text-neutral-900">
-                      {p.title}
-                    </h3>
-                    <p className="font-mono text-[11px] text-neutral-500">
-                      {p.subtitle}
-                    </p>
-                  </div>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-neutral-900/20 text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white">
-                    <ArrowUpRight className="h-4 w-4" />
-                  </span>
-                </div>
-                <p className="mt-3 font-mono text-[12px] leading-relaxed text-neutral-600">
-                  {p.description}
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                  Project
                 </p>
+                <h3 className="font-display text-lg font-bold uppercase tracking-tight text-neutral-900">
+                  {p.title}
+                </h3>
+                <p className="font-mono text-[11px] text-neutral-500">
+                  {p.subtitle}
+                </p>
+                <ul className="mt-3 space-y-1.5">
+                  {p.bullets.map((b, j) => (
+                    <li
+                      key={j}
+                      className="relative pl-4 font-mono text-[12px] leading-relaxed text-neutral-600 before:absolute before:left-0 before:text-neutral-400 before:content-['→']"
+                    >
+                      {b}
+                    </li>
+                  ))}
+                </ul>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {p.tags.map(tag => (
                     <span
@@ -473,13 +488,24 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
-              </motion.a>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.links.map(link => (
+                    <motion.a
+                      {...hoverPop}
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-1.5 rounded-md border border-neutral-900/20 px-3 py-1.5 font-mono text-[11px] text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
+                    >
+                      {link.label}
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </motion.a>
+                  ))}
+                </div>
+              </motion.div>
             ))}
           </div>
-          <p className="mt-4 font-mono text-[11px] text-neutral-500">
-            CodeSignal coding assessment:{" "}
-            <span className="font-semibold text-neutral-900">500 / 600</span>
-          </p>
         </SectionCard>
 
         {/* ── Education ── */}
@@ -500,13 +526,10 @@ export default function Home() {
                       {edu.degree}
                     </p>
                   </div>
-                  <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-wide text-neutral-400">
+                  <span className="text-right font-mono text-[10px] uppercase tracking-wide text-neutral-400">
                     {edu.period}
                   </span>
                 </div>
-                <p className="mt-1 font-mono text-[12px] text-neutral-700">
-                  {edu.detail}
-                </p>
                 {edu.modules && (
                   <p className="mt-1 font-mono text-[11px] leading-relaxed text-neutral-500">
                     Modules: {edu.modules}
@@ -567,10 +590,47 @@ export default function Home() {
             I'm always open to new opportunities and collaborations. Reach out
             any time.
           </p>
+          <dl className="mt-5 space-y-2 border-t border-dashed border-neutral-900/15 pt-4">
+            <div className="flex flex-wrap items-baseline gap-x-3">
+              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                Email
+              </dt>
+              <dd className="font-mono text-[12px] text-neutral-700">
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="underline decoration-neutral-900/20 underline-offset-2 transition-colors hover:text-neutral-900"
+                >
+                  {EMAIL}
+                </a>
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline gap-x-3">
+              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                Phone
+              </dt>
+              <dd className="font-mono text-[12px] text-neutral-700">
+                <a
+                  href={PHONE_HREF}
+                  className="underline decoration-neutral-900/20 underline-offset-2 transition-colors hover:text-neutral-900"
+                >
+                  {PHONE}
+                </a>
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline gap-x-3">
+              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                Location
+              </dt>
+              <dd className="font-mono text-[12px] text-neutral-700">
+                Portsmouth, United Kingdom
+              </dd>
+            </div>
+          </dl>
+
           <div className="mt-5 flex flex-wrap gap-2">
             <motion.a
               {...hoverPop}
-              href="mailto:contact@gafaraleshe.com"
+              href={`mailto:${EMAIL}`}
               className="flex items-center gap-2 rounded-md bg-neutral-900 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
             >
               <Mail className="h-4 w-4" />
@@ -578,7 +638,15 @@ export default function Home() {
             </motion.a>
             <motion.a
               {...hoverPop}
-              href="https://github.com/gafaraleshe"
+              href={PHONE_HREF}
+              className="flex items-center gap-2 rounded-md border border-neutral-900/20 bg-white px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
+            >
+              <Phone className="h-4 w-4" />
+              Call
+            </motion.a>
+            <motion.a
+              {...hoverPop}
+              href={GITHUB_URL}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2 rounded-md border border-neutral-900/20 bg-white px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
@@ -588,7 +656,7 @@ export default function Home() {
             </motion.a>
             <motion.a
               {...hoverPop}
-              href="https://linkedin.com/in/gafaraleshe/"
+              href={LINKEDIN_URL}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2 rounded-md border border-neutral-900/20 bg-white px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
