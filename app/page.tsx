@@ -68,6 +68,17 @@ const experience = [
       "Led digital content and web strategy across client projects, contributing to growth of 13K+ Instagram and 70K+ TikTok followers and generating 10M+ views.",
     ],
   },
+  {
+    role: "Founder & Creative Director",
+    company: "SHOTBYGAFAR",
+    companyHref: "https://shotbygafar.com",
+    location: "Portsmouth, UK",
+    period: "Aug 2024 – Present",
+    bullets: [
+      "Professional photography and videography services for brands, events, and businesses — 25+ clients, five-figure revenue.",
+      "Managed end-to-end client workflow from briefs to delivery, handling scheduling, contracts, and revisions.",
+    ],
+  },
 ];
 
 const projects = [
