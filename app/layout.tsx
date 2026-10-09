@@ -5,6 +5,13 @@ import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import "./globals.css";
 
+import NewsletterPopup from "@/components/NewsletterPopup";
+
+// Inside your existing layout's body:
+<body>
+  {children}
+  <NewsletterPopup />
+</body>
 // Clerk activates only once its publishable key is set.
 const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
