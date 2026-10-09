@@ -174,7 +174,7 @@ const features = [
 ];
 
 function CornerMarks() {
-  const base = "pointer-events-none absolute h-4 w-4 border-neutral-900/40";
+  const base = "pointer-events-none absolute h-4 w-4 border-ink/40";
   return (
     <>
       <span className={`${base} left-3 top-3 border-l border-t`} />
@@ -194,7 +194,12 @@ export default function Links() {
         className="mx-auto mb-8 flex max-w-2xl items-center justify-between sm:mb-10"
       >
         <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-white">
-          <NameReveal lines={["Gafar Aleshe"]} delay={1.3} stagger={0.04} blur={4} />
+          <NameReveal
+            lines={["Gafar Aleshe"]}
+            delay={1.3}
+            stagger={0.04}
+            blur={4}
+          />
         </span>
         <div className="flex items-center gap-1">
           <a
@@ -216,36 +221,37 @@ export default function Links() {
         {/* ── Index card ── */}
         <motion.div
           {...heroRise}
-          className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
+          className="relative rounded-md border border-ink/10 bg-paper px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
           style={{
             backgroundImage:
-              "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+              "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
             backgroundSize: "16px 16px",
           }}
         >
           <CornerMarks />
 
-          {/* tape pieces */}
+          {/* tape pieces — translucent tape reads far brighter on near-black
+              paper than on cream, so it's dimmed in the dark theme */}
           <motion.span
             {...tapePop(-3, 0.9)}
-            className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 bg-stone-300/50 shadow-sm"
+            className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 bg-stone-300/50 shadow-sm dark:bg-stone-300/30"
           />
           <motion.span
             {...tapePop(-12, 1.05)}
-            className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 bg-emerald-300/30 shadow-sm"
+            className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 bg-emerald-300/30 shadow-sm dark:bg-emerald-300/20"
           />
           <motion.span
             {...tapePop(6, 1.2)}
-            className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 bg-amber-200/40 shadow-sm"
+            className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 bg-amber-200/40 shadow-sm dark:bg-amber-200/25"
           />
 
           {/* name + photo */}
           <div className="flex items-start justify-between gap-4">
             <motion.div {...rise(0.35)} className="pt-1">
-              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
                 Name:
               </p>
-              <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-neutral-900 sm:text-6xl">
+              <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
                 <NameReveal lines={["Gafar", "Aleshe"]} />
               </h1>
             </motion.div>
@@ -261,27 +267,25 @@ export default function Links() {
                 className="absolute -top-3 right-4 z-10"
               >
                 <Paperclip
-                  className="h-7 w-7 -rotate-[20deg] text-neutral-400"
+                  className="h-7 w-7 -rotate-[20deg] text-ink-faint"
                   strokeWidth={1.5}
                 />
               </motion.span>
-              <div className="overflow-hidden rounded-sm border border-neutral-900/10 bg-white shadow-sm">
+              <div className="overflow-hidden rounded-sm border border-ink/10 bg-tile shadow-sm">
                 <img
                   src={PROFILE_IMG}
                   alt="Gafar Aleshe"
                   className="aspect-square w-full object-cover grayscale transition duration-500 group-hover:grayscale-0"
                 />
-                <div className="border-t border-neutral-900/10 px-2 py-1.5">
-                  <p className="font-mono text-[9px] font-semibold uppercase leading-tight tracking-wide text-neutral-900">
+                <div className="border-t border-ink/10 px-2 py-1.5">
+                  <p className="font-mono text-[9px] font-semibold uppercase leading-tight tracking-wide text-ink">
                     Gafar Aleshe
                   </p>
                   <div className="mt-0.5 flex items-center justify-between gap-1">
-                    <p className="font-mono text-[7.5px] uppercase leading-tight tracking-wide text-neutral-500">
+                    <p className="font-mono text-[7.5px] uppercase leading-tight tracking-wide text-ink-muted">
                       Software Engineer
                     </p>
-                    <p className="font-mono text-[9px] text-neutral-400">
-                      2026
-                    </p>
+                    <p className="font-mono text-[9px] text-ink-faint">2026</p>
                   </div>
                 </div>
               </div>
@@ -291,7 +295,7 @@ export default function Links() {
           {/* bio */}
           <motion.p
             {...rise(0.5)}
-            className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700"
+            className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-ink-soft"
           >
             Full-Stack Developer &amp; Creative Director. I build robust,
             scalable, user-centric web apps — from REST APIs to e-commerce — and
@@ -301,18 +305,21 @@ export default function Links() {
           {/* footer */}
           <motion.div
             {...rise(0.65)}
-            className="mt-8 flex items-center justify-end border-t border-dashed border-neutral-900/15 pt-3"
+            className="mt-8 flex items-center justify-end border-t border-dashed border-ink/15 pt-3"
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
               Made with <span className="text-red-500">♥</span> in Portsmouth
             </p>
           </motion.div>
         </motion.div>
 
         {/* ── Social bar ── */}
-        <div className="mt-4 grid grid-cols-5 overflow-hidden rounded-md border-l border-t border-neutral-900/10 bg-[#f4f3ec]">
+        <div className="mt-4 grid grid-cols-5 overflow-hidden rounded-md border-l border-t border-ink/10 bg-paper">
           {socials.map((s, i) => {
             const Icon = s.Icon;
+            // The YouTube glyph's play triangle is hard-coded white; in the
+            // dark theme the icon itself turns light, so the triangle is
+            // recoloured to read as a cut-out (paper at rest, ink on hover).
             return (
               <motion.a
                 {...chipPop(0.4 + i * 0.05)}
@@ -323,7 +330,7 @@ export default function Links() {
                 target="_blank"
                 rel="noreferrer"
                 title={`${s.label} — ${s.handle}`}
-                className="flex aspect-square items-center justify-center border-b border-r border-neutral-900/10 text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
+                className="flex aspect-square items-center justify-center border-b border-r border-ink/10 text-ink transition-colors hover:bg-ink hover:text-paper dark:[&_polygon]:fill-paper dark:hover:[&_polygon]:fill-ink"
               >
                 <Icon />
               </motion.a>
@@ -345,26 +352,26 @@ export default function Links() {
                 href={f.href}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noreferrer" : undefined}
-                className="group flex items-stretch overflow-hidden rounded-md border border-neutral-900/10 bg-[#f4f3ec] shadow-sm transition-shadow hover:shadow-md"
+                className="group flex items-stretch overflow-hidden rounded-md border border-ink/10 bg-paper shadow-sm transition-shadow hover:shadow-md"
               >
-                <div className="flex w-20 shrink-0 items-center justify-center bg-neutral-900 text-white sm:w-24">
+                <div className="flex w-20 shrink-0 items-center justify-center bg-ink text-paper sm:w-24">
                   <Icon />
                 </div>
                 <div className="flex min-w-0 flex-1 items-center justify-between gap-3 px-4 py-3">
                   <div className="min-w-0">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
                       Link:
                     </p>
-                    <p className="truncate font-display text-base font-bold uppercase tracking-tight text-neutral-900">
+                    <p className="truncate font-display text-base font-bold uppercase tracking-tight text-ink">
                       {f.label}
                     </p>
                     {f.description && (
-                      <p className="truncate font-mono text-[11px] text-neutral-500">
+                      <p className="truncate font-mono text-[11px] text-ink-muted">
                         {f.description}
                       </p>
                     )}
                   </div>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-neutral-900/20 text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors group-hover:bg-ink group-hover:text-paper">
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </div>

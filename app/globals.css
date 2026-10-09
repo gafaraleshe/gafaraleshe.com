@@ -44,9 +44,81 @@
   --font-mono: var(--font-geist-mono), monospace;
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-display: var(--font-archivo), system-ui, sans-serif;
+  --font-cine: var(--font-bebas), "Arial Narrow", sans-serif;
   --color-sage: oklch(0.55 0.06 155);
   --color-sage-light: oklch(0.92 0.03 155);
   --color-warm-gray: oklch(0.35 0.01 65);
+  /* Site palette — see the light/dark values below. */
+  --color-canvas: var(--canvas);
+  --color-paper: var(--paper);
+  --color-tile: var(--tile);
+  --color-tile-hover: var(--tile-hover);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-dim: var(--ink-dim);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-scrim: var(--scrim);
+  --color-heat-0: var(--heat-0);
+  --color-heat-1: var(--heat-1);
+  --color-heat-2: var(--heat-2);
+  --color-heat-3: var(--heat-3);
+  --color-heat-4: var(--heat-4);
+}
+
+/* Site palette. Light is the original green graph paper with cream index
+   cards; dark keeps every layout and swaps in deep green and near-black
+   paper. Light values equal the Tailwind classes they replaced (ink =
+   neutral-900, ink-soft = 700, ink-dim = 600, ink-muted = 500, ink-faint =
+   400, tile = white), so the light theme renders exactly as before.
+     canvas  page background behind the cards (+ its grid lines)
+     paper   index cards (+ their dot texture)
+     tile    white chips, buttons and inner cards that sit on paper
+     ink     text, borders (ink/10…ink/40) and dark buttons (bg-ink text-paper)
+     heat    GitHub contribution levels 0–4 */
+:root {
+  --canvas: #095e4e;
+  --canvas-grid: rgb(255 255 255 / 0.06);
+  --paper: #f4f3ec;
+  --paper-dot: rgb(0 0 0 / 0.07);
+  --tile: #ffffff;
+  --tile-hover: oklch(98.5% 0 0);
+  --ink: oklch(20.5% 0 0);
+  --ink-soft: oklch(37.1% 0 0);
+  --ink-dim: oklch(43.9% 0 0);
+  --ink-muted: oklch(55.6% 0 0);
+  --ink-faint: oklch(70.8% 0 0);
+  --scrim: rgb(6 63 53 / 0.8);
+  --heat-0: rgb(23 23 23 / 0.07);
+  --heat-1: #a7d7c0;
+  --heat-2: #5eae8a;
+  --heat-3: #23805f;
+  --heat-4: #095e4e;
+}
+
+.dark {
+  --canvas: #052b23;
+  --canvas-grid: rgb(255 255 255 / 0.05);
+  --paper: #0f1412;
+  --paper-dot: rgb(255 255 255 / 0.055);
+  --tile: #171d1b;
+  --tile-hover: #1e2522;
+  --ink: #ecebe4;
+  --ink-soft: #cfcdc6;
+  --ink-dim: #b3b1aa;
+  --ink-muted: #8f8d87;
+  --ink-faint: #6d6c67;
+  --scrim: rgb(2 20 16 / 0.85);
+  --heat-0: rgb(255 255 255 / 0.06);
+  --heat-1: #0f4535;
+  --heat-2: #186c53;
+  --heat-3: #26a17b;
+  --heat-4: #54e0b0;
+  /* shadcn tokens used by the toaster and tooltips */
+  --foreground: #ecebe4;
+  --popover: #171d1b;
+  --popover-foreground: #ecebe4;
+  --border: rgb(255 255 255 / 0.1);
 }
 
 :root {
@@ -95,11 +167,12 @@ html {
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    /* luvswallet.info canvas: deep green (#095e4e) with a faint graph-paper grid */
-    background-color: #095e4e;
+    /* luvswallet.info canvas: deep green (#095e4e) with a faint graph-paper
+       grid; the dark theme darkens both via --canvas / --canvas-grid. */
+    background-color: var(--canvas);
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      linear-gradient(var(--canvas-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--canvas-grid) 1px, transparent 1px);
     background-size: 32px 32px;
     background-position: center top;
     background-attachment: fixed;
@@ -148,6 +221,12 @@ html {
       max-width: 1200px;
     }
   }
+}
+
+/* Cinema pages swap the green graph paper for plain black, including the
+   overscroll area around the page. */
+body:has(.cinema-root) {
+  background: #000;
 }
 
 /* Custom selection color */

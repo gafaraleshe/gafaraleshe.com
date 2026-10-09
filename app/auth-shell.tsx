@@ -15,20 +15,20 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
 export function NotConfigured() {
   return (
     <div
-      className="w-full max-w-sm rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-7 py-9 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)]"
+      className="w-full max-w-sm rounded-md border border-ink/10 bg-paper px-7 py-9 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)]"
       style={{
         backgroundImage:
-          "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+          "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
         backgroundSize: "16px 16px",
       }}
     >
-      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
         Accounts
       </p>
-      <h1 className="mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-neutral-900">
+      <h1 className="mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-ink">
         Coming soon
       </h1>
-      <p className="mt-3 font-mono text-[12px] leading-relaxed text-neutral-600">
+      <p className="mt-3 font-mono text-[12px] leading-relaxed text-ink-dim">
         Sign-in isn&apos;t switched on yet. Add the Clerk keys
         (NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY) to enable
         accounts.

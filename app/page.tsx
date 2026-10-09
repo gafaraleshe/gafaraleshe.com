@@ -31,6 +31,7 @@ import {
   Phone,
 } from "lucide-react";
 import { InstagramFeed } from "@/components/InstagramFeed";
+import { PathChooser } from "@/components/PathChooser";
 
 const PROFILE_IMG = "/assets/gafar-profile.jpg";
 const RESUME_PDF = "/assets/Gafar_Aleshe_Resume.pdf";
@@ -42,7 +43,7 @@ const GITHUB_URL = "https://www.github.com/gafaraleshe";
 const LINKEDIN_URL = "https://www.linkedin.com/in/gafaraleshe/";
 
 const DOTTED = {
-  backgroundImage: "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+  backgroundImage: "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
   backgroundSize: "16px 16px",
 } as const;
 
@@ -204,14 +205,14 @@ function TypewriterText({ words }: { words: string[] }) {
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-        className="ml-0.5 inline-block h-[0.9em] w-[2px] translate-y-[2px] bg-neutral-900"
+        className="ml-0.5 inline-block h-[0.9em] w-[2px] translate-y-[2px] bg-ink"
       />
     </span>
   );
 }
 
 function CornerMarks() {
-  const base = "pointer-events-none absolute h-4 w-4 border-neutral-900/40";
+  const base = "pointer-events-none absolute h-4 w-4 border-ink/40";
   return (
     <>
       <span className={`${base} left-3 top-3 border-l border-t`} />
@@ -237,13 +238,13 @@ function SectionCard({
     <Reveal>
       <section
         id={id}
-        className="relative mt-4 scroll-mt-6 rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-7 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.45)] sm:px-8 sm:py-9"
+        className="relative mt-4 scroll-mt-6 rounded-md border border-ink/10 bg-paper px-6 py-7 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.45)] sm:px-8 sm:py-9"
         style={DOTTED}
       >
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
           {label}
         </p>
-        <h2 className="mb-6 mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-3xl">
+        <h2 className="mb-6 mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
           {title}
         </h2>
         {children}
@@ -254,6 +255,19 @@ function SectionCard({
 
 // ── Page ──
 export default function Home() {
+  // Bumped when the visitor picks "Code" so the entrance animations that
+  // played behind the chooser run again in plain view.
+  const [entrance, setEntrance] = useState(0);
+
+  return (
+    <>
+      <PathChooser onCode={() => setEntrance(n => n + 1)} />
+      <HomeContent key={entrance} />
+    </>
+  );
+}
+
+function HomeContent() {
   return (
     <div className="min-h-screen px-4 py-6 sm:px-8 sm:py-8">
       {/* ── Top bar ── */}
@@ -270,6 +284,12 @@ export default function Home() {
           />
         </span>
         <div className="flex items-center gap-1">
+          <a
+            href="/cinema"
+            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
+          >
+            Cinema
+          </a>
           <a
             href="/shop"
             className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
@@ -289,32 +309,34 @@ export default function Home() {
         {/* ── Identity card ── */}
         <motion.div
           {...heroRise}
-          className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
+          className="relative rounded-md border border-ink/10 bg-paper px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
           style={DOTTED}
         >
           <CornerMarks />
+          {/* Translucent tape reads far brighter on near-black paper than on
+              cream, so it's dimmed in the dark theme. */}
           <motion.span
             {...tapePop(-3, 0.9)}
-            className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 bg-stone-300/50 shadow-sm"
+            className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 bg-stone-300/50 shadow-sm dark:bg-stone-300/30"
           />
           <motion.span
             {...tapePop(-12, 1.05)}
-            className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 bg-emerald-300/30 shadow-sm"
+            className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 bg-emerald-300/30 shadow-sm dark:bg-emerald-300/20"
           />
           <motion.span
             {...tapePop(6, 1.2)}
-            className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 bg-amber-200/40 shadow-sm"
+            className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 bg-amber-200/40 shadow-sm dark:bg-amber-200/25"
           />
 
           <div className="flex items-start justify-between gap-4">
             <motion.div {...rise(0.35)} className="pt-1">
-              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
                 Name:
               </p>
-              <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-neutral-900 sm:text-6xl">
+              <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
                 <NameReveal lines={["Gafar", "Aleshe"]} />
               </h1>
-              <p className="mt-3 font-mono text-[13px] text-neutral-600">
+              <p className="mt-3 font-mono text-[13px] text-ink-dim">
                 <TypewriterText words={roles} />
               </p>
             </motion.div>
@@ -329,27 +351,25 @@ export default function Home() {
                 className="absolute -top-3 right-4 z-10"
               >
                 <Paperclip
-                  className="h-7 w-7 -rotate-[20deg] text-neutral-400"
+                  className="h-7 w-7 -rotate-[20deg] text-ink-faint"
                   strokeWidth={1.5}
                 />
               </motion.span>
-              <div className="overflow-hidden rounded-sm border border-neutral-900/10 bg-white shadow-sm">
+              <div className="overflow-hidden rounded-sm border border-ink/10 bg-tile shadow-sm">
                 <img
                   src={PROFILE_IMG}
                   alt="Gafar Aleshe"
                   className="aspect-square w-full object-cover grayscale transition duration-500 group-hover:grayscale-0"
                 />
-                <div className="border-t border-neutral-900/10 px-2 py-1.5">
-                  <p className="font-mono text-[9px] font-semibold uppercase leading-tight tracking-wide text-neutral-900">
+                <div className="border-t border-ink/10 px-2 py-1.5">
+                  <p className="font-mono text-[9px] font-semibold uppercase leading-tight tracking-wide text-ink">
                     Gafar Aleshe
                   </p>
                   <div className="mt-0.5 flex items-center justify-between gap-1">
-                    <p className="font-mono text-[7.5px] uppercase leading-tight tracking-wide text-neutral-500">
+                    <p className="font-mono text-[7.5px] uppercase leading-tight tracking-wide text-ink-muted">
                       Software Engineer
                     </p>
-                    <p className="font-mono text-[9px] text-neutral-400">
-                      2026
-                    </p>
+                    <p className="font-mono text-[9px] text-ink-faint">2026</p>
                   </div>
                 </div>
               </div>
@@ -358,7 +378,7 @@ export default function Home() {
 
           <motion.p
             {...rise(0.5)}
-            className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700"
+            className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-ink-soft"
           >
             Software engineer working across full-stack and frontend
             development. I build accessible, type-safe web applications with
@@ -370,14 +390,14 @@ export default function Home() {
             <motion.a
               {...hoverPop}
               href="#experience"
-              className="rounded-md bg-neutral-900 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
+              className="rounded-md bg-ink px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-paper transition-opacity hover:opacity-90"
             >
               View Work
             </motion.a>
             <motion.a
               {...hoverPop}
               href={`mailto:${EMAIL}`}
-              className="rounded-md border border-neutral-900/20 bg-white px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
+              className="rounded-md border border-ink/20 bg-tile px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
             >
               Email
             </motion.a>
@@ -385,7 +405,7 @@ export default function Home() {
               {...hoverPop}
               href={RESUME_PDF}
               download="Gafar_Aleshe_Resume.pdf"
-              className="flex items-center gap-1.5 rounded-md border border-neutral-900/20 bg-white px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
+              className="flex items-center gap-1.5 rounded-md border border-ink/20 bg-tile px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
             >
               <Download className="h-3.5 w-3.5" />
               Resume
@@ -394,13 +414,13 @@ export default function Home() {
 
           <motion.div
             {...rise(0.8)}
-            className="mt-8 flex items-center justify-between border-t border-dashed border-neutral-900/15 pt-3"
+            className="mt-8 flex items-center justify-between border-t border-dashed border-ink/15 pt-3"
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
               <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Portsmouth, United Kingdom
             </p>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
               Made with <span className="text-red-500">♥</span>
             </p>
           </motion.div>
@@ -418,29 +438,27 @@ export default function Home() {
                 {...riseInView(i * 0.12)}
                 key={exp.company}
                 className={
-                  i > 0
-                    ? "border-t border-dashed border-neutral-900/15 pt-6"
-                    : ""
+                  i > 0 ? "border-t border-dashed border-ink/15 pt-6" : ""
                 }
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-lg font-bold uppercase tracking-tight text-neutral-900">
+                    <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
                       {exp.role}
                     </h3>
-                    <p className="font-mono text-[12px] text-neutral-500">
+                    <p className="font-mono text-[12px] text-ink-muted">
                       <a
                         href={exp.companyHref}
                         target="_blank"
                         rel="noreferrer"
-                        className="underline decoration-neutral-900/20 underline-offset-2 transition-colors hover:text-neutral-900"
+                        className="underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink"
                       >
                         {exp.company}
                       </a>{" "}
                       · {exp.location}
                     </p>
                   </div>
-                  <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-wide text-neutral-400">
+                  <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-wide text-ink-faint">
                     {exp.period}
                   </span>
                 </div>
@@ -449,7 +467,7 @@ export default function Home() {
                     {exp.bullets.map((b, j) => (
                       <li
                         key={j}
-                        className="relative pl-4 font-mono text-[12px] leading-relaxed text-neutral-600 before:absolute before:left-0 before:text-neutral-400 before:content-['→']"
+                        className="relative pl-4 font-mono text-[12px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['→']"
                       >
                         {b}
                       </li>
@@ -468,22 +486,22 @@ export default function Home() {
               <motion.div
                 {...riseInView(i * 0.1)}
                 key={p.title}
-                className="rounded-md border border-neutral-900/10 bg-white p-5 shadow-sm"
+                className="rounded-md border border-ink/10 bg-tile p-5 shadow-sm"
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
                   Project
                 </p>
-                <h3 className="font-display text-lg font-bold uppercase tracking-tight text-neutral-900">
+                <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
                   {p.title}
                 </h3>
-                <p className="font-mono text-[11px] text-neutral-500">
+                <p className="font-mono text-[11px] text-ink-muted">
                   {p.subtitle}
                 </p>
                 <ul className="mt-3 space-y-1.5">
                   {p.bullets.map((b, j) => (
                     <li
                       key={j}
-                      className="relative pl-4 font-mono text-[12px] leading-relaxed text-neutral-600 before:absolute before:left-0 before:text-neutral-400 before:content-['→']"
+                      className="relative pl-4 font-mono text-[12px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['→']"
                     >
                       {b}
                     </li>
@@ -493,7 +511,7 @@ export default function Home() {
                   {p.tags.map(tag => (
                     <span
                       key={tag}
-                      className="rounded border border-neutral-900/15 px-2 py-0.5 font-mono text-[10px] text-neutral-600"
+                      className="rounded border border-ink/15 px-2 py-0.5 font-mono text-[10px] text-ink-dim"
                     >
                       {tag}
                     </span>
@@ -507,7 +525,7 @@ export default function Home() {
                       href={link.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-1.5 rounded-md border border-neutral-900/20 px-3 py-1.5 font-mono text-[11px] text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
+                      className="flex items-center gap-1.5 rounded-md border border-ink/20 px-3 py-1.5 font-mono text-[11px] text-ink transition-colors hover:bg-ink hover:text-paper"
                     >
                       {link.label}
                       <ArrowUpRight className="h-3.5 w-3.5" />
@@ -530,19 +548,19 @@ export default function Home() {
               <motion.div {...riseInView(i * 0.12)} key={edu.school}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-lg font-bold uppercase tracking-tight text-neutral-900">
+                    <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
                       {edu.school}
                     </h3>
-                    <p className="font-mono text-[12px] text-neutral-500">
+                    <p className="font-mono text-[12px] text-ink-muted">
                       {edu.degree}
                     </p>
                   </div>
-                  <span className="text-right font-mono text-[10px] uppercase tracking-wide text-neutral-400">
+                  <span className="text-right font-mono text-[10px] uppercase tracking-wide text-ink-faint">
                     {edu.period}
                   </span>
                 </div>
                 {edu.modules && (
-                  <p className="mt-1 font-mono text-[11px] leading-relaxed text-neutral-500">
+                  <p className="mt-1 font-mono text-[11px] leading-relaxed text-ink-muted">
                     Modules: {edu.modules}
                   </p>
                 )}
@@ -550,15 +568,15 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-6 border-t border-dashed border-neutral-900/15 pt-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+          <div className="mt-6 border-t border-dashed border-ink/15 pt-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
               Certifications
             </p>
             <ul className="mt-3 space-y-1.5">
               {certifications.map(cert => (
                 <li
                   key={cert}
-                  className="relative pl-4 font-mono text-[12px] leading-relaxed text-neutral-600 before:absolute before:left-0 before:text-neutral-400 before:content-['·']"
+                  className="relative pl-4 font-mono text-[12px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['·']"
                 >
                   {cert}
                 </li>
@@ -572,7 +590,7 @@ export default function Home() {
           <div className="space-y-5">
             {Object.entries(skills).map(([category, items]) => (
               <div key={category}>
-                <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
                   {category}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -580,7 +598,7 @@ export default function Home() {
                     <motion.span
                       {...chipPop(i * 0.04)}
                       key={item}
-                      className="rounded-md border border-neutral-900/15 bg-white px-2.5 py-1 font-mono text-[11px] text-neutral-700"
+                      className="rounded-md border border-ink/15 bg-tile px-2.5 py-1 font-mono text-[11px] text-ink-soft"
                     >
                       {item}
                     </motion.span>
@@ -597,42 +615,42 @@ export default function Home() {
           label="Contact:"
           title="Let's build something"
         >
-          <p className="font-mono text-[12px] leading-relaxed text-neutral-600">
+          <p className="font-mono text-[12px] leading-relaxed text-ink-dim">
             I'm always open to new opportunities and collaborations. Reach out
             any time.
           </p>
-          <dl className="mt-5 space-y-2 border-t border-dashed border-neutral-900/15 pt-4">
+          <dl className="mt-5 space-y-2 border-t border-dashed border-ink/15 pt-4">
             <div className="flex flex-wrap items-baseline gap-x-3">
-              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
                 Email
               </dt>
-              <dd className="font-mono text-[12px] text-neutral-700">
+              <dd className="font-mono text-[12px] text-ink-soft">
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="underline decoration-neutral-900/20 underline-offset-2 transition-colors hover:text-neutral-900"
+                  className="underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink"
                 >
                   {EMAIL}
                 </a>
               </dd>
             </div>
             <div className="flex flex-wrap items-baseline gap-x-3">
-              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
                 Phone
               </dt>
-              <dd className="font-mono text-[12px] text-neutral-700">
+              <dd className="font-mono text-[12px] text-ink-soft">
                 <a
                   href={PHONE_HREF}
-                  className="underline decoration-neutral-900/20 underline-offset-2 transition-colors hover:text-neutral-900"
+                  className="underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink"
                 >
                   {PHONE}
                 </a>
               </dd>
             </div>
             <div className="flex flex-wrap items-baseline gap-x-3">
-              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
                 Location
               </dt>
-              <dd className="font-mono text-[12px] text-neutral-700">
+              <dd className="font-mono text-[12px] text-ink-soft">
                 Portsmouth, United Kingdom
               </dd>
             </div>
@@ -642,7 +660,7 @@ export default function Home() {
             <motion.a
               {...hoverPop}
               href={`mailto:${EMAIL}`}
-              className="flex items-center gap-2 rounded-md bg-neutral-900 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
+              className="flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-paper transition-opacity hover:opacity-90"
             >
               <Mail className="h-4 w-4" />
               Email Me
@@ -650,7 +668,7 @@ export default function Home() {
             <motion.a
               {...hoverPop}
               href={PHONE_HREF}
-              className="flex items-center gap-2 rounded-md border border-neutral-900/20 bg-white px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
+              className="flex items-center gap-2 rounded-md border border-ink/20 bg-tile px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
             >
               <Phone className="h-4 w-4" />
               Call
@@ -660,7 +678,7 @@ export default function Home() {
               href={GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 rounded-md border border-neutral-900/20 bg-white px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
+              className="flex items-center gap-2 rounded-md border border-ink/20 bg-tile px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
             >
               <Github className="h-4 w-4" />
               GitHub
@@ -670,7 +688,7 @@ export default function Home() {
               href={LINKEDIN_URL}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 rounded-md border border-neutral-900/20 bg-white px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900 transition-colors hover:bg-neutral-50"
+              className="flex items-center gap-2 rounded-md border border-ink/20 bg-tile px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
             >
               <Linkedin className="h-4 w-4" />
               LinkedIn

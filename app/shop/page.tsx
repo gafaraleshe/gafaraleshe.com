@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const DOTTED = {
-  backgroundImage: "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+  backgroundImage: "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
   backgroundSize: "16px 16px",
 } as const;
 
@@ -86,16 +86,16 @@ export default function ShopPage() {
         {/* Intro card */}
         <Reveal y={24}>
           <section
-            className="relative rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
+            className="relative rounded-md border border-ink/10 bg-paper px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
             style={DOTTED}
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
               Shop:
             </p>
-            <h1 className="mt-1 font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-neutral-900 sm:text-5xl">
+            <h1 className="mt-1 font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-ink sm:text-5xl">
               LUTs &amp; Presets
             </h1>
-            <p className="mt-4 max-w-md font-mono text-[13px] leading-relaxed text-neutral-700">
+            <p className="mt-4 max-w-md font-mono text-[13px] leading-relaxed text-ink-soft">
               Colour grades and presets from my work as SHOTBYGAFAR. Instant
               download after checkout — use them across photo and video.
             </p>
@@ -108,57 +108,57 @@ export default function ShopPage() {
             const isLive = p.checkoutUrl.startsWith("http");
             return (
               <Reveal key={p.name} delay={i * 0.08} className="flex">
-              <div
-                className="flex w-full flex-col overflow-hidden rounded-md border border-neutral-900/10 bg-[#f4f3ec] shadow-sm"
-                style={DOTTED}
-              >
                 <div
-                  className={`h-28 bg-gradient-to-br ${p.accent} flex items-end p-4`}
+                  className="flex w-full flex-col overflow-hidden rounded-md border border-ink/10 bg-paper shadow-sm"
+                  style={DOTTED}
                 >
-                  <span className="rounded bg-black/25 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-white backdrop-blur-sm">
-                    {p.kind}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-start justify-between gap-2">
-                    <h2 className="font-display text-lg font-bold uppercase tracking-tight text-neutral-900">
-                      {p.name}
-                    </h2>
-                    <span className="font-mono text-sm font-semibold text-neutral-900">
-                      {p.price}
+                  <div
+                    className={`h-28 bg-gradient-to-br ${p.accent} flex items-end p-4`}
+                  >
+                    <span className="rounded bg-black/25 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-white backdrop-blur-sm">
+                      {p.kind}
                     </span>
                   </div>
-                  <p className="mt-2 flex-1 font-mono text-[12px] leading-relaxed text-neutral-600">
-                    {p.description}
-                  </p>
-                  <a
-                    href={p.checkoutUrl}
-                    target={isLive ? "_blank" : undefined}
-                    rel={isLive ? "noreferrer" : undefined}
-                    aria-disabled={!isLive}
-                    {...(isLive
-                      ? {
-                          "data-polar-checkout": "",
-                          "data-polar-checkout-theme": "light",
-                        }
-                      : {})}
-                    className={`mt-4 flex items-center justify-center gap-2 rounded-md px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide transition-opacity ${
-                      isLive
-                        ? "bg-neutral-900 text-white hover:opacity-90"
-                        : "cursor-not-allowed border border-neutral-900/15 bg-white text-neutral-400"
-                    }`}
-                  >
-                    {isLive ? (
-                      <>
-                        Buy {p.price}
-                        <ArrowUpRight className="h-4 w-4" />
-                      </>
-                    ) : (
-                      "Coming soon"
-                    )}
-                  </a>
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="flex items-start justify-between gap-2">
+                      <h2 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
+                        {p.name}
+                      </h2>
+                      <span className="font-mono text-sm font-semibold text-ink">
+                        {p.price}
+                      </span>
+                    </div>
+                    <p className="mt-2 flex-1 font-mono text-[12px] leading-relaxed text-ink-dim">
+                      {p.description}
+                    </p>
+                    <a
+                      href={p.checkoutUrl}
+                      target={isLive ? "_blank" : undefined}
+                      rel={isLive ? "noreferrer" : undefined}
+                      aria-disabled={!isLive}
+                      {...(isLive
+                        ? {
+                            "data-polar-checkout": "",
+                            "data-polar-checkout-theme": "light",
+                          }
+                        : {})}
+                      className={`mt-4 flex items-center justify-center gap-2 rounded-md px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide transition-opacity ${
+                        isLive
+                          ? "bg-ink text-paper hover:opacity-90"
+                          : "cursor-not-allowed border border-ink/15 bg-tile text-ink-faint"
+                      }`}
+                    >
+                      {isLive ? (
+                        <>
+                          Buy {p.price}
+                          <ArrowUpRight className="h-4 w-4" />
+                        </>
+                      ) : (
+                        "Coming soon"
+                      )}
+                    </a>
+                  </div>
                 </div>
-              </div>
               </Reveal>
             );
           })}

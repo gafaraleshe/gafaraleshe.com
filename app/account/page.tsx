@@ -24,19 +24,19 @@ export default async function AccountPage() {
   return (
     <AuthShell>
       <div
-        className="w-full max-w-sm rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-7 py-9 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)]"
+        className="w-full max-w-sm rounded-md border border-ink/10 bg-paper px-7 py-9 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)]"
         style={{
           backgroundImage:
-            "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+            "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
           backgroundSize: "16px 16px",
         }}
       >
         <div className="flex items-start justify-between">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
               Account
             </p>
-            <h1 className="mt-1 font-display text-3xl font-extrabold uppercase tracking-tight text-neutral-900">
+            <h1 className="mt-1 font-display text-3xl font-extrabold uppercase tracking-tight text-ink">
               Signed in
             </h1>
           </div>
@@ -45,16 +45,16 @@ export default async function AccountPage() {
 
         <dl className="mt-6 space-y-3 font-mono text-sm">
           <div>
-            <dt className="text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+            <dt className="text-[10px] uppercase tracking-[0.2em] text-ink-faint">
               Name
             </dt>
-            <dd className="text-neutral-900">{user?.fullName ?? "—"}</dd>
+            <dd className="text-ink">{user?.fullName ?? "—"}</dd>
           </div>
           <div>
-            <dt className="text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+            <dt className="text-[10px] uppercase tracking-[0.2em] text-ink-faint">
               Email
             </dt>
-            <dd className="text-neutral-900">
+            <dd className="text-ink">
               {user?.primaryEmailAddress?.emailAddress ?? "—"}
             </dd>
           </div>
@@ -62,7 +62,7 @@ export default async function AccountPage() {
 
         <a
           href="/shop"
-          className="mt-8 block rounded-md bg-neutral-900 px-4 py-2.5 text-center font-mono text-[11px] font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
+          className="mt-8 block rounded-md bg-ink px-4 py-2.5 text-center font-mono text-[11px] font-semibold uppercase tracking-wide text-paper transition-opacity hover:opacity-90"
         >
           Go to shop
         </a>

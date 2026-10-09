@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, DM_Serif_Display, Geist_Mono, Inter } from "next/font/google";
+import {
+  Archivo,
+  Bebas_Neue,
+  DM_Serif_Display,
+  Geist_Mono,
+  Inter,
+} from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
@@ -27,6 +33,14 @@ const dmSerif = DM_Serif_Display({
   style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-dm-serif",
+  display: "swap",
+});
+
+// Condensed display face for the cinema portfolio (and its door in the chooser).
+const bebas = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas",
   display: "swap",
 });
 
@@ -67,9 +81,10 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="en">
+    // next-themes sets the theme class on <html> before hydration.
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${archivo.variable} ${dmSerif.variable} ${geistMono.variable}`}
+        className={`${inter.variable} ${archivo.variable} ${dmSerif.variable} ${bebas.variable} ${geistMono.variable}`}
       >
         {clerkEnabled ? <ClerkProvider>{tree}</ClerkProvider> : tree}
       </body>

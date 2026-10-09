@@ -25,7 +25,7 @@ type IgPost = {
 };
 
 const DOTTED = {
-  backgroundImage: "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+  backgroundImage: "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
   backgroundSize: "16px 16px",
 } as const;
 
@@ -42,14 +42,14 @@ const TILES = [
 
 function PostGrid({ posts }: { posts: IgPost[] }) {
   return (
-    <div className="grid grid-cols-3 gap-1 overflow-hidden rounded-md border border-neutral-900/10 bg-neutral-900/10 p-1">
+    <div className="grid grid-cols-3 gap-1 overflow-hidden rounded-md border border-ink/10 bg-ink/10 p-1">
       {posts.slice(0, 6).map(p => (
         <a
           key={p.id}
           href={p.permalink}
           target="_blank"
           rel="noreferrer"
-          className="group relative block aspect-square overflow-hidden bg-neutral-200"
+          className="group relative block aspect-square overflow-hidden bg-ink/10"
           title={p.caption?.slice(0, 120) || HANDLE}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -59,6 +59,7 @@ function PostGrid({ posts }: { posts: IgPost[] }) {
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
+          {/* Hover scrim over the photo: stays dark in both themes. */}
           <span className="absolute inset-0 flex items-center justify-center bg-neutral-900/0 text-white opacity-0 transition-all group-hover:bg-neutral-900/40 group-hover:opacity-100">
             <InstagramIcon />
           </span>
@@ -74,10 +75,10 @@ function FallbackGrid() {
       href={INSTAGRAM_URL}
       target="_blank"
       rel="noreferrer"
-      className="group block overflow-hidden rounded-md border border-neutral-900/10"
+      className="group block overflow-hidden rounded-md border border-ink/10"
       aria-label={`Open ${HANDLE} on Instagram`}
     >
-      <div className="grid grid-cols-3 gap-1 bg-neutral-900/10 p-1">
+      <div className="grid grid-cols-3 gap-1 bg-ink/10 p-1">
         {TILES.map((t, i) => (
           <div
             key={i}
@@ -131,15 +132,15 @@ export function InstagramFeed() {
   return (
     <section
       id="instagram"
-      className="relative mt-4 scroll-mt-6 rounded-md border border-neutral-900/10 bg-[#f4f3ec] px-6 py-7 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.45)] sm:px-8 sm:py-9"
+      className="relative mt-4 scroll-mt-6 rounded-md border border-ink/10 bg-paper px-6 py-7 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.45)] sm:px-8 sm:py-9"
       style={DOTTED}
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
             Instagram:
           </p>
-          <h2 className="mb-1 mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-3xl">
+          <h2 className="mb-1 mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
             Latest on the grid
           </h2>
         </div>
@@ -147,22 +148,22 @@ export function InstagramFeed() {
           href={INSTAGRAM_URL}
           target="_blank"
           rel="noreferrer"
-          className="flex shrink-0 items-center gap-1.5 rounded-md bg-neutral-900 px-3.5 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
+          className="flex shrink-0 items-center gap-1.5 rounded-md bg-ink px-3.5 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-paper transition-opacity hover:opacity-90"
         >
           <InstagramIcon />
           Follow
         </a>
       </div>
 
-      <p className="mb-5 max-w-md font-mono text-[12px] leading-relaxed text-neutral-600">
+      <p className="mb-5 max-w-md font-mono text-[12px] leading-relaxed text-ink-dim">
         Builds, behind-the-scenes, and creative work go up on Instagram first.
         Follow {HANDLE} for the latest.
       </p>
 
       {hasPosts ? <PostGrid posts={posts!} /> : <FallbackGrid />}
 
-      <div className="mt-1 flex items-center justify-between gap-2 rounded-b-md bg-white px-4 py-3">
-        <span className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-neutral-900">
+      <div className="mt-1 flex items-center justify-between gap-2 rounded-b-md bg-tile px-4 py-3">
+        <span className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink">
           <InstagramIcon />
           {HANDLE}
         </span>
@@ -170,7 +171,7 @@ export function InstagramFeed() {
           href={INSTAGRAM_URL}
           target="_blank"
           rel="noreferrer"
-          className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500 transition-colors hover:text-neutral-900"
+          className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted transition-colors hover:text-ink"
         >
           View feed →
         </a>
