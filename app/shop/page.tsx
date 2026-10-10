@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion";
 import PolarEmbed from "./polar-embed";
 import NewsletterForm from "../newsletter-form";
+import { isLive as live, products } from "@/lib/shop";
 
 export const metadata: Metadata = {
   title: "Shop — Gafar Aleshe",
@@ -13,46 +14,6 @@ const DOTTED = {
   backgroundImage: "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
   backgroundSize: "16px 16px",
 } as const;
-
-// Edit these, then paste each product's Polar checkout link into `checkoutUrl`.
-const products = [
-  {
-    name: "Cinematic LUT Pack",
-    kind: "10 LUTs · .cube",
-    description:
-      "Film-inspired color grades for video — teal & orange, moody, and clean cinematic looks. Works in Premiere, DaVinci & Final Cut.",
-    price: "£18",
-    checkoutUrl: "#",
-    accent: "from-emerald-500 to-teal-700",
-  },
-  {
-    name: "Mobile Lightroom Presets",
-    kind: "12 presets · .dng",
-    description:
-      "One-tap edits for phone photography. Warm skin tones, rich shadows, and a consistent feed in seconds.",
-    price: "£12",
-    checkoutUrl: "#",
-    accent: "from-amber-400 to-orange-600",
-  },
-  {
-    name: "Moody Film Preset Pack",
-    kind: "8 presets · .xmp",
-    description:
-      "Desktop Lightroom presets with a matte film finish — deep greens, faded blacks, and analog grain.",
-    price: "£15",
-    checkoutUrl: "#",
-    accent: "from-neutral-600 to-neutral-900",
-  },
-  {
-    name: "All-Access Bundle",
-    kind: "Everything · save 35%",
-    description:
-      "Every LUT and preset pack in one download, plus future releases. The best value for creators.",
-    price: "£29",
-    checkoutUrl: "#",
-    accent: "from-emerald-500 via-teal-600 to-neutral-900",
-  },
-];
 
 export default function ShopPage() {
   return (
@@ -66,6 +27,12 @@ export default function ShopPage() {
           Gafar Aleshe
         </a>
         <div className="flex items-center gap-1">
+          <a
+            href="/cinema/shop"
+            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
+          >
+            Cinema
+          </a>
           <a
             href="/links"
             className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
@@ -105,9 +72,9 @@ export default function ShopPage() {
         {/* Products */}
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {products.map((p, i) => {
-            const isLive = p.checkoutUrl.startsWith("http");
+            const isLive = live(p);
             return (
-              <Reveal key={p.name} delay={i * 0.08} className="flex">
+              <Reveal key={p.slug} delay={i * 0.08} className="flex">
                 <div
                   className="flex w-full flex-col overflow-hidden rounded-md border border-ink/10 bg-paper shadow-sm"
                   style={DOTTED}

@@ -17,7 +17,7 @@ export default function CinemaLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div id="top" className="cinema-root min-h-screen bg-black text-white">
+    <div id="top" className="cinema-root cinema-grid min-h-screen text-white">
       <CinemaHeader />
       {children}
       <CinemaFooter />

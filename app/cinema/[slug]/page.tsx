@@ -1,6 +1,6 @@
 /*
  * Cinema project page — centred title and roles over a full-width 16:9
- * player, then a link on to the next project.
+ * player, a credits strip, then more films and a link on to the next one.
  */
 
 import type { Metadata } from "next";
@@ -11,6 +11,7 @@ import {
   embedUrl,
   getCinemaProject,
 } from "@/lib/cinema";
+import { FilmCard, Viewfinder } from "@/components/cinema/Film";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -35,11 +36,19 @@ export default async function CinemaProjectPage({ params }: Params) {
   const next = cinemaProjects[(index + 1) % cinemaProjects.length];
   const embed = project.video && embedUrl(project.video);
   const still = coverFor(project);
+  // The next two films after this one, wrapping round.
+  const others = [1, 2]
+    .map(n => cinemaProjects[(index + n) % cinemaProjects.length])
+    .filter((p, i, all) => p.slug !== project.slug && all.indexOf(p) === i);
 
   return (
     <main className="px-[5%] md:px-[4%]">
       <div className="mx-auto max-w-[1400px]">
         <header className="pb-10 pt-4 text-center md:pb-14">
+          <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-white/45">
+            {String(index + 1).padStart(2, "0")} /{" "}
+            {String(cinemaProjects.length).padStart(2, "0")}
+          </p>
           <h1 className="font-cine text-[44px] uppercase leading-none tracking-wide sm:text-[64px]">
             {project.title}
           </h1>
@@ -48,7 +57,7 @@ export default async function CinemaProjectPage({ params }: Params) {
           </p>
         </header>
 
-        <div className="relative aspect-video w-full overflow-hidden bg-[#191919]">
+        <div className="relative aspect-video w-full overflow-hidden border border-white/10 bg-[#0b0b0b]">
           {embed ? (
             <iframe
               src={embed}
@@ -64,7 +73,8 @@ export default async function CinemaProjectPage({ params }: Params) {
               className="absolute inset-0 h-full w-full object-cover"
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(ellipse_at_center,#1c1c1c_0%,#0b0b0b_70%)]">
+              <Viewfinder always />
               <span className="font-cine text-[20px] uppercase tracking-[0.2em] text-white/40">
                 Film coming soon
               </span>
@@ -72,10 +82,50 @@ export default async function CinemaProjectPage({ params }: Params) {
           )}
         </div>
 
+        <dl className="mt-6 grid grid-cols-2 gap-px border border-white/10 bg-white/10 sm:grid-cols-3">
+          {[
+            ["Year", project.year],
+            ["Credits", project.roles.replace(/\s*\|\|\s*/g, " · ")],
+            ["Studio", "SHOTBYGAFAR"],
+          ].map(([term, value]) => (
+            <div
+              key={term}
+              className="bg-black px-4 py-3 last:col-span-2 sm:last:col-span-1"
+            >
+              <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+                {term}
+              </dt>
+              <dd className="mt-1 font-cine text-[18px] uppercase tracking-wide text-white">
+                {value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
         {project.summary && (
           <p className="mx-auto mt-10 max-w-2xl text-center text-[15px] leading-relaxed text-white/75">
             {project.summary}
           </p>
+        )}
+
+        {others.length > 0 && (
+          <section className="mt-24" aria-labelledby="more-films">
+            <h2
+              id="more-films"
+              className="mb-6 border-b border-white/10 pb-3 font-cine text-[32px] uppercase leading-none tracking-wide text-white"
+            >
+              More films
+            </h2>
+            <div className="grid grid-cols-1 gap-x-5 gap-y-10 md:grid-cols-2">
+              {others.map(p => (
+                <FilmCard
+                  key={p.slug}
+                  project={p}
+                  index={cinemaProjects.indexOf(p)}
+                />
+              ))}
+            </div>
+          </section>
         )}
 
         <nav className="mt-20 flex items-center justify-between border-t border-white/15 pt-6">

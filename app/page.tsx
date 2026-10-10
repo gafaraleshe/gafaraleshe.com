@@ -1,37 +1,29 @@
 "use client";
 
 /*
- * Home — same index-card / filing aesthetic as the Links page.
- * Green graph-paper canvas, dotted paper cards, mono labels, display headings.
+ * Home — laid out after pysavant.cv: one narrow column with a name and
+ * profile row, a few plain paragraphs, then quiet sections (Activity,
+ * Experience, Skills, Selected work, Education) each headed by a small
+ * label. The column sits on a single paper sheet over the graph-paper grid,
+ * near-black by default and the original cream card in the light theme.
  */
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion, type MotionProps } from "framer-motion";
+import { ChevronDown, Download, Mail } from "lucide-react";
+import { NameReveal, Reveal, fadeIn } from "@/components/motion";
 import {
-  NameReveal,
-  Reveal,
-  chipPop,
-  clipDrop,
-  fadeIn,
-  flipIn,
-  heroRise,
-  photoHover,
-  hoverPop,
-  rise,
-  riseInView,
-  tapePop,
-} from "@/components/motion";
-import {
-  ArrowUpRight,
-  Download,
-  Github,
-  Linkedin,
-  Mail,
-  Paperclip,
-  Phone,
-} from "lucide-react";
-import { InstagramFeed } from "@/components/InstagramFeed";
+  GitHubGlyph,
+  InstagramGlyph,
+  LinkedInGlyph,
+  MailGlyph,
+  XGlyph,
+} from "@/components/BrandIcons";
+import { GitHubActivity } from "@/components/GitHubActivity";
+import { INSTAGRAM_PROFILE, InstagramFeed } from "@/components/InstagramFeed";
 import { PathChooser } from "@/components/PathChooser";
+import { SkillIcon } from "@/components/SkillIcons";
+import { WorkGrid, type WorkItem } from "@/components/WorkGrid";
 
 const PROFILE_IMG = "/assets/gafar-profile.jpg";
 const RESUME_PDF = "/assets/Gafar_Aleshe_Resume.pdf";
@@ -39,28 +31,50 @@ const RESUME_PDF = "/assets/Gafar_Aleshe_Resume.pdf";
 const EMAIL = "gafaraleshe2411@gmail.com";
 const PHONE = "+44 7882 655541";
 const PHONE_HREF = "tel:+447882655541";
-const GITHUB_URL = "https://www.github.com/gafaraleshe";
-const LINKEDIN_URL = "https://www.linkedin.com/in/gafaraleshe/";
+const GITHUB_URL = "https://github.com/gafaraleshe";
 
 const DOTTED = {
   backgroundImage: "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
   backgroundSize: "16px 16px",
 } as const;
 
+// pysavant's entrance: a short, soft rise rather than the card bounces.
+const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const softRise = (delay = 0): MotionProps => ({
+  initial: { opacity: 0, y: 12 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "tween", duration: 0.55, delay, ease: EASE_OUT },
+  },
+});
+
 // ── Data ──
-const roles = [
-  "Software Engineer",
-  "Full-Stack Development",
-  "Frontend Development",
+
+const profiles = [
+  {
+    label: "Instagram",
+    href: "https://instagram.com/gafaraleshe",
+    Icon: InstagramGlyph,
+  },
+  { label: "X", href: "https://x.com/GafarAleshe", Icon: XGlyph },
+  { label: "GitHub", href: GITHUB_URL, Icon: GitHubGlyph },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/gafaraleshe/",
+    Icon: LinkedInGlyph,
+  },
+  { label: "Email", href: `mailto:${EMAIL}`, Icon: MailGlyph },
 ];
 
 const experience = [
   {
-    role: "Frontend Developer & Creative Director",
-    company: "FrontToBack Development",
+    company: "FrontToBack",
     companyHref: "https://fronttobackdev.com/",
+    role: "Frontend Developer & Creative Director",
     location: "Portsmouth, UK",
-    period: "Dec 2022 – Present",
+    start: "Dec 22",
+    end: "Now",
     bullets: [
       "Built and deployed 25+ responsive websites and web applications using JavaScript, HTML, CSS, PHP and WordPress, translating client requirements into production-ready user interfaces.",
       "Developed responsive, mobile-first interfaces with reusable components, semantic HTML, accessible forms and cross-browser compatibility, improving usability across devices.",
@@ -70,11 +84,12 @@ const experience = [
     ],
   },
   {
-    role: "Founder & Creative Director",
     company: "SHOTBYGAFAR",
     companyHref: "https://shotbygafar.com",
+    role: "Founder & Creative Director",
     location: "Portsmouth, UK",
-    period: "Aug 2024 – Present",
+    start: "Aug 24",
+    end: "Now",
     bullets: [
       "Professional photography and videography services for brands, events, and businesses — 25+ clients, five-figure revenue.",
       "Managed end-to-end client workflow from briefs to delivery, handling scheduling, contracts, and revisions.",
@@ -82,137 +97,139 @@ const experience = [
   },
 ];
 
-const projects = [
-  {
-    title: "Hermite Labs",
-    subtitle: "Full-Stack SaaS Platform for Creative Businesses",
-    bullets: [
-      "Architected and built a multi-product SaaS platform using TypeScript, React, Next.js and Python, structured as a monorepo spanning web, backend, API and desktop components.",
-      "Developed HermiteFlow, a CRM and invoicing application supporting client management, invoice generation, business workflows and automated UK VAT calculations.",
-      "Built reusable, responsive UI components with semantic HTML, accessible forms, keyboard navigation, visible focus states and WCAG-aligned design patterns.",
-      "Implemented type-safe API workflows, authentication, role-based access control and validated data handling across shared platform services.",
-      "Integrated Jest, Cypress and axe-core for automated testing and accessibility regression detection, complemented by manual keyboard and VoiceOver testing.",
-    ],
-    tags: [
-      "TypeScript",
+const skills: [string, string[]][] = [
+  ["Language", ["TypeScript", "JavaScript", "Python"]],
+  [
+    "Frontend",
+    [
       "React",
       "Next.js",
-      "Python",
+      "Vue",
+      "Redux",
+      "Tailwind CSS",
+      "Vite",
+      "HTML5",
+      "CSS3",
+      "TanStack Query",
+      "React Hook Form",
+    ],
+  ],
+  ["Backend", ["Node.js", "REST APIs", "JWT", "OAuth 2.0", "WebAuthn"]],
+  ["Data", ["PostgreSQL", "MongoDB", "SQL", "Drizzle ORM", "Zod"]],
+  [
+    "DevOps & Testing",
+    [
+      "AWS",
+      "Docker",
+      "Git",
+      "GitHub Actions",
+      "CI/CD",
       "Jest",
       "Cypress",
-      "axe-core",
+      "TDD",
     ],
-    links: [
-      { label: "hermitelabs.com", href: "https://hermitelabs.com" },
-      { label: "flow.hermitelabs.com", href: "https://flow.hermitelabs.com" },
+  ],
+  [
+    "Accessibility",
+    [
+      "Semantic HTML",
+      "WCAG",
+      "ARIA",
+      "Keyboard Accessibility",
+      "Screen Readers",
     ],
+  ],
+];
+
+// Screenshots in public/assets/work/ (see components/WorkGrid.tsx).
+const work: WorkItem[] = [
+  {
+    title: "Hermite Labs",
+    description:
+      "Multi-product SaaS for creative businesses — web, API and desktop in one monorepo",
+    href: "https://hermitelabs.com",
+    image: "/assets/work/hermitelabs.webp",
+  },
+  {
+    title: "HermiteFlow",
+    description:
+      "CRM and invoicing for photographers and studios, with UK VAT built in",
+    href: "https://flow.hermitelabs.com",
+    image: "/assets/work/hermiteflow.webp",
+  },
+  {
+    title: "SHOTBYGAFAR",
+    description: "Booking site for my photography and film studio",
+    href: "https://shotbygafar.com",
+    image: "/assets/work/shotbygafar.webp",
+  },
+  {
+    title: "Gaffy Studios",
+    description: "The creative studio behind SHOTBYGAFAR — Next.js 15",
+    href: "https://gaffystudios.com",
+    repo: "https://github.com/gafaraleshe/gaffystudios",
+    image: "/assets/work/gaffystudios.webp",
+  },
+  {
+    title: "gafaraleshe.com",
+    description: "This site — code, cinema and a shop under one roof",
+    href: "https://gafaraleshe.com",
+    repo: "https://github.com/gafaraleshe/gafaraleshe.com",
+    image: "/assets/work/gafaraleshe.webp",
   },
 ];
 
 const education = [
   {
-    school: "University of Essex Online",
-    degree: "BSc Computer Science",
-    period: "Expected Graduation: 2028",
-    modules:
-      "Data Structures & Algorithms, Object-Oriented Programming, Web Application Development, Data Modelling",
+    name: "University of Essex Online",
+    detail: "BSc Computer Science, graduating 2028",
   },
   {
-    school: "Havant and South Downs College",
-    degree: "A Levels: Computer Science, Mathematics, Further Maths",
-    period: "Sept 2023 – Jul 2025",
-    modules: "",
+    name: "Havant and South Downs College",
+    detail: "A Levels in Computer Science, Maths & Further Maths, 2023–25",
   },
 ];
 
 const certifications = [
-  "CS50x: Introduction to Computer Science — HarvardX (edX)",
-  "Full-Stack Web Development Bootcamp & Python Pro Bootcamp — Dr Angela Yu",
-  "AWS Cloud Practitioner Essentials — AWS (edX)",
-  "AWS Educate: Introduction to Generative AI",
+  { name: "CS50x", detail: "Introduction to Computer Science, HarvardX" },
+  {
+    name: "Full-Stack & Python Pro",
+    detail: "Bootcamps by Dr Angela Yu",
+  },
+  { name: "AWS Cloud Practitioner", detail: "Essentials, AWS on edX" },
+  { name: "AWS Educate", detail: "Introduction to Generative AI" },
 ];
 
-const skills: Record<string, string[]> = {
-  Languages: ["TypeScript", "JavaScript", "Python"],
-  Frontend: [
-    "React",
-    "Next.js",
-    "Vue",
-    "Redux",
-    "Tailwind CSS",
-    "Vite",
-    "HTML5",
-    "CSS3",
-    "TanStack Query",
-    "React Hook Form",
-  ],
-  Backend: ["Node.js", "REST APIs", "JWT", "OAuth 2.0", "WebAuthn"],
-  Data: ["PostgreSQL", "MongoDB", "SQL", "Drizzle ORM", "Zod"],
-  "DevOps & Testing": [
-    "AWS",
-    "Docker",
-    "Git",
-    "GitHub Actions",
-    "CI/CD",
-    "Jest",
-    "Cypress",
-    "TDD",
-  ],
-  Accessibility: [
-    "Semantic HTML",
-    "WCAG",
-    "ARIA",
-    "Keyboard Accessibility",
-    "Screen Readers",
-  ],
-};
+// ── Pieces ──
 
-// ── Typewriter ──
-function TypewriterText({ words }: { words: string[] }) {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [text, setText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const timerRef = useRef<number | null>(null);
-
-  const tick = useCallback(() => {
-    const current = words[wordIndex];
-    if (!isDeleting) {
-      if (text.length < current.length) {
-        setText(current.slice(0, text.length + 1));
-      } else {
-        timerRef.current = window.setTimeout(() => setIsDeleting(true), 2000);
-        return;
-      }
-    } else if (text.length > 0) {
-      setText(current.slice(0, text.length - 1));
-    } else {
-      setIsDeleting(false);
-      setWordIndex(p => (p + 1) % words.length);
-    }
-  }, [text, isDeleting, wordIndex, words]);
-
-  useEffect(() => {
-    const speed = isDeleting ? 40 : 70;
-    timerRef.current = window.setTimeout(tick, speed);
-    return () => {
-      if (timerRef.current) window.clearTimeout(timerRef.current);
-    };
-  }, [tick, isDeleting]);
-
+function Section({
+  id,
+  title,
+  action,
+  children,
+}: {
+  id?: string;
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
-    <span>
-      {text}
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-        className="ml-0.5 inline-block h-[0.9em] w-[2px] translate-y-[2px] bg-ink"
-      />
-    </span>
+    <Reveal y={16}>
+      <section id={id} className="scroll-mt-16">
+        <div className="mb-4 flex items-baseline justify-between gap-4">
+          <h2 className="text-[15px] font-medium tracking-[-0.01em] text-ink">
+            {title}
+          </h2>
+          {action}
+        </div>
+        {children}
+      </section>
+    </Reveal>
   );
 }
 
 function CornerMarks() {
-  const base = "pointer-events-none absolute h-4 w-4 border-ink/40";
+  const base = "pointer-events-none absolute h-3 w-3 border-ink/25";
   return (
     <>
       <span className={`${base} left-3 top-3 border-l border-t`} />
@@ -223,33 +240,189 @@ function CornerMarks() {
   );
 }
 
-function SectionCard({
-  id,
-  label,
-  title,
-  children,
+// Hand-written margin note with a drawn arrow pointing back at the buttons.
+function OpenToWork() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none ml-3 hidden items-center gap-1 sm:flex"
+    >
+      <svg
+        viewBox="0 0 64 32"
+        fill="none"
+        className="doodle h-7 w-14 overflow-visible text-ink-muted"
+      >
+        <path
+          d="M60 22C46 30 22 28 6 12"
+          pathLength={1}
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+        />
+        <path
+          d="M5 22L5 11L16 10"
+          pathLength={1}
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ "--doodle-delay": "1.6s" } as React.CSSProperties}
+        />
+      </svg>
+      <motion.span
+        initial={{ opacity: 0, rotate: -8, y: 4 }}
+        animate={{
+          opacity: 1,
+          rotate: -6,
+          y: 0,
+          transition: { delay: 1.1, duration: 0.6, ease: EASE_OUT },
+        }}
+        className="-mt-5 whitespace-nowrap font-hand text-[21px] leading-none text-ink-muted"
+      >
+        open to work
+      </motion.span>
+    </div>
+  );
+}
+
+// pysavant's experience strip: a hairline with a dot per role (the latest
+// one pulsing), names and dates in columns, and the detail behind "See more".
+function Experience() {
+  const [open, setOpen] = useState(false);
+  const cols = experience.length;
+
+  return (
+    <Section
+      id="experience"
+      title="Experience"
+      action={
+        <button
+          type="button"
+          onClick={() => setOpen(o => !o)}
+          aria-expanded={open}
+          aria-controls="experience-detail"
+          className="flex items-center gap-1 text-[13px] text-ink-muted transition-colors hover:text-ink sm:text-[13.5px]"
+        >
+          {open ? "See less" : "See more"}
+          <ChevronDown
+            aria-hidden
+            className={`h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+      }
+    >
+      <div aria-hidden className="relative mb-3.5 hidden h-2 sm:block">
+        <div
+          className="absolute left-0 top-1/2 h-px -translate-y-1/2"
+          style={{
+            right: `${100 / cols}%`,
+            backgroundImage:
+              "linear-gradient(to right, var(--ink) 0%, color-mix(in oklab, var(--ink) 18%, transparent) 70%)",
+          }}
+        />
+        <div
+          className="absolute inset-x-0 top-1/2 grid -translate-y-1/2"
+          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+        >
+          {experience.map((exp, i) => (
+            <div key={exp.company} className="flex justify-start">
+              <span className="relative flex size-1.5 items-center justify-center">
+                {i === 0 && (
+                  <span className="absolute -inset-1 animate-ping rounded-full bg-ink/15 [animation-duration:2.8s]" />
+                )}
+                <span
+                  className={`relative size-1.5 rounded-full ${i === 0 ? "bg-ink" : "bg-ink/30"}`}
+                />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <ol
+        className="grid grid-cols-2 gap-x-4 gap-y-4"
+        style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+      >
+        {experience.map(exp => (
+          <li key={exp.company} className="sm:pr-4">
+            <p className="text-[14px] font-medium text-ink sm:text-[14.5px]">
+              {exp.company}
+            </p>
+            <p className="mt-0.5 text-[13px] text-ink-muted">{exp.role}</p>
+            <p className="mt-1 font-mono text-[11.5px] tracking-[0.02em] text-ink-faint">
+              {exp.start} – {exp.end}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id="experience-detail"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: EASE_OUT }}
+            className="overflow-hidden"
+          >
+            <div className="mt-6 space-y-6 border-t border-ink/10 pt-6">
+              {experience.map(exp => (
+                <div key={exp.company}>
+                  <p className="text-[14px] text-ink">
+                    {exp.role} ·{" "}
+                    <a
+                      href={exp.companyHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link"
+                    >
+                      {exp.company}
+                    </a>
+                  </p>
+                  <p className="mt-0.5 font-mono text-[11.5px] tracking-[0.02em] text-ink-faint">
+                    {exp.location} · {exp.start} – {exp.end}
+                  </p>
+                  <ul className="mt-3 space-y-2">
+                    {exp.bullets.map(b => (
+                      <li
+                        key={b}
+                        className="relative pl-4 text-[13.5px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['–']"
+                      >
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Section>
+  );
+}
+
+// Numbered list after pysavant's "Field studies".
+function NumberedList({
+  items,
 }: {
-  id?: string;
-  label: string;
-  title: string;
-  children: React.ReactNode;
+  items: { name: string; detail: string }[];
 }) {
   return (
-    <Reveal>
-      <section
-        id={id}
-        className="relative mt-4 scroll-mt-6 rounded-md border border-ink/10 bg-paper px-6 py-7 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.45)] sm:px-8 sm:py-9"
-        style={DOTTED}
-      >
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
-          {label}
-        </p>
-        <h2 className="mb-6 mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
-          {title}
-        </h2>
-        {children}
-      </section>
-    </Reveal>
+    <ol className="space-y-3">
+      {items.map((item, i) => (
+        <li key={item.name} className="flex items-baseline gap-3">
+          <span className="w-4 shrink-0 font-mono text-[11.5px] tracking-[0.02em] text-ink-faint">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <p className="text-[14px] leading-relaxed text-ink-muted sm:text-[14.5px]">
+            <span className="text-ink">{item.name}</span>{" "}
+            <span className="text-ink-faint">—</span> {item.detail}
+          </p>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -269,451 +442,307 @@ export default function Home() {
 
 function HomeContent() {
   return (
-    <div className="min-h-screen px-4 py-6 sm:px-8 sm:py-8">
-      {/* ── Top bar ── */}
-      <motion.header
+    <div className="min-h-screen px-4 py-5 sm:px-8 sm:py-8">
+      {/* ── Site nav, on the grid ── */}
+      <motion.nav
         {...fadeIn(0.15)}
-        className="mx-auto mb-8 flex max-w-2xl items-center justify-between sm:mb-10"
+        aria-label="Site"
+        className="mx-auto mb-5 flex max-w-[760px] items-center justify-between px-1 sm:mb-8"
       >
-        <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-white">
-          <NameReveal
-            lines={["Gafar Aleshe"]}
-            delay={1.3}
-            stagger={0.04}
-            blur={4}
-          />
-        </span>
+        <a
+          href="/"
+          className="font-mono text-[12px] font-semibold uppercase tracking-[0.2em] text-white"
+        >
+          GA
+        </a>
         <div className="flex items-center gap-1">
           <a
             href="/cinema"
-            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
+            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/70 transition-colors hover:text-white"
           >
             Cinema
           </a>
           <a
             href="/shop"
-            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
+            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/70 transition-colors hover:text-white"
           >
             Shop
           </a>
           <a
             href="/links"
-            className="rounded-full border border-white/30 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white transition-colors hover:bg-white/10"
+            className="rounded-full border border-white/25 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white transition-colors hover:bg-white/10"
           >
             Links ↗
           </a>
         </div>
-      </motion.header>
+      </motion.nav>
 
-      <main className="mx-auto max-w-2xl pb-14">
-        {/* ── Identity card ── */}
-        <motion.div
-          {...heroRise}
-          className="relative rounded-md border border-ink/10 bg-paper px-6 py-8 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.55)] sm:px-10 sm:py-10"
-          style={DOTTED}
-        >
-          <CornerMarks />
-          {/* Translucent tape reads far brighter on near-black paper than on
-              cream, so it's dimmed in the dark theme. */}
-          <motion.span
-            {...tapePop(-3, 0.9)}
-            className="pointer-events-none absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 bg-stone-300/50 shadow-sm dark:bg-stone-300/30"
-          />
-          <motion.span
-            {...tapePop(-12, 1.05)}
-            className="pointer-events-none absolute -left-4 top-1/3 h-6 w-16 bg-emerald-300/30 shadow-sm dark:bg-emerald-300/20"
-          />
-          <motion.span
-            {...tapePop(6, 1.2)}
-            className="pointer-events-none absolute -right-3 bottom-12 h-6 w-16 bg-amber-200/40 shadow-sm dark:bg-amber-200/25"
-          />
+      <main
+        className="relative mx-auto max-w-[760px] rounded-xl border border-ink/10 bg-paper px-5 pb-8 pt-12 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.6)] sm:px-12 sm:pb-10 sm:pt-16"
+        style={DOTTED}
+      >
+        <CornerMarks />
 
-          <div className="flex items-start justify-between gap-4">
-            <motion.div {...rise(0.35)} className="pt-1">
-              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
-                Name:
-              </p>
-              <h1 className="mt-1 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
-                <NameReveal lines={["Gafar", "Aleshe"]} />
-              </h1>
-              <p className="mt-3 font-mono text-[13px] text-ink-dim">
-                <TypewriterText words={roles} />
-              </p>
-            </motion.div>
-
-            <motion.div
-              {...flipIn(0.7)}
-              {...photoHover}
-              className="group relative w-28 shrink-0 sm:w-36"
-            >
-              <motion.span
-                {...clipDrop(1.35)}
-                className="absolute -top-3 right-4 z-10"
-              >
-                <Paperclip
-                  className="h-7 w-7 -rotate-[20deg] text-ink-faint"
-                  strokeWidth={1.5}
-                />
-              </motion.span>
-              <div className="overflow-hidden rounded-sm border border-ink/10 bg-tile shadow-sm">
-                <img
-                  src={PROFILE_IMG}
-                  alt="Gafar Aleshe"
-                  className="aspect-square w-full object-cover grayscale transition duration-500 group-hover:grayscale-0"
-                />
-                <div className="border-t border-ink/10 px-2 py-1.5">
-                  <p className="font-mono text-[9px] font-semibold uppercase leading-tight tracking-wide text-ink">
-                    Gafar Aleshe
-                  </p>
-                  <div className="mt-0.5 flex items-center justify-between gap-1">
-                    <p className="font-mono text-[7.5px] uppercase leading-tight tracking-wide text-ink-muted">
-                      Software Engineer
-                    </p>
-                    <p className="font-mono text-[9px] text-ink-faint">2026</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          <motion.p
-            {...rise(0.5)}
-            className="mt-6 max-w-md font-mono text-[13px] leading-relaxed text-ink-soft"
+        {/* ── Header ── */}
+        <header>
+          <motion.div
+            {...softRise(0)}
+            className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
           >
-            Software engineer working across full-stack and frontend
-            development. I build accessible, type-safe web applications with
-            TypeScript, React, Next.js and Node.js — 25+ responsive sites and
-            apps shipped.
-          </motion.p>
+            <div className="flex items-center gap-3.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PROFILE_IMG}
+                alt=""
+                width={44}
+                height={44}
+                className="size-11 shrink-0 rounded-full border border-ink/10 object-cover grayscale transition duration-500 hover:grayscale-0"
+              />
+              <div>
+                <h1 className="text-[17px] font-medium tracking-[-0.015em] text-ink sm:text-[18px]">
+                  <NameReveal
+                    lines={["Gafar Aleshe"]}
+                    delay={0.2}
+                    stagger={0.03}
+                    blur={4}
+                  />
+                </h1>
+                <p className="mt-0.5 text-[14px] text-ink-muted sm:text-[14.5px]">
+                  Software engineer{" "}
+                  <span className="whitespace-nowrap text-ink-faint">
+                    / @gafaraleshe
+                  </span>
+                </p>
+              </div>
+            </div>
 
-          <motion.div {...rise(0.65)} className="mt-6 flex flex-wrap gap-2">
-            <motion.a
-              {...hoverPop}
-              href="#experience"
-              className="rounded-md bg-ink px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-paper transition-opacity hover:opacity-90"
+            <nav
+              aria-label="Profiles"
+              className="-ml-1.5 flex shrink-0 flex-wrap items-center gap-0.5 sm:ml-0 sm:gap-1 sm:pt-1"
             >
-              View Work
-            </motion.a>
-            <motion.a
-              {...hoverPop}
-              href={`mailto:${EMAIL}`}
-              className="rounded-md border border-ink/20 bg-tile px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
-            >
-              Email
-            </motion.a>
-            <motion.a
-              {...hoverPop}
-              href={RESUME_PDF}
-              download="Gafar_Aleshe_Resume.pdf"
-              className="flex items-center gap-1.5 rounded-md border border-ink/20 bg-tile px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
-            >
-              <Download className="h-3.5 w-3.5" />
-              Resume
-            </motion.a>
+              {profiles.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(href.startsWith("http")
+                    ? { target: "_blank", rel: "noreferrer" }
+                    : {})}
+                  aria-label={label}
+                  title={label}
+                  className="grid size-8 place-items-center rounded-md text-ink-muted transition-colors hover:bg-tile hover:text-ink focus-visible:outline-2 focus-visible:outline-ink"
+                >
+                  <Icon />
+                </a>
+              ))}
+            </nav>
           </motion.div>
 
           <motion.div
-            {...rise(0.8)}
-            className="mt-8 flex items-center justify-between border-t border-dashed border-ink/15 pt-3"
+            {...softRise(0.05)}
+            className="mt-6 space-y-3.5 text-[14.5px] leading-[1.75] text-ink-dim sm:text-[15.5px]"
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
-              <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Portsmouth, United Kingdom
+            <p>
+              Hey, I&apos;m Gafar — a software engineer based in{" "}
+              <span className="text-ink">Portsmouth, UK</span>. I work across
+              full-stack and frontend, building accessible, type-safe web apps
+              with TypeScript, React, Next.js and Node.js.
             </p>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
-              Made with <span className="text-red-500">♥</span>
+            <p>
+              I&apos;ve shipped 25+ responsive sites and apps at{" "}
+              <a
+                className="link"
+                href="https://fronttobackdev.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                FrontToBack
+              </a>
+              , and I&apos;m building{" "}
+              <a
+                className="link"
+                href="https://hermitelabs.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Hermite Labs
+              </a>{" "}
+              — software for creative businesses, starting with the{" "}
+              <a
+                className="link"
+                href="https://flow.hermitelabs.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                HermiteFlow
+              </a>{" "}
+              CRM and invoicing app.
+            </p>
+            <p>
+              Away from the editor I shoot photo and film as{" "}
+              <span className="text-ink">SHOTBYGAFAR</span> — that side lives in
+              the{" "}
+              <a className="link" href="/cinema">
+                cinema
+              </a>
+              , with my LUTs and presets in the{" "}
+              <a className="link" href="/cinema/shop">
+                shop
+              </a>
+              .
             </p>
           </motion.div>
-        </motion.div>
 
-        {/* ── Experience ── */}
-        <SectionCard
-          id="experience"
-          label="Experience:"
-          title="Where I've worked"
-        >
-          <div className="space-y-6">
-            {experience.map((exp, i) => (
-              <motion.div
-                {...riseInView(i * 0.12)}
-                key={exp.company}
-                className={
-                  i > 0 ? "border-t border-dashed border-ink/15 pt-6" : ""
-                }
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
-                      {exp.role}
-                    </h3>
-                    <p className="font-mono text-[12px] text-ink-muted">
-                      <a
-                        href={exp.companyHref}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink"
-                      >
-                        {exp.company}
-                      </a>{" "}
-                      · {exp.location}
-                    </p>
-                  </div>
-                  <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-wide text-ink-faint">
-                    {exp.period}
-                  </span>
-                </div>
-                {exp.bullets.length > 0 && (
-                  <ul className="mt-3 space-y-1.5">
-                    {exp.bullets.map((b, j) => (
-                      <li
-                        key={j}
-                        className="relative pl-4 font-mono text-[12px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['→']"
-                      >
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </SectionCard>
-
-        {/* ── Projects ── */}
-        <SectionCard id="projects" label="Projects:" title="Things I've built">
-          <div className="space-y-3">
-            {projects.map((p, i) => (
-              <motion.div
-                {...riseInView(i * 0.1)}
-                key={p.title}
-                className="rounded-md border border-ink/10 bg-tile p-5 shadow-sm"
-              >
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
-                  Project
-                </p>
-                <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
-                  {p.title}
-                </h3>
-                <p className="font-mono text-[11px] text-ink-muted">
-                  {p.subtitle}
-                </p>
-                <ul className="mt-3 space-y-1.5">
-                  {p.bullets.map((b, j) => (
-                    <li
-                      key={j}
-                      className="relative pl-4 font-mono text-[12px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['→']"
-                    >
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {p.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="rounded border border-ink/15 px-2 py-0.5 font-mono text-[10px] text-ink-dim"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {p.links.map(link => (
-                    <motion.a
-                      {...hoverPop}
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center gap-1.5 rounded-md border border-ink/20 px-3 py-1.5 font-mono text-[11px] text-ink transition-colors hover:bg-ink hover:text-paper"
-                    >
-                      {link.label}
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                    </motion.a>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </SectionCard>
-
-        {/* ── Education ── */}
-        <SectionCard
-          id="education"
-          label="Education:"
-          title="Academic background"
-        >
-          <div className="space-y-6">
-            {education.map((edu, i) => (
-              <motion.div {...riseInView(i * 0.12)} key={edu.school}>
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
-                      {edu.school}
-                    </h3>
-                    <p className="font-mono text-[12px] text-ink-muted">
-                      {edu.degree}
-                    </p>
-                  </div>
-                  <span className="text-right font-mono text-[10px] uppercase tracking-wide text-ink-faint">
-                    {edu.period}
-                  </span>
-                </div>
-                {edu.modules && (
-                  <p className="mt-1 font-mono text-[11px] leading-relaxed text-ink-muted">
-                    Modules: {edu.modules}
-                  </p>
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-6 border-t border-dashed border-ink/15 pt-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
-              Certifications
-            </p>
-            <ul className="mt-3 space-y-1.5">
-              {certifications.map(cert => (
-                <li
-                  key={cert}
-                  className="relative pl-4 font-mono text-[12px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['·']"
-                >
-                  {cert}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </SectionCard>
-
-        {/* ── Skills ── */}
-        <SectionCard id="skills" label="Skills:" title="What I work with">
-          <div className="space-y-5">
-            {Object.entries(skills).map(([category, items]) => (
-              <div key={category}>
-                <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
-                  {category}
-                </h3>
-                <div className="flex flex-wrap gap-1.5">
-                  {items.map((item, i) => (
-                    <motion.span
-                      {...chipPop(i * 0.04)}
-                      key={item}
-                      className="rounded-md border border-ink/15 bg-tile px-2.5 py-1 font-mono text-[11px] text-ink-soft"
-                    >
-                      {item}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </SectionCard>
-
-        {/* ── Contact ── */}
-        <SectionCard
-          id="contact"
-          label="Contact:"
-          title="Let's build something"
-        >
-          <p className="font-mono text-[12px] leading-relaxed text-ink-dim">
-            I'm always open to new opportunities and collaborations. Reach out
-            any time.
-          </p>
-          <dl className="mt-5 space-y-2 border-t border-dashed border-ink/15 pt-4">
-            <div className="flex flex-wrap items-baseline gap-x-3">
-              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
-                Email
-              </dt>
-              <dd className="font-mono text-[12px] text-ink-soft">
-                <a
-                  href={`mailto:${EMAIL}`}
-                  className="underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink"
-                >
-                  {EMAIL}
-                </a>
-              </dd>
-            </div>
-            <div className="flex flex-wrap items-baseline gap-x-3">
-              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
-                Phone
-              </dt>
-              <dd className="font-mono text-[12px] text-ink-soft">
-                <a
-                  href={PHONE_HREF}
-                  className="underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink"
-                >
-                  {PHONE}
-                </a>
-              </dd>
-            </div>
-            <div className="flex flex-wrap items-baseline gap-x-3">
-              <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
-                Location
-              </dt>
-              <dd className="font-mono text-[12px] text-ink-soft">
-                Portsmouth, United Kingdom
-              </dd>
-            </div>
-          </dl>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-            <motion.a
-              {...hoverPop}
+          <motion.div
+            {...softRise(0.1)}
+            className="mt-7 flex flex-wrap items-center gap-2"
+          >
+            <a
               href={`mailto:${EMAIL}`}
-              className="flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-paper transition-opacity hover:opacity-90"
+              className="flex items-center gap-1.5 rounded-lg bg-ink px-3.5 py-2 text-[13.5px] font-medium text-paper transition-opacity hover:opacity-85 sm:text-[14px]"
             >
-              <Mail className="h-4 w-4" />
-              Email Me
-            </motion.a>
-            <motion.a
-              {...hoverPop}
-              href={PHONE_HREF}
-              className="flex items-center gap-2 rounded-md border border-ink/20 bg-tile px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
+              <Mail aria-hidden className="h-[15px] w-[15px]" />
+              Email me
+            </a>
+            <a
+              href={RESUME_PDF}
+              download="Gafar_Aleshe_Resume.pdf"
+              className="flex items-center gap-1.5 rounded-lg border border-ink/15 bg-tile px-3.5 py-2 text-[13.5px] font-medium text-ink transition-colors hover:bg-tile-hover sm:text-[14px]"
             >
-              <Phone className="h-4 w-4" />
-              Call
-            </motion.a>
-            <motion.a
-              {...hoverPop}
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2 rounded-md border border-ink/20 bg-tile px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
-            >
-              <Github className="h-4 w-4" />
-              GitHub
-            </motion.a>
-            <motion.a
-              {...hoverPop}
-              href={LINKEDIN_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2 rounded-md border border-ink/20 bg-tile px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-tile-hover"
-            >
-              <Linkedin className="h-4 w-4" />
-              LinkedIn
-            </motion.a>
-          </div>
-        </SectionCard>
+              <Download aria-hidden className="h-[15px] w-[15px]" />
+              Résumé
+            </a>
+            <OpenToWork />
+          </motion.div>
+        </header>
 
-        {/* ── Instagram embed ── */}
-        <Reveal>
-          <InstagramFeed />
-        </Reveal>
+        <div className="mt-12 space-y-12">
+          {/* ── Activity: the GitHub contribution grid ── */}
+          <Section id="activity" title="Activity">
+            <GitHubActivity />
+          </Section>
+
+          <Experience />
+
+          {/* ── Skills ── */}
+          <Section id="skills" title="Skills">
+            <dl className="space-y-3">
+              {skills.map(([category, items]) => (
+                <div
+                  key={category}
+                  className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-5"
+                >
+                  <dt className="w-28 shrink-0 text-[13px] text-ink-muted sm:text-[13.5px]">
+                    {category}
+                  </dt>
+                  <dd className="flex flex-wrap gap-x-3 gap-y-2">
+                    {items.map(item => (
+                      <span
+                        key={item}
+                        className="flex items-center gap-1.5 text-[13px] text-ink-dim sm:text-[14px]"
+                      >
+                        <SkillIcon name={item} className="size-[15px]" />
+                        {item}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Section>
+
+          {/* ── Selected work ── */}
+          <Section
+            id="work"
+            title="Selected work"
+            action={
+              <a
+                href={`${GITHUB_URL}?tab=repositories`}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-1.5 text-[13px] text-ink-muted transition-colors hover:text-ink sm:text-[13.5px]"
+              >
+                All repos
+                <span
+                  aria-hidden
+                  className="text-ink-faint transition-transform duration-300 group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </a>
+            }
+          >
+            <WorkGrid items={work} />
+          </Section>
+
+          {/* ── Education ── */}
+          <Section id="education" title="Education">
+            <NumberedList items={education} />
+          </Section>
+
+          <Section id="certifications" title="Certifications">
+            <NumberedList items={certifications} />
+          </Section>
+
+          {/* ── Instagram ── */}
+          <Section
+            id="instagram"
+            title="Instagram"
+            action={
+              <a
+                href={INSTAGRAM_PROFILE.url}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-1.5 text-[13px] text-ink-muted transition-colors hover:text-ink sm:text-[13.5px]"
+              >
+                {INSTAGRAM_PROFILE.handle}
+                <span
+                  aria-hidden
+                  className="text-ink-faint transition-transform duration-300 group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </a>
+            }
+          >
+            <InstagramFeed />
+          </Section>
+        </div>
 
         {/* ── Footer ── */}
-        <div className="mx-auto mt-6 flex max-w-2xl items-center justify-between px-1">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
+        <footer className="mt-20 flex flex-wrap items-center justify-between gap-3 border-t border-ink/10 pt-5">
+          <p className="font-mono text-[11.5px] tracking-[0.02em] text-ink-faint">
             © {new Date().getFullYear()} Gafar Aleshe
+          </p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <a
+              href={PHONE_HREF}
+              className="font-mono text-[11.5px] tracking-[0.02em] text-ink-muted transition-colors hover:text-ink"
+            >
+              {PHONE}
+            </a>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="font-mono text-[11.5px] tracking-[0.02em] text-ink-muted transition-colors hover:text-ink"
+            >
+              {EMAIL}
+            </a>
+          </div>
+        </footer>
+      </main>
+
+      <div className="mx-auto max-w-[760px]">
+        <div className="mt-6 flex items-center justify-between px-1">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+            Portsmouth, United Kingdom
           </p>
           <a
             href="/links"
-            className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 transition-colors hover:text-white"
+            className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50 transition-colors hover:text-white"
           >
             All Links →
           </a>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

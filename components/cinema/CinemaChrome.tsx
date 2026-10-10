@@ -2,23 +2,25 @@
 
 /*
  * Cinema chrome — the black, film-portfolio header and footer shared by
- * /cinema and its project pages. Big condensed wordmark on the left, plain
+ * /cinema, its film pages and the cinema shop. Big condensed wordmark on the left, plain
  * uppercase nav and social icons on the right; collapses to a full-screen
  * menu on small screens.
  */
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Instagram, Mail } from "lucide-react";
+import { InstagramGlyph, MailGlyph } from "@/components/BrandIcons";
 
 const INSTAGRAM_URL = "https://www.instagram.com/shot.by.gafar/";
 const EMAIL = "contact@gafaraleshe.com";
+const BOOKING_URL = "https://shotbygafar.com";
 // Visitors who reach /cinema have made their pick, so the home page chooser
 // stays closed when they hop back over to the code portfolio.
 const PATH_KEY = "gafar:path";
 
 const nav = [
   { href: "/cinema", label: "Work" },
+  { href: "/cinema/shop", label: "Shop" },
   { href: "#contact", label: "Contact" },
   { href: "/", label: "Code ↗" },
 ];
@@ -34,7 +36,7 @@ function Socials({ className = "" }: { className?: string }) {
           aria-label="Instagram"
           className="block text-white/80 transition-colors hover:text-white"
         >
-          <Instagram className="h-5 w-5" strokeWidth={1.5} />
+          <InstagramGlyph size={18} />
         </a>
       </li>
       <li>
@@ -43,7 +45,7 @@ function Socials({ className = "" }: { className?: string }) {
           aria-label="Email"
           className="block text-white/80 transition-colors hover:text-white"
         >
-          <Mail className="h-5 w-5" strokeWidth={1.5} />
+          <MailGlyph size={19} />
         </a>
       </li>
     </ul>
@@ -67,12 +69,16 @@ export function CinemaHeader() {
     };
   }, [open]);
 
+  // Work covers the index and every film page; Shop is its own section.
+  const inShop = pathname.startsWith("/cinema/shop");
   const isActive = (href: string) =>
-    href === "/cinema" && pathname.startsWith("/cinema");
+    href === "/cinema/shop"
+      ? inShop
+      : href === "/cinema" && pathname.startsWith("/cinema") && !inShop;
 
   return (
     <>
-      <header className="relative z-10 flex h-24 items-center justify-between px-[5%] md:h-40 md:px-[4%]">
+      <header className="relative z-10 flex h-24 items-center justify-between px-[5%] md:h-32 md:px-[4%]">
         <a
           href="/cinema"
           className="font-cine text-[26px] uppercase leading-none tracking-wide text-white sm:text-[35px]"
@@ -86,10 +92,11 @@ export function CinemaHeader() {
               <a
                 key={item.href}
                 href={item.href}
-                className={`font-cine text-[19px] uppercase leading-none tracking-wide transition-opacity ${
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={`relative font-cine text-[19px] uppercase leading-none tracking-wide transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-white after:transition-all after:duration-300 ${
                   isActive(item.href)
-                    ? "text-white"
-                    : "text-white/70 hover:text-white"
+                    ? "text-white after:w-full"
+                    : "text-white/60 after:w-0 hover:text-white hover:after:w-full"
                 }`}
               >
                 {item.label}
@@ -150,24 +157,40 @@ export function CinemaFooter() {
   return (
     <footer
       id="contact"
-      className="scroll-mt-10 px-[5%] pb-14 pt-24 text-center md:px-[4%]"
+      className="mt-28 scroll-mt-10 border-t border-white/10 bg-black/60 px-[5%] pb-12 pt-20 text-center backdrop-blur-[2px] md:px-[4%]"
     >
-      <p className="font-cine text-[15px] uppercase tracking-[0.2em] text-white/50">
+      <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-white/45">
         Available for shoots · Portsmouth, UK
       </p>
       <a
         href={`mailto:${EMAIL}`}
-        className="mt-3 inline-block font-cine text-[34px] uppercase leading-none tracking-wide text-white transition-opacity hover:opacity-70 sm:text-[48px]"
+        className="mt-4 inline-block break-all font-cine text-[34px] uppercase leading-none tracking-wide text-white transition-opacity hover:opacity-70 sm:text-[56px]"
       >
         {EMAIL}
       </a>
-      <Socials className="mt-6 justify-center" />
-      <a
-        href="#top"
-        className="mt-14 inline-block font-cine text-[16px] uppercase tracking-[0.15em] text-white/60 transition-colors hover:text-white"
-      >
-        ↑ Back to top
-      </a>
+      <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="bg-white px-5 py-2.5 font-cine text-[18px] uppercase tracking-wide text-black transition-opacity hover:opacity-85"
+        >
+          Book a shoot ↗
+        </a>
+        <a
+          href="/cinema/shop"
+          className="border border-white/30 px-5 py-2.5 font-cine text-[18px] uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+        >
+          LUTs &amp; presets
+        </a>
+      </div>
+      <Socials className="mt-8 justify-center" />
+      <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+        <span>© {new Date().getFullYear()} SHOTBYGAFAR</span>
+        <a href="#top" className="transition-colors hover:text-white">
+          ↑ Back to top
+        </a>
+      </div>
     </footer>
   );
 }

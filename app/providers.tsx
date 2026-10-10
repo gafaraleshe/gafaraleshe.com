@@ -10,11 +10,12 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
-      {/* Light is the original green graph paper; the choice is stored in
-          localStorage and applied before paint, so there's no flash. */}
+      {/* Dark is the default; light is the original green graph paper. A
+          visitor's pick is stored in localStorage and applied before paint,
+          so there's no flash. */}
       <ThemeProvider
         attribute="class"
-        defaultTheme="light"
+        defaultTheme="dark"
         enableSystem={false}
         disableTransitionOnChange
       >

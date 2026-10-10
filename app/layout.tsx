@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import {
   Archivo,
   Bebas_Neue,
+  Caveat,
   DM_Serif_Display,
+  Geist,
   Geist_Mono,
   Inter,
 } from "next/font/google";
@@ -10,7 +12,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import "./globals.css";
-
 
 // Clerk activates only once its publishable key is set.
 const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
@@ -41,6 +42,21 @@ const bebas = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-bebas",
+  display: "swap",
+});
+
+// Body sans, after pysavant.cv (Geist + Geist Mono).
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+});
+
+// Handwriting for the margin notes ("open to work").
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -84,7 +100,7 @@ export default function RootLayout({
     // next-themes sets the theme class on <html> before hydration.
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${archivo.variable} ${dmSerif.variable} ${bebas.variable} ${geistMono.variable}`}
+        className={`${inter.variable} ${archivo.variable} ${dmSerif.variable} ${bebas.variable} ${geist.variable} ${caveat.variable} ${geistMono.variable}`}
       >
         {clerkEnabled ? <ClerkProvider>{tree}</ClerkProvider> : tree}
       </body>

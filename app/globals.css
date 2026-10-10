@@ -42,7 +42,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --font-serif: var(--font-dm-serif), Georgia, serif;
   --font-mono: var(--font-geist-mono), monospace;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-geist), var(--font-inter), system-ui, sans-serif;
+  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
   --font-display: var(--font-archivo), system-ui, sans-serif;
   --font-cine: var(--font-bebas), "Arial Narrow", sans-serif;
   --color-sage: oklch(0.55 0.06 155);
@@ -66,9 +67,9 @@
   --color-heat-4: var(--heat-4);
 }
 
-/* Site palette. Light is the original green graph paper with cream index
-   cards; dark keeps every layout and swaps in deep green and near-black
-   paper. Light values equal the Tailwind classes they replaced (ink =
+/* Site palette. Dark is the default: pysavant.cv's neutral near-black on a
+   faint grid. Light is the original green graph paper with cream index
+   cards. Light values equal the Tailwind classes they replaced (ink =
    neutral-900, ink-soft = 700, ink-dim = 600, ink-muted = 500, ink-faint =
    400, tile = white), so the light theme renders exactly as before.
      canvas  page background behind the cards (+ its grid lines)
@@ -97,27 +98,30 @@
 }
 
 .dark {
-  --canvas: #052b23;
-  --canvas-grid: rgb(255 255 255 / 0.05);
-  --paper: #0f1412;
-  --paper-dot: rgb(255 255 255 / 0.055);
-  --tile: #171d1b;
-  --tile-hover: #1e2522;
-  --ink: #ecebe4;
-  --ink-soft: #cfcdc6;
-  --ink-dim: #b3b1aa;
-  --ink-muted: #8f8d87;
-  --ink-faint: #6d6c67;
-  --scrim: rgb(2 20 16 / 0.85);
+  /* Neutral near-black after pysavant.cv: #0a0a0a canvas, #101010/#161616
+     surfaces, #ededed ink, and a grayscale contribution graph. The canvas
+     sits a step darker than the paper so the sheet reads against the grid. */
+  --canvas: #060606;
+  --canvas-grid: rgb(255 255 255 / 0.045);
+  --paper: #0a0a0a;
+  --paper-dot: rgb(255 255 255 / 0.035);
+  --tile: #161616;
+  --tile-hover: #1d1d1d;
+  --ink: #ededed;
+  --ink-soft: #c4c4c4;
+  --ink-dim: #a1a1a1;
+  --ink-muted: #8a8a8a;
+  --ink-faint: #5e5e5e;
+  --scrim: rgb(0 0 0 / 0.8);
   --heat-0: rgb(255 255 255 / 0.06);
-  --heat-1: #0f4535;
-  --heat-2: #186c53;
-  --heat-3: #26a17b;
-  --heat-4: #54e0b0;
+  --heat-1: #333333;
+  --heat-2: #5f5f5f;
+  --heat-3: #9a9a9a;
+  --heat-4: #ededed;
   /* shadcn tokens used by the toaster and tooltips */
-  --foreground: #ecebe4;
-  --popover: #171d1b;
-  --popover-foreground: #ecebe4;
+  --foreground: #ededed;
+  --popover: #161616;
+  --popover-foreground: #ededed;
   --border: rgb(255 255 255 / 0.1);
 }
 
@@ -223,16 +227,64 @@ html {
   }
 }
 
-/* Cinema pages swap the green graph paper for plain black, including the
-   overscroll area around the page. */
+/* Cinema pages trade the green graph paper for black film stock, keeping
+   the same grid (a touch brighter so it reads on pure black). */
+.cinema-grid {
+  background-color: #000;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.055) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center top;
+  background-attachment: fixed;
+}
 body:has(.cinema-root) {
   background: #000;
+}
+
+/* pysavant-style inline link: ink text, faint underline that firms up. */
+.link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--ink-faint);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+.link:hover {
+  text-decoration-color: var(--ink-dim);
+}
+
+/* Hand-drawn doodle strokes (the "open to work" arrow). */
+@keyframes doodle-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.doodle path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: doodle-draw 0.9s cubic-bezier(0.45, 0, 0.3, 1) both;
+  animation-delay: var(--doodle-delay, 0.9s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .doodle path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
 
 /* Custom selection color */
 ::selection {
   background: oklch(0.92 0.03 155);
   color: oklch(0.2 0.01 65);
+}
+.dark ::selection {
+  background: #ededed;
+  color: #0a0a0a;
 }
 
 /* Smooth scrollbar */
@@ -248,4 +300,10 @@ body:has(.cinema-root) {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.7 0.01 65);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
 }

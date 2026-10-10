@@ -2,8 +2,8 @@
 
 /*
  * Theme tab — the light/dark switch, built as an index-card divider tab
- * sticking out of the right edge of the screen. Light is the original green
- * graph paper, dark the deeper palette in globals.css. Rendered once from
+ * sticking out of the right edge of the screen. Dark (the default) is the
+ * near-black palette in globals.css, light the original green graph paper. Rendered once from
  * Providers, so it's on every page except /cinema, which is always black.
  *
  * The server can't know the visitor's theme, but next-themes puts the "dark"
@@ -39,7 +39,7 @@ const OPTIONS = [
 ] as const;
 
 // The canvas colour (--canvas in globals.css), for the browser toolbar tint.
-const CANVAS = { light: "#095e4e", dark: "#052b23" } as const;
+const CANVAS = { light: "#095e4e", dark: "#060606" } as const;
 
 // Same dotted card stock as the index cards.
 const DOTTED = {
@@ -66,12 +66,13 @@ export function ThemeToggle() {
 
   if (pathname?.startsWith("/cinema")) return null;
 
-  // Unknown on the server and during hydration; known once mounted.
-  const dark = mounted && resolvedTheme === "dark";
+  // Unknown on the server and during hydration, where the default (dark) is
+  // assumed; known once mounted.
+  const dark = mounted ? resolvedTheme === "dark" : true;
 
   return (
     <>
-      {/* React hoists this into <head>. It holds the light colour until mount,
+      {/* React hoists this into <head>. It holds the dark colour until mount,
           so hydration reuses the server's tag, then follows the theme. */}
       <meta name="theme-color" content={dark ? CANVAS.dark : CANVAS.light} />
 
