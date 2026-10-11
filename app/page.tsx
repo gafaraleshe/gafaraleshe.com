@@ -20,7 +20,7 @@ import {
   XGlyph,
 } from "@/components/BrandIcons";
 import { GitHubActivity } from "@/components/GitHubActivity";
-import { INSTAGRAM_PROFILE, InstagramFeed } from "@/components/InstagramFeed";
+import { FeaturedSets } from "@/components/photography/FeaturedSets";
 import { PathChooser } from "@/components/PathChooser";
 import { SkillIcon } from "@/components/SkillIcons";
 import { WorkGrid, type WorkItem } from "@/components/WorkGrid";
@@ -674,27 +674,16 @@ function HomeContent() {
             <WorkGrid items={work} />
           </Section>
 
-          {/* ── Education ── */}
-          <Section id="education" title="Education">
-            <NumberedList items={education} />
-          </Section>
-
-          <Section id="certifications" title="Certifications">
-            <NumberedList items={certifications} />
-          </Section>
-
-          {/* ── Instagram ── */}
+          {/* ── Photography: the SHOTBYGAFAR sets, in a dark lightbox ── */}
           <Section
-            id="instagram"
-            title="Instagram"
+            id="photography"
+            title="Photography"
             action={
               <a
-                href={INSTAGRAM_PROFILE.url}
-                target="_blank"
-                rel="noreferrer"
+                href="/cinema/photography"
                 className="group flex items-center gap-1.5 text-[13px] text-ink-muted transition-colors hover:text-ink sm:text-[13.5px]"
               >
-                {INSTAGRAM_PROFILE.handle}
+                All sets
                 <span
                   aria-hidden
                   className="text-ink-faint transition-transform duration-300 group-hover:translate-x-0.5"
@@ -704,7 +693,30 @@ function HomeContent() {
               </a>
             }
           >
-            <InstagramFeed />
+            <p className="mb-4 text-[14px] leading-relaxed text-ink-dim">
+              Stills from{" "}
+              <a
+                href="https://shotbygafar.com"
+                target="_blank"
+                rel="noreferrer"
+                className="link"
+              >
+                SHOTBYGAFAR
+              </a>
+              , my photo and film side. Tap any frame to see the whole set.
+            </p>
+            <div className="-mx-2 rounded-lg bg-[#070707] px-4 pb-1 pt-5 ring-1 ring-black/40 sm:-mx-4 sm:px-6 sm:pt-6">
+              <FeaturedSets count={4} columns="columns-1 sm:columns-2" />
+            </div>
+          </Section>
+
+          {/* ── Education ── */}
+          <Section id="education" title="Education">
+            <NumberedList items={education} />
+          </Section>
+
+          <Section id="certifications" title="Certifications">
+            <NumberedList items={certifications} />
           </Section>
         </div>
 

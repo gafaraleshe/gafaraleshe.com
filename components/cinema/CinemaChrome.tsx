@@ -2,7 +2,7 @@
 
 /*
  * Cinema chrome — the black, film-portfolio header and footer shared by
- * /cinema, its film pages and the cinema shop. Big condensed wordmark on the left, plain
+ * /cinema, its film pages, the photography page and the cinema shop. Big condensed wordmark on the left, plain
  * uppercase nav and social icons on the right; collapses to a full-screen
  * menu on small screens.
  */
@@ -20,6 +20,7 @@ const PATH_KEY = "gafar:path";
 
 const nav = [
   { href: "/cinema", label: "Work" },
+  { href: "/cinema/photography", label: "Photos" },
   { href: "/cinema/shop", label: "Shop" },
   { href: "#contact", label: "Contact" },
   { href: "/", label: "Code ↗" },
@@ -69,12 +70,15 @@ export function CinemaHeader() {
     };
   }, [open]);
 
-  // Work covers the index and every film page; Shop is its own section.
-  const inShop = pathname.startsWith("/cinema/shop");
+  // Work covers the index and every film page; Photos and Shop are their
+  // own sections.
+  const own = ["/cinema/photography", "/cinema/shop"];
   const isActive = (href: string) =>
-    href === "/cinema/shop"
-      ? inShop
-      : href === "/cinema" && pathname.startsWith("/cinema") && !inShop;
+    own.includes(href)
+      ? pathname.startsWith(href)
+      : href === "/cinema" &&
+        pathname.startsWith("/cinema") &&
+        !own.some(o => pathname.startsWith(o));
 
   return (
     <>

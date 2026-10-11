@@ -1,8 +1,8 @@
 /*
  * Cinema — the film portfolio index, on black film stock with the site's
- * grid. A big title, the showreel as a letterboxed 2.39:1 feature, then the
- * films in an editorial grid (one wide, two half, repeating), what I shoot,
- * and a strip from the shop. Projects live in lib/cinema.ts, products in
+ * grid. A big title, the showreel as a letterboxed 2.39:1 feature, a
+ * selection of photography sets, then the films in an editorial grid (one
+ * wide, two half, repeating), what I shoot, and a strip from the shop. Projects live in lib/cinema.ts, products in
  * lib/shop.ts.
  */
 
@@ -10,6 +10,7 @@ import { cinemaProjects } from "@/lib/cinema";
 import { products } from "@/lib/shop";
 import { Cover, FilmCard, Viewfinder } from "@/components/cinema/Film";
 import { ProductTeaser } from "@/components/cinema/ProductCard";
+import { FeaturedSets } from "@/components/photography/FeaturedSets";
 
 // Figures as published on shotbygafar.com.
 const stats = [
@@ -127,6 +128,27 @@ export default function CinemaWork() {
           </div>
         </a>
       )}
+
+      {/* ── Photography ── */}
+      <section className="mt-24" aria-labelledby="photo-title">
+        <SectionHead
+          id="photo-title"
+          title="Photography"
+          aside={
+            <a
+              href="/cinema/photography"
+              className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/60 transition-colors hover:text-white"
+            >
+              All sets →
+            </a>
+          }
+        />
+        <p className="-mt-2 mb-8 max-w-xl text-[14px] leading-relaxed text-white/55">
+          Stills from the SHOTBYGAFAR side — concerts, football, lifestyle,
+          nightlife and brand work. Tap a frame to flick through the set.
+        </p>
+        <FeaturedSets />
+      </section>
 
       {/* ── Films ── */}
       {films.length > 0 && (
