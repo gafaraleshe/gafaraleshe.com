@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
+import { subscribe } from "@/lib/newsletter";
 
 // "paper" is the filing card used on /shop; "cinema" the flat black version
 // for /cinema/shop, which ignores the site theme like the rest of /cinema.
@@ -51,22 +52,12 @@ export default function NewsletterForm({
     e.preventDefault();
     setStatus("loading");
     setMessage("");
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok) {
-        setStatus("done");
-      } else {
-        setStatus("error");
-        setMessage(data?.error ?? "Something went wrong.");
-      }
-    } catch {
+    const result = await subscribe(email);
+    if (result.ok) {
+      setStatus("done");
+    } else {
       setStatus("error");
-      setMessage("Network error — please try again.");
+      setMessage(result.error);
     }
   }
 

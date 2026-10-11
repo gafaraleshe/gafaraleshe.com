@@ -7,6 +7,7 @@
 import type { Metadata } from "next";
 import { products } from "@/lib/shop";
 import { ProductCard } from "@/components/cinema/ProductCard";
+import { NewsletterPopup } from "@/components/NewsletterPopup";
 import PolarEmbed from "@/app/shop/polar-embed";
 import NewsletterForm from "@/app/newsletter-form";
 
@@ -26,6 +27,7 @@ export default function CinemaShop() {
   return (
     <main className="px-[5%] md:px-[4%]">
       <PolarEmbed />
+      <NewsletterPopup tone="cinema" />
 
       <section className="pb-12 pt-4 md:pb-16">
         <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-white/50">

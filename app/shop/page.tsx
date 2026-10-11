@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion";
+import { NewsletterPopup } from "@/components/NewsletterPopup";
 import PolarEmbed from "./polar-embed";
 import NewsletterForm from "../newsletter-form";
 import { isLive as live, products } from "@/lib/shop";
@@ -50,6 +51,7 @@ export default function ShopPage() {
 
       <main className="mx-auto max-w-3xl pb-14">
         <PolarEmbed />
+        <NewsletterPopup />
         {/* Intro card */}
         <Reveal y={24}>
           <section
