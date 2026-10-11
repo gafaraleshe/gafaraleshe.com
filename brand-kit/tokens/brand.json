@@ -1,0 +1,41 @@
+{
+  "name": "Gafar Aleshe",
+  "source": "app/globals.css, app/layout.tsx, public/favicon.svg",
+  "themes": {
+    "dark": {
+      "default": true,
+      "canvas": "#060606",
+      "paper": "#0a0a0a",
+      "tile": "#161616",
+      "tileHover": "#1d1d1d",
+      "ink": "#ededed",
+      "inkSoft": "#c4c4c4",
+      "inkDim": "#a1a1a1",
+      "inkMuted": "#8a8a8a",
+      "inkFaint": "#5e5e5e"
+    },
+    "light": {
+      "canvas": "#095e4e",
+      "paper": "#f4f3ec",
+      "tile": "#ffffff",
+      "ink": "#171717",
+      "inkSoft": "#404040",
+      "inkDim": "#525252",
+      "inkMuted": "#737373",
+      "inkFaint": "#a3a3a3",
+      "sage": "#557c62",
+      "sageLight": "#d6ebdc"
+    },
+    "cinema": { "canvas": "#000000", "grid": "rgba(255,255,255,0.055)" }
+  },
+  "mark": "#5a8a6a",
+  "grid": { "sizePx": 32, "lightAlpha": 0.06, "darkAlpha": 0.045 },
+  "fonts": {
+    "display": "DM Serif Display",
+    "ui": "Archivo",
+    "body": "Geist",
+    "mono": "Geist Mono",
+    "hand": "Caveat",
+    "cinema": "Bebas Neue"
+  }
+}

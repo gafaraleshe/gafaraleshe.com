@@ -1,0 +1,174 @@
+{
+	Tools = ordered() {
+		GafarShakeCut = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Intensity = Input { Value = 4, },
+				Speed = Input { Value = 3, },
+				Rotation = Input { Value = 0.5, },
+				Zoom = Input { Value = 8, },
+				Seed = Input { Value = 1, },
+				Flash = Input { Value = 0.25, },
+				Sharpness = Input { Value = 1.5, },
+				Progress = Input {
+					Value = 0,
+					Expression = "min(max((time - comp.RenderStart)/max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)",
+				},
+				Envelope = Input {
+					Value = 0,
+					Expression = "pow(max(1 - abs(2*GafarShakeCut.Progress - 1), 0), GafarShakeCut.Sharpness)",
+				},
+				MainInput1 = InstanceInput {
+					SourceOp = "CutDissolve",
+					Source = "Background",
+				},
+				MainInput2 = InstanceInput {
+					SourceOp = "CutDissolve",
+					Source = "Foreground",
+				},
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput {
+					SourceOp = "FlashMerge",
+					Source = "Output",
+				},
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				CutDissolve = Dissolve {
+					Inputs = {
+						Mix = Input {
+							Value = 0,
+							Expression = "floor(GafarShakeCut.Progress + 0.5)",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 110, 0 } },
+				},
+				ShakeXf = Transform {
+					Inputs = {
+						Input = Input {
+							SourceOp = "CutDissolve",
+							Source = "Output",
+						},
+						Center = Input {
+							Value = { 0.5, 0.5 },
+							Expression = "Point(0.5 + GafarShakeCut.Intensity*0.01*GafarShakeCut.Envelope*((sin(GafarShakeCut.Speed*0.5*time + GafarShakeCut.Seed*12.9898) + 0.7*sin(GafarShakeCut.Speed*0.5*time*2.31 + GafarShakeCut.Seed*78.233) + 0.4*sin(GafarShakeCut.Speed*0.5*time*4.73 + GafarShakeCut.Seed*37.719))/2.1), 0.5 + GafarShakeCut.Intensity*0.01*GafarShakeCut.Envelope*((sin(GafarShakeCut.Speed*0.5*time*1.13 + GafarShakeCut.Seed*45.164) + 0.7*sin(GafarShakeCut.Speed*0.5*time*2.71 + GafarShakeCut.Seed*94.673) + 0.4*sin(GafarShakeCut.Speed*0.5*time*5.31 + GafarShakeCut.Seed*21.953))/2.1))",
+						},
+						Size = Input {
+							Value = 1,
+							Expression = "1 + GafarShakeCut.Zoom*0.01*GafarShakeCut.Envelope",
+						},
+						Angle = Input {
+							Value = 0,
+							Expression = "GafarShakeCut.Rotation*GafarShakeCut.Envelope*((sin(GafarShakeCut.Speed*0.5*time*0.87 + GafarShakeCut.Seed*63.726) + 0.7*sin(GafarShakeCut.Speed*0.5*time*1.93 + GafarShakeCut.Seed*11.135) + 0.4*sin(GafarShakeCut.Speed*0.5*time*3.97 + GafarShakeCut.Seed*52.498))/2.1)",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 220, 0 } },
+				},
+				FlashBG = Background {
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1, },
+						TopLeftRed = Input { Value = 1, },
+						TopLeftGreen = Input { Value = 1, },
+						TopLeftBlue = Input { Value = 1, },
+						TopLeftAlpha = Input { Value = 1, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 220, 60 } },
+				},
+				FlashMerge = Merge {
+					Inputs = {
+						Blend = Input {
+							Value = 0,
+							Expression = "GafarShakeCut.Flash*GafarShakeCut.Envelope",
+						},
+						Background = Input {
+							SourceOp = "ShakeXf",
+							Source = "Output",
+						},
+						Foreground = Input {
+							SourceOp = "FlashBG",
+							Source = "Output",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 330, 0 } },
+				},
+			},
+			UserControls = ordered() {
+				Intensity = {
+					LINKS_Name = "Intensity (% of frame)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 4,
+					INP_MinScale = 0,
+					INP_MaxScale = 10,
+				},
+				Speed = {
+					LINKS_Name = "Speed",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 3,
+					INP_MinScale = 1,
+					INP_MaxScale = 10,
+				},
+				Rotation = {
+					LINKS_Name = "Rotation (deg)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0.5,
+					INP_MinScale = 0,
+					INP_MaxScale = 5,
+				},
+				Zoom = {
+					LINKS_Name = "Zoom punch (%)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 8,
+					INP_MinScale = 0,
+					INP_MaxScale = 20,
+				},
+				Seed = {
+					LINKS_Name = "Seed",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 1,
+					INP_Integer = true,
+					INP_MinScale = 1,
+					INP_MaxScale = 50,
+				},
+				Flash = {
+					LINKS_Name = "Flash amount",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0.25,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+				Sharpness = {
+					LINKS_Name = "Sharpness",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 1.5,
+					INP_MinScale = 0.3,
+					INP_MaxScale = 6,
+				},
+				Progress = {
+					LINKS_Name = "Progress (auto)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+				Envelope = {
+					LINKS_Name = "Envelope (auto)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+			},
+		},
+	},
+	ActiveTool = "GafarShakeCut",
+}
