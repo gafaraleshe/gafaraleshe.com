@@ -20,7 +20,6 @@ import {
   XGlyph,
 } from "@/components/BrandIcons";
 import { GitHubActivity } from "@/components/GitHubActivity";
-import { FeaturedSets } from "@/components/photography/FeaturedSets";
 import { PathChooser } from "@/components/PathChooser";
 import { SkillIcon } from "@/components/SkillIcons";
 import { WorkGrid, type WorkItem } from "@/components/WorkGrid";
@@ -672,42 +671,6 @@ function HomeContent() {
             }
           >
             <WorkGrid items={work} />
-          </Section>
-
-          {/* ── Photography: the SHOTBYGAFAR sets, in a dark lightbox ── */}
-          <Section
-            id="photography"
-            title="Photography"
-            action={
-              <a
-                href="/cinema/photography"
-                className="group flex items-center gap-1.5 text-[13px] text-ink-muted transition-colors hover:text-ink sm:text-[13.5px]"
-              >
-                All sets
-                <span
-                  aria-hidden
-                  className="text-ink-faint transition-transform duration-300 group-hover:translate-x-0.5"
-                >
-                  →
-                </span>
-              </a>
-            }
-          >
-            <p className="mb-4 text-[14px] leading-relaxed text-ink-dim">
-              Stills from{" "}
-              <a
-                href="https://shotbygafar.com"
-                target="_blank"
-                rel="noreferrer"
-                className="link"
-              >
-                SHOTBYGAFAR
-              </a>
-              , my photo and film side. Tap any frame to see the whole set.
-            </p>
-            <div className="-mx-2 rounded-lg bg-[#070707] px-4 pb-1 pt-5 ring-1 ring-black/40 sm:-mx-4 sm:px-6 sm:pt-6">
-              <FeaturedSets count={4} columns="columns-1 sm:columns-2" />
-            </div>
           </Section>
 
           {/* ── Education ── */}
