@@ -1,0 +1,113 @@
+{
+	Tools = ordered() {
+		GafarFlashCut = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Flash = Input { Value = 0.9, },
+				Sharpness = Input { Value = 2, },
+				Progress = Input {
+					Value = 0,
+					Expression = "min(max((time - comp.RenderStart)/max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)",
+				},
+				Red = InstanceInput {
+					SourceOp = "FlashBG",
+					Source = "TopLeftRed",
+					Name = "Flash Red",
+					Default = 1,
+				},
+				Green = InstanceInput {
+					SourceOp = "FlashBG",
+					Source = "TopLeftGreen",
+					Name = "Flash Green",
+					Default = 1,
+				},
+				Blue = InstanceInput {
+					SourceOp = "FlashBG",
+					Source = "TopLeftBlue",
+					Name = "Flash Blue",
+					Default = 1,
+				},
+				MainInput1 = InstanceInput {
+					SourceOp = "CutDissolve",
+					Source = "Background",
+				},
+				MainInput2 = InstanceInput {
+					SourceOp = "CutDissolve",
+					Source = "Foreground",
+				},
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput {
+					SourceOp = "FlashMerge",
+					Source = "Output",
+				},
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				CutDissolve = Dissolve {
+					Inputs = {
+						Mix = Input {
+							Value = 0,
+							Expression = "floor(GafarFlashCut.Progress + 0.5)",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 110, 0 } },
+				},
+				FlashBG = Background {
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1, },
+						TopLeftRed = Input { Value = 1, },
+						TopLeftGreen = Input { Value = 1, },
+						TopLeftBlue = Input { Value = 1, },
+						TopLeftAlpha = Input { Value = 1, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 110, 60 } },
+				},
+				FlashMerge = Merge {
+					Inputs = {
+						Blend = Input {
+							Value = 0,
+							Expression = "GafarFlashCut.Flash*pow(max(1 - abs(2*GafarFlashCut.Progress - 1), 0), GafarFlashCut.Sharpness)",
+						},
+						Background = Input {
+							SourceOp = "CutDissolve",
+							Source = "Output",
+						},
+						Foreground = Input {
+							SourceOp = "FlashBG",
+							Source = "Output",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 220, 0 } },
+				},
+			},
+			UserControls = ordered() {
+				Flash = {
+					LINKS_Name = "Flash amount",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0.9,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+				Sharpness = {
+					LINKS_Name = "Sharpness",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 2,
+					INP_MinScale = 0.3,
+					INP_MaxScale = 6,
+				},
+				Progress = {
+					LINKS_Name = "Progress (auto)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+			},
+		},
+	},
+	ActiveTool = "GafarFlashCut",
+}

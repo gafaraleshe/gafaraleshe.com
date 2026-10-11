@@ -1,0 +1,56 @@
+/*
+ * Gafar Aleshe brand tokens, lifted from app/globals.css and app/layout.tsx.
+ * Dark is the site default; light is the green graph-paper theme.
+ */
+:root {
+  --canvas: #095e4e;
+  --canvas-grid: rgb(255 255 255 / 0.06);
+  --paper: #f4f3ec;
+  --paper-dot: rgb(0 0 0 / 0.07);
+  --tile: #ffffff;
+  --ink: #171717;
+  --ink-soft: #404040;
+  --ink-dim: #525252;
+  --ink-muted: #737373;
+  --ink-faint: #a3a3a3;
+  --sage: #557c62;
+  --sage-light: #d6ebdc;
+  --mark: #5a8a6a;
+  --heat-1: #a7d7c0;
+  --heat-2: #5eae8a;
+  --heat-3: #23805f;
+  --heat-4: #095e4e;
+
+  --font-serif: "DM Serif Display", Georgia, serif;
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-hand: "Caveat", cursive;
+  --font-cine: "Bebas Neue", "Arial Narrow", sans-serif;
+
+  --ease: cubic-bezier(0.44, 0, 0.56, 1);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --canvas: #060606;
+  --canvas-grid: rgb(255 255 255 / 0.045);
+  --paper: #0a0a0a;
+  --paper-dot: rgb(255 255 255 / 0.035);
+  --tile: #161616;
+  --ink: #ededed;
+  --ink-soft: #c4c4c4;
+  --ink-dim: #a1a1a1;
+  --ink-muted: #8a8a8a;
+  --ink-faint: #5e5e5e;
+  --heat-1: #333333;
+  --heat-2: #5f5f5f;
+  --heat-3: #9a9a9a;
+  --heat-4: #ededed;
+}
+
+/* Cinema pages: pure black with the same grid, a touch brighter. */
+.cinema {
+  --canvas: #000000;
+  --canvas-grid: rgb(255 255 255 / 0.055);
+}

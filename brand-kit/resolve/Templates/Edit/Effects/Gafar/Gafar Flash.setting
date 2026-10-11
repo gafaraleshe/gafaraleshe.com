@@ -1,0 +1,95 @@
+{
+	Tools = ordered() {
+		GafarFlash = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Amount = Input { Value = 1, },
+				Curve = Input {
+					SourceOp = "GafarFlashCurve",
+					Source = "Value",
+				},
+				Red = InstanceInput {
+					SourceOp = "FlashBG",
+					Source = "TopLeftRed",
+					Name = "Flash Red",
+					Default = 1,
+				},
+				Green = InstanceInput {
+					SourceOp = "FlashBG",
+					Source = "TopLeftGreen",
+					Name = "Flash Green",
+					Default = 1,
+				},
+				Blue = InstanceInput {
+					SourceOp = "FlashBG",
+					Source = "TopLeftBlue",
+					Name = "Flash Blue",
+					Default = 1,
+				},
+				MainInput1 = InstanceInput {
+					SourceOp = "FlashMerge",
+					Source = "Background",
+				},
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput {
+					SourceOp = "FlashMerge",
+					Source = "Output",
+				},
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				GafarFlashCurve = BezierSpline {
+					SplineColor = { Red = 255, Green = 255, Blue = 255 },
+					NameSet = true,
+					KeyFrames = {
+						[0] = { 1, RH = { 0.8, 0.4 } },
+						[8] = { 0, LH = { 4, 0 } },
+					},
+				},
+				FlashBG = Background {
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1, },
+						TopLeftRed = Input { Value = 1, },
+						TopLeftGreen = Input { Value = 1, },
+						TopLeftBlue = Input { Value = 1, },
+						TopLeftAlpha = Input { Value = 1, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 0, 60 } },
+				},
+				FlashMerge = Merge {
+					Inputs = {
+						Blend = Input {
+							Value = 1,
+							Expression = "GafarFlash.Amount*GafarFlash.Curve",
+						},
+						Foreground = Input {
+							SourceOp = "FlashBG",
+							Source = "Output",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 110, 0 } },
+				},
+			},
+			UserControls = ordered() {
+				Amount = {
+					LINKS_Name = "Flash amount",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 1,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+				Curve = {
+					LINKS_Name = "Envelope (edit in Spline)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 1,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+			},
+		},
+	},
+	ActiveTool = "GafarFlash",
+}

@@ -1,0 +1,32 @@
+{
+  "source": "components/motion.tsx",
+  "ease": [0.44, 0, 0.56, 1],
+  "fps": 24,
+  "tweens": {
+    "heroRise": { "duration": 0.45, "delay": 0.1, "from": { "y": 120, "opacity": 0 } },
+    "fadeIn": { "duration": 0.7 },
+    "nameReveal": { "duration": 0.32, "stagger": 0.07, "blurPx": 8, "fromX": 14 }
+  },
+  "springs": {
+    "rise": { "bounce": 0.4, "duration": 0.8, "from": { "y": 40, "opacity": 0 } },
+    "tapePop": { "bounce": 0.5, "duration": 1.1, "from": { "scale": 0.4, "y": -40 } },
+    "clipDrop": { "bounce": 0.25, "duration": 0.7, "from": { "y": -60, "rotate": 60 } },
+    "flipIn": { "bounce": 0.4, "duration": 0.9, "from": { "x": 40, "rotate": 30, "rotateY": -50 } },
+    "chipPop": { "bounce": 0.5, "duration": 0.7, "from": { "scale": 0.4 } },
+    "hoverLift": { "bounce": 0.55, "duration": 0.45, "to": { "y": -4, "scale": 1.01 } },
+    "hoverPop": { "bounce": 0.55, "duration": 0.4, "to": { "y": -2, "scale": 1.05 } }
+  },
+  "presets": {
+    "cameraShake": {
+      "intensityPct": 2.5, "speed": 3, "rotationDeg": 0.5, "zoomPct": 6, "seed": 1,
+      "durationFrames": 12,
+      "curve": { "cp1": [0.1, 0.6], "cp2": [0.5, 1] }
+    },
+    "flash": {
+      "amount": 1, "durationFrames": 8,
+      "curve": { "cp1": [0.1, 0.6], "cp2": [0.5, 1] }
+    },
+    "flashCut": { "flash": 0.9, "sharpness": 2, "cutAt": 0.5 },
+    "shakeCut": { "flash": 0.25, "sharpness": 1.5, "intensityPct": 4, "zoomPct": 8, "cutAt": 0.5 }
+  }
+}

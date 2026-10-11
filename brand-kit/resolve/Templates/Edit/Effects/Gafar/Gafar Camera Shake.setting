@@ -1,0 +1,108 @@
+{
+	Tools = ordered() {
+		GafarCameraShake = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Intensity = Input { Value = 2.5, },
+				Speed = Input { Value = 3, },
+				Rotation = Input { Value = 0.5, },
+				Zoom = Input { Value = 6, },
+				Seed = Input { Value = 1, },
+				Curve = Input {
+					SourceOp = "GafarCameraShakeCurve",
+					Source = "Value",
+				},
+				MainInput1 = InstanceInput {
+					SourceOp = "ShakeXf",
+					Source = "Input",
+				},
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput {
+					SourceOp = "ShakeXf",
+					Source = "Output",
+				},
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				GafarCameraShakeCurve = BezierSpline {
+					SplineColor = { Red = 9, Green = 94, Blue = 78 },
+					NameSet = true,
+					KeyFrames = {
+						[0] = { 1, RH = { 1.2, 0.4 } },
+						[12] = { 0, LH = { 6, 0 } },
+					},
+				},
+				ShakeXf = Transform {
+					Inputs = {
+						Center = Input {
+							Value = { 0.5, 0.5 },
+							Expression = "Point(0.5 + GafarCameraShake.Intensity*0.01*GafarCameraShake.Curve*((sin(GafarCameraShake.Speed*0.5*time + GafarCameraShake.Seed*12.9898) + 0.7*sin(GafarCameraShake.Speed*0.5*time*2.31 + GafarCameraShake.Seed*78.233) + 0.4*sin(GafarCameraShake.Speed*0.5*time*4.73 + GafarCameraShake.Seed*37.719))/2.1), 0.5 + GafarCameraShake.Intensity*0.01*GafarCameraShake.Curve*((sin(GafarCameraShake.Speed*0.5*time*1.13 + GafarCameraShake.Seed*45.164) + 0.7*sin(GafarCameraShake.Speed*0.5*time*2.71 + GafarCameraShake.Seed*94.673) + 0.4*sin(GafarCameraShake.Speed*0.5*time*5.31 + GafarCameraShake.Seed*21.953))/2.1))",
+						},
+						Size = Input {
+							Value = 1,
+							Expression = "1 + GafarCameraShake.Zoom*0.01*GafarCameraShake.Curve",
+						},
+						Angle = Input {
+							Value = 0,
+							Expression = "GafarCameraShake.Rotation*GafarCameraShake.Curve*((sin(GafarCameraShake.Speed*0.5*time*0.87 + GafarCameraShake.Seed*63.726) + 0.7*sin(GafarCameraShake.Speed*0.5*time*1.93 + GafarCameraShake.Seed*11.135) + 0.4*sin(GafarCameraShake.Speed*0.5*time*3.97 + GafarCameraShake.Seed*52.498))/2.1)",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 110, 0 } },
+				},
+			},
+			UserControls = ordered() {
+				Intensity = {
+					LINKS_Name = "Intensity (% of frame)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 2.5,
+					INP_MinScale = 0,
+					INP_MaxScale = 10,
+				},
+				Speed = {
+					LINKS_Name = "Speed",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 3,
+					INP_MinScale = 1,
+					INP_MaxScale = 10,
+				},
+				Rotation = {
+					LINKS_Name = "Rotation (deg)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0.5,
+					INP_MinScale = 0,
+					INP_MaxScale = 5,
+				},
+				Zoom = {
+					LINKS_Name = "Zoom punch (%)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 6,
+					INP_MinScale = 0,
+					INP_MaxScale = 20,
+				},
+				Seed = {
+					LINKS_Name = "Seed",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 1,
+					INP_Integer = true,
+					INP_MinScale = 1,
+					INP_MaxScale = 50,
+				},
+				Curve = {
+					LINKS_Name = "Envelope (edit in Spline)",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 1,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+				},
+			},
+		},
+	},
+	ActiveTool = "GafarCameraShake",
+}
