@@ -22,7 +22,16 @@ brand-kit/
 
 **Status: not yet loaded in Resolve.** They were written from Blackmagic's documented template format and the public scripting API. The `.setting` files parse as valid Lua tables with no dangling tool links, and the shake and flash expressions were evaluated numerically, but Resolve itself was not available to test. Treat the first import as a test. The transition templates are the least documented part of the format.
 
-### Install
+### Install on a Mac (double-click)
+
+Quit Resolve, then use either route:
+
+- **Zip:** `bash brand-kit/resolve/make_mac_zip.sh` builds `Gafar-Kit-Mac.zip`. Unzip it, right-click **Install Gafar Kit.command** → **Open** → **Open** (the script is unsigned, so a plain double-click is blocked the first time), then reopen Resolve.
+- **Repo:** right-click `brand-kit/resolve/Install Gafar Kit.command` → **Open**. It also copies the PNGs to `~/Movies/Gafar Kit`.
+
+It is a script, not a `.pkg`: building a `.pkg` needs Apple's `pkgbuild` on a Mac, and an unsigned one gets the same Gatekeeper prompt. The installer was tested against a temporary folder, not a real Resolve install.
+
+### Install with Python (any OS)
 
 Quit Resolve, then:
 

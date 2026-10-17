@@ -114,3 +114,6 @@ temp/
 .webdev/
 
 .vercel
+
+# python
+__pycache__/
