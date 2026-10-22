@@ -3,15 +3,16 @@
 /*
  * Home — laid out after pysavant.cv: one narrow column with a name and
  * profile row, a few plain paragraphs, then quiet sections (Activity,
- * Experience, Skills, Selected work, Education) each headed by a small
- * label. The column sits on a single paper sheet over the graph-paper grid,
+ * Experience, Projects, Skills, Selected work, Education) each headed by a
+ * small label. The CV content comes from lib/cv.ts, which also feeds the
+ * downloadable /cv.pdf. The column sits on a single paper sheet over the graph-paper grid,
  * near-black by default and the original cream card in the light theme.
  */
 
 import { useState } from "react";
 import { AnimatePresence, motion, type MotionProps } from "framer-motion";
 import { ChevronDown, Download, Mail } from "lucide-react";
-import { NameReveal, Reveal, fadeIn } from "@/components/motion";
+import { NameReveal, Reveal } from "@/components/motion";
 import {
   GitHubGlyph,
   InstagramGlyph,
@@ -21,16 +22,25 @@ import {
 } from "@/components/BrandIcons";
 import { GitHubActivity } from "@/components/GitHubActivity";
 import { PathChooser } from "@/components/PathChooser";
+import { SiteNav } from "@/components/SiteNav";
 import { SkillIcon } from "@/components/SkillIcons";
 import { WorkGrid, type WorkItem } from "@/components/WorkGrid";
+import {
+  CV_FILENAME,
+  CV_PDF,
+  EMAIL,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  PHONE,
+  PHONE_HREF,
+  certifications,
+  education,
+  experience,
+  projects,
+  skills,
+} from "@/lib/cv";
 
 const PROFILE_IMG = "/assets/gafar-profile.jpg";
-const RESUME_PDF = "/assets/Gafar_Aleshe_Resume.pdf";
-
-const EMAIL = "gafaraleshe2411@gmail.com";
-const PHONE = "+44 7882 655541";
-const PHONE_HREF = "tel:+447882655541";
-const GITHUB_URL = "https://github.com/gafaraleshe";
 
 const DOTTED = {
   backgroundImage: "radial-gradient(var(--paper-dot) 1px, transparent 1px)",
@@ -60,84 +70,10 @@ const profiles = [
   { label: "GitHub", href: GITHUB_URL, Icon: GitHubGlyph },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/gafaraleshe/",
+    href: LINKEDIN_URL,
     Icon: LinkedInGlyph,
   },
   { label: "Email", href: `mailto:${EMAIL}`, Icon: MailGlyph },
-];
-
-const experience = [
-  {
-    company: "FrontToBack",
-    companyHref: "https://fronttobackdev.com/",
-    role: "Frontend Developer & Creative Director",
-    location: "Portsmouth, UK",
-    start: "Dec 22",
-    end: "Now",
-    bullets: [
-      "Built and deployed 25+ responsive websites and web applications using JavaScript, HTML, CSS, PHP and WordPress, translating client requirements into production-ready user interfaces.",
-      "Developed responsive, mobile-first interfaces with reusable components, semantic HTML, accessible forms and cross-browser compatibility, improving usability across devices.",
-      "Implemented e-commerce functionality and SEO integrations using WooCommerce and Yoast, contributing to 3.2× lead growth while maintaining 98% client retention.",
-      "Collaborated with clients and team members through Slack and Trello, gathering requirements, managing development tasks and delivering projects against deadlines.",
-      "Led digital content and web strategy across client projects, contributing to growth of 13K+ Instagram and 70K+ TikTok followers and generating 10M+ views.",
-    ],
-  },
-  {
-    company: "SHOTBYGAFAR",
-    companyHref: "https://shotbygafar.com",
-    role: "Founder & Creative Director",
-    location: "Portsmouth, UK",
-    start: "Aug 24",
-    end: "Now",
-    bullets: [
-      "Professional photography and videography services for brands, events, and businesses — 25+ clients, five-figure revenue.",
-      "Managed end-to-end client workflow from briefs to delivery, handling scheduling, contracts, and revisions.",
-    ],
-  },
-];
-
-const skills: [string, string[]][] = [
-  ["Language", ["TypeScript", "JavaScript", "Python"]],
-  [
-    "Frontend",
-    [
-      "React",
-      "Next.js",
-      "Vue",
-      "Redux",
-      "Tailwind CSS",
-      "Vite",
-      "HTML5",
-      "CSS3",
-      "TanStack Query",
-      "React Hook Form",
-    ],
-  ],
-  ["Backend", ["Node.js", "REST APIs", "JWT", "OAuth 2.0", "WebAuthn"]],
-  ["Data", ["PostgreSQL", "MongoDB", "SQL", "Drizzle ORM", "Zod"]],
-  [
-    "DevOps & Testing",
-    [
-      "AWS",
-      "Docker",
-      "Git",
-      "GitHub Actions",
-      "CI/CD",
-      "Jest",
-      "Cypress",
-      "TDD",
-    ],
-  ],
-  [
-    "Accessibility",
-    [
-      "Semantic HTML",
-      "WCAG",
-      "ARIA",
-      "Keyboard Accessibility",
-      "Screen Readers",
-    ],
-  ],
 ];
 
 // Screenshots in public/assets/work/ (see components/WorkGrid.tsx).
@@ -176,27 +112,6 @@ const work: WorkItem[] = [
     repo: "https://github.com/gafaraleshe/gafaraleshe.com",
     image: "/assets/work/gafaraleshe.webp",
   },
-];
-
-const education = [
-  {
-    name: "University of Essex Online",
-    detail: "BSc Computer Science, graduating 2028",
-  },
-  {
-    name: "Havant and South Downs College",
-    detail: "A Levels in Computer Science, Maths & Further Maths, 2023–25",
-  },
-];
-
-const certifications = [
-  { name: "CS50x", detail: "Introduction to Computer Science, HarvardX" },
-  {
-    name: "Full-Stack & Python Pro",
-    detail: "Bootcamps by Dr Angela Yu",
-  },
-  { name: "AWS Cloud Practitioner", detail: "Essentials, AWS on edX" },
-  { name: "AWS Educate", detail: "Introduction to Generative AI" },
 ];
 
 // ── Pieces ──
@@ -402,11 +317,100 @@ function Experience() {
   );
 }
 
+// Projects from the CV: a name, one-line pitch and stack per row, with the
+// detail behind "See more" like Experience.
+function Projects() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Section
+      id="projects"
+      title="Projects"
+      action={
+        <button
+          type="button"
+          onClick={() => setOpen(o => !o)}
+          aria-expanded={open}
+          className="flex items-center gap-1 text-[13px] text-ink-muted transition-colors hover:text-ink sm:text-[13.5px]"
+        >
+          {open ? "See less" : "See more"}
+          <ChevronDown
+            aria-hidden
+            className={`h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+      }
+    >
+      <ol className="space-y-5">
+        {projects.map(project => (
+          <li key={project.name}>
+            <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+              <p className="text-[14px] text-ink sm:text-[14.5px]">
+                <span className="font-medium">{project.name}</span>{" "}
+                <span className="text-ink-faint">—</span>{" "}
+                <span className="text-ink-muted">{project.tagline}</span>
+              </p>
+              <p className="shrink-0 font-mono text-[11.5px] tracking-[0.02em] text-ink-faint">
+                {project.links
+                  ? project.links.map((l, i) => (
+                      <span key={l.href}>
+                        {i > 0 && " · "}
+                        <a
+                          href={l.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="transition-colors hover:text-ink"
+                        >
+                          {l.label}
+                        </a>
+                      </span>
+                    ))
+                  : project.context}
+              </p>
+            </div>
+            <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1.5">
+              {project.stack.map(tech => (
+                <li
+                  key={tech}
+                  className="flex items-center gap-1.5 text-[12.5px] text-ink-dim sm:text-[13px]"
+                >
+                  <SkillIcon name={tech} className="size-[13px]" />
+                  {tech}
+                </li>
+              ))}
+            </ul>
+            <AnimatePresence initial={false}>
+              {open && (
+                <motion.ul
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: EASE_OUT }}
+                  className="space-y-2 overflow-hidden"
+                >
+                  {project.bullets.map((b, i) => (
+                    <li
+                      key={b}
+                      className={`relative pl-4 text-[13.5px] leading-relaxed text-ink-dim before:absolute before:left-0 before:text-ink-faint before:content-['–'] ${i === 0 ? "mt-3" : ""}`}
+                    >
+                      {b}
+                    </li>
+                  ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
+          </li>
+        ))}
+      </ol>
+    </Section>
+  );
+}
+
 // Numbered list after pysavant's "Field studies".
 function NumberedList({
   items,
 }: {
-  items: { name: string; detail: string }[];
+  items: { name: string; detail: string; note?: string }[];
 }) {
   return (
     <ol className="space-y-3">
@@ -418,6 +422,11 @@ function NumberedList({
           <p className="text-[14px] leading-relaxed text-ink-muted sm:text-[14.5px]">
             <span className="text-ink">{item.name}</span>{" "}
             <span className="text-ink-faint">—</span> {item.detail}
+            {item.note && (
+              <span className="mt-0.5 block text-[13px] text-ink-faint">
+                {item.note}
+              </span>
+            )}
           </p>
         </li>
       ))}
@@ -443,38 +452,10 @@ function HomeContent() {
   return (
     <div className="min-h-screen px-4 py-5 sm:px-8 sm:py-8">
       {/* ── Site nav, on the grid ── */}
-      <motion.nav
-        {...fadeIn(0.15)}
-        aria-label="Site"
-        className="mx-auto mb-5 flex max-w-[760px] items-center justify-between px-1 sm:mb-8"
-      >
-        <a
-          href="/"
-          className="font-mono text-[12px] font-semibold uppercase tracking-[0.2em] text-white"
-        >
-          GA
-        </a>
-        <div className="flex items-center gap-1">
-          <a
-            href="/cinema"
-            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/70 transition-colors hover:text-white"
-          >
-            Cinema
-          </a>
-          <a
-            href="/shop"
-            className="rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/70 transition-colors hover:text-white"
-          >
-            Shop
-          </a>
-          <a
-            href="/links"
-            className="rounded-full border border-white/25 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-white transition-colors hover:bg-white/10"
-          >
-            Links ↗
-          </a>
-        </div>
-      </motion.nav>
+      <SiteNav
+        cta={{ href: "/links", label: "Links" }}
+        className="max-w-[760px]"
+      />
 
       <main
         className="relative mx-auto max-w-[760px] rounded-xl border border-ink/10 bg-paper px-5 pb-8 pt-12 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.6)] sm:px-12 sm:pb-10 sm:pt-16"
@@ -603,8 +584,8 @@ function HomeContent() {
               Email me
             </a>
             <a
-              href={RESUME_PDF}
-              download="Gafar_Aleshe_Resume.pdf"
+              href={CV_PDF}
+              download={CV_FILENAME}
               className="flex items-center gap-1.5 rounded-lg border border-ink/15 bg-tile px-3.5 py-2 text-[13.5px] font-medium text-ink transition-colors hover:bg-tile-hover sm:text-[14px]"
             >
               <Download aria-hidden className="h-[15px] w-[15px]" />
@@ -621,6 +602,8 @@ function HomeContent() {
           </Section>
 
           <Experience />
+
+          <Projects />
 
           {/* ── Skills ── */}
           <Section id="skills" title="Skills">
